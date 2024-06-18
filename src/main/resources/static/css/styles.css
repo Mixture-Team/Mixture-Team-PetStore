@@ -1,3 +1,88 @@
 /*
 Custom Css
 */
+
+.navbar{
+    background-color: #06D001;
+}
+
+#templatemo_main_nav .flex-fill ul li a{
+    font-weight: bold !important;
+}
+
+.us_section .us_container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    position: relative;
+}
+
+.us_section .us_container .box {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.us_section .us_container .box img {
+    max-width: 100%;
+}
+
+.us_section .us_container .box .img1-box {
+    height: 300px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.us_section .us_container .box .img2-box {
+    width: 175px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.us_section .us_container .box .detail-box {
+    margin-top: 15px;
+}
+
+.us_section .us_container .box .detail-box h6 {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #0e0e0e;
+}
+
+.us_section .us_container::before {
+    content: "";
+    position: absolute;
+    bottom: 25.2%;
+    left: 50%;
+    width: 80%;
+    height: 1.5px;
+    background-image: -webkit-gradient(linear, left top, right top, color-stop(50%, transparent), color-stop(50%, #e7d619));
+    background-image: linear-gradient(to right, transparent 50%, #e7d619 50%);
+    background-size: 20px 100%;
+    z-index: -1;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    -webkit-animation: border-dance 4s infinite linear;
+    animation: border-dance 4s infinite linear;
+}
