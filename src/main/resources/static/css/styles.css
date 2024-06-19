@@ -86,3 +86,22 @@ Custom Css
     -webkit-animation: border-dance 4s infinite linear;
     animation: border-dance 4s infinite linear;
 }
+
+
+/* Đặt chiều cao cố định cho tiêu đề sản phẩm */
+.product-name {
+    height: 2.5em; /* Điều chỉnh chiều cao theo nhu cầu */
+    overflow: hidden; /* Ẩn phần nội dung thừa */
+    text-overflow: ellipsis; /* Hiển thị dấu ... nếu nội dung quá dài */
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Giới hạn số dòng hiển thị */
+    -webkit-box-orient: vertical;
+}
+
+/* Đặt chiều cao cố định cho phần giá sản phẩm */
+.product-price {
+    height: 1.5em; /* Điều chỉnh chiều cao theo nhu cầu */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
