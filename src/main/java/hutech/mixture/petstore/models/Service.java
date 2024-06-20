@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Setter
@@ -38,5 +39,6 @@ public class Service {
     private String img;
 
     @OneToMany(mappedBy = "service")
-    private Set<Service_Detail> serviceDetails = new HashSet<>();
+    private List<Service_Detail> service_details;
+    //private Set<Service_Detail> serviceDetails = new HashSet<>();
 }
