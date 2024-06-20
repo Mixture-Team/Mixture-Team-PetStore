@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragment/lib.html :: lib}"></head>
+
+<body>
+<!-- Header -->
+<div th:replace="~{fragment/header.html :: header}"></div>
+<!-- Close Header -->
+
+<!-- Open Content -->
+<section class="bg-light">
+    <div class="container pb-5">
+        <div class="row">
+            <div class="col-lg-5 mt-5">
+                <div class="card mb-3">
+                    <img th:src="@{'/img/' + ${product.img}}" class="card-img-top" alt="Product Image">
+                </div>
+            </div>
+            <!-- col end -->
+            <div class="col-lg-7 mt-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 th:text="${product.name}"></h6>
+                        <p>
+                            <span class="h3 py-2" th:text="${product.promotionPrice}"></span> |
+                            <span style="text-decoration: line-through;" th:text="${product.price}"></span>
+                        </p>
+
+                        <p class="py-2">
+                            <i class="fa fa-star text-warning"></i>
+                            <i class="fa fa-star text-warning"></i>
+                            <i class="fa fa-star text-warning"></i>
+                            <i class="fa fa-star text-warning"></i>
+                            <i class="fa fa-star text-secondary"></i>
+                            <span class="list-inline-item text-dark">Rating 4.8 | 36 Comments</span>
+                        </p>
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <h6>Brand:</h6>
+                            </li>
+                            <li class="list-inline-item">
+                                <p class="text-muted"><strong>Easy Wear</strong></p>
+                            </li>
+                        </ul>
+
+                        <h6 th:text="'Description: ' + ${product.description}"></h6>
+
+                        <form th:action="@{/cart/add}" method="post">
+                            <input type="hidden" th:value="${product.id}" name="productId"/>
+                            <div class="row">
+                                <div class="col-auto">
+                                    <ul class="list-inline pb-3">
+                                        <li class="list-inline-item">Nums:
+                                            <input type="hidden" name="product-size" id="product-size" value="S">
+                                        </li>
+                                        <li class="list-inline-item"><span class="btn btn-success" th:text="${product.nums}"></span></li>
+                                    </ul>
+                                </div>
+                                <div class="col-auto">
+                                    <ul class="list-inline pb-3">
+                                        <li class="list-inline-item text-right">Quantity:</li>
+                                        <li class="list-inline-item">
+                                            <input type="number" name="quantity" class="form-control d-inline-block" style="width: 70px;" min="1" value="1"/>
+                                        </li>
+                                    </ul>
+                                    <div class="row pb-3">
+                                        <div class="col d-grid">
+                                            <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Buy</button>
+                                        </div>
+                                        <div class="col d-grid">
+                                            <button type="submit" class="btn btn-success btn-lg">Add To Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Close Content -->
+
+<!-- Start Footer -->
+<div th:replace="~{fragment/footer.html :: footer}"></div>
+<!-- End Footer -->
+</body>
+
+</html>

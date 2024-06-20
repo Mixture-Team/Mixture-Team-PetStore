@@ -22,7 +22,7 @@ public class ShopController {
     @GetMapping("/cua-hang")
     public String shop(Model model) {
         model.addAttribute("products", productService.getAllProducts());
-        return "shop";
+        return "/shop/shop";
     }
 
 
@@ -31,7 +31,9 @@ public class ShopController {
         Optional<Product> productOptional = productService.getProductById(productId);
         Product product = productOptional.orElseThrow(() -> new IllegalArgumentException("Invalid product ID: " + productId));
         model.addAttribute("product", product);
-        return "shop-single";
+        return "/shop/shop-single";
     }
+
+
 
 }

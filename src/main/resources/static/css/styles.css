@@ -105,3 +105,18 @@ Custom Css
     align-items: center;
     justify-content: center;
 }
+
+.container {
+    padding: 20px;
+}
+.cart-item {
+    border-bottom: 1px solid #dee2e6;
+    padding: 10px 0;
+}
+.cart-item img {
+    max-width: 100px;
+    height: auto;
+}
+.product-name {
+    font-weight: bold;
+}
