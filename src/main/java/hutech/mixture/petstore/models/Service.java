@@ -3,10 +3,7 @@ package hutech.mixture.petstore.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.List;
@@ -14,6 +11,7 @@ import java.util.Set;
 
 @Setter
 @Getter
+@Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
