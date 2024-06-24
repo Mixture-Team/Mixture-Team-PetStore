@@ -60,7 +60,7 @@
                     </div>
                     <div class="input-group mb-3 md-flex justify-content-between">
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="formCheck" name="remember-me">
+                            <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
                             <label class="form-check-label text-secondary" ><small>Remember Me</small></label>
 
                         </div>
@@ -80,9 +80,9 @@
                     </small>
                 </div>
 
-                <!--Error-->
-                <div th:if="${param.error}" class="alert alert-danger mt-2" role="alert">
-                    Tên đăng nhập hoặc mật khẩu không hợp lệ
+                <!-- Error message -->
+                <div th:if="${error}" class="alert alert-danger mt-2" role="alert">
+                    <span th:text="${error}"></span>
                 </div>
                 <!-- Logout -->
                 <div th:if="${param.logout}" class="alert alert-success mt-2" role="alert">

@@ -20,8 +20,8 @@ public class EmailSenderService {
                 String.format(
                         "<html>" +
                                 "<body>" +
-                                "<p>Vui lòng nhấn vào nút bên dưới để đặt mật khẩu mới:</p>" +
-                                "<a href='http://localhost:8080/auth/reset-password?verificationCode=%s' style='display: inline-block; padding: 10px 20px; background-color: blue; color: white; text-decoration: none; border-radius: 4px;'>Nhấn vào đây</a>" +
+                                "<p>Dưới đây là mã xác thực để đặt lại mật khẩu:</p>" +
+                                "<p><strong>%s</strong></p>" +
                                 "</body>" +
                                 "</html>",
                         resetPasswordToken

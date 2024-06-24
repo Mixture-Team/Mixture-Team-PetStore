@@ -7,10 +7,13 @@ import hutech.mixture.petstore.repositories.IUserRepository;
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,13 +21,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @Slf4j
 @Transactional
-@Getter
+@RequiredArgsConstructor
 public class UserService implements UserDetailsService {
     @Autowired
     private IUserRepository userRepository;
@@ -33,8 +35,7 @@ public class UserService implements UserDetailsService {
     @Autowired
     private EmailSenderService emailSenderService;
 
-    public UserService() {
-    }
+    private final PasswordEncoder passwordEncoder;
 
     // Lưu người dùng mới vào cơ sở dữ liệu sau khi mã hóa mật khẩu.
     public void save(@NotNull User user) {
@@ -46,7 +47,6 @@ public class UserService implements UserDetailsService {
     public void setDefaultRole(String username) {
         userRepository.findByUsername(username).ifPresentOrElse(
                 user -> {
-
 //                    user.getRoles().add(roleRepository.findRoleById(Role.USER.value));
                     user.setRole(roleRepository.findRoleById(Role.USER.value));
                     userRepository.save(user);
@@ -73,16 +73,25 @@ public class UserService implements UserDetailsService {
                 .disabled(!user.isEnabled())
                 .build();
     }
-
     // Tìm kiếm người dùng dựa trên tên đăng nhập.
 //    public Optional<User> findByUsername(String username) throws UsernameNotFoundException {
 //        return userRepository.findByUsername(username);
 //    }
 
-    public void forgotPassword(String email, String resetPasswordToken){
+    public boolean usernameExists(String username) {
+        return userRepository.findByUsername(username).isPresent();
+    }
+    public boolean emailExists(String email) {
+        return userRepository.findByEmail(email).isPresent();
+    }
+    public boolean phoneExists(String phone) {
+        return userRepository.findByPhone(phone).isPresent();
+    }
+
+    public void forgotPassword(String email){
         try {
             User user = userRepository.findByEmail(email).orElseThrow(
-                    () -> new RuntimeException("Email " + email + "không tồn tại")
+                    () -> new RuntimeException(email + " chưa được đăng ký tài khoản")
             );
             String resetToken = UUID.randomUUID().toString();
             user.setResetPasswordToken(resetToken);
@@ -98,36 +107,19 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public boolean verifyResetPasswordToken(String email){
-        User user = userRepository.findByEmail(email).orElseThrow(
-                () -> new RuntimeException("Email " + email + "không tồn tại")
+    public boolean verifyResetPasswordToken(String resetPasswordToken){
+        User user = userRepository.findByResetPasswordToken(resetPasswordToken).orElseThrow(
+                () -> new RuntimeException("Mã xác thực không hợp lệ")
         );
-        if (user.getResetPasswordToken() == null) {
-            throw new RuntimeException("Người dùng chưa yêu cầu đặt lại mật khẩu");
-        }
-        if(!user.getResetPasswordToken().equals(user.getResetPasswordToken())){
-            throw new RuntimeException("Mã xác thực không hợp lệ");
-        }
         return true;
     }
 
     public void setNewPassword(String resetPasswordToken, String newPassword) {
         User user = userRepository.findByResetPasswordToken(resetPasswordToken)
                 .orElseThrow(() -> new RuntimeException("Token không hợp lệ"));
-//        user.setPassword(passwordEncoder.encode(newPassword));
-//        user.setPassword(newPassword);
+        user.setPassword(passwordEncoder.encode(newPassword));
         user.setResetPasswordToken(null);
         userRepository.save(user);
     }
 
-
-//    public boolean usernameExists(String username) {
-//        return userRepository.findByUsername(username).isPresent();
-//    }
-//    public boolean emailExists(String email) {
-//        return userRepository.findByEmail(email).isPresent();
-//    }
-//    public boolean phoneExists(String phone) {
-//        return userRepository.findByPhone(phone).isPresent();
-//    }
 }
