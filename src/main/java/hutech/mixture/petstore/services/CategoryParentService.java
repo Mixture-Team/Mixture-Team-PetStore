@@ -1,22 +1,18 @@
 package hutech.mixture.petstore.services;
 
-import hutech.mixture.petstore.models.Category;
 import hutech.mixture.petstore.models.CategoryParent;
 import hutech.mixture.petstore.repository.CategoryParentRepository;
-import hutech.mixture.petstore.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
 @Service
-public class CategoryService {
-
+public class CategoryParentService {
     @Autowired
-    private CategoryRepository categoryRepository;
+    private CategoryParentRepository categoryParentRepository;
 
-    public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
+    public List<CategoryParent> getAllCategoryParents() {
+        return categoryParentRepository.findAll();
     }
 
 }
