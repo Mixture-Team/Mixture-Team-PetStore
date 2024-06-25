@@ -1,5 +1,6 @@
 package hutech.mixture.petstore.services;
 
+import hutech.mixture.petstore.enums.AuthenticationType;
 import hutech.mixture.petstore.enums.Role;
 import hutech.mixture.petstore.models.User;
 import hutech.mixture.petstore.repositories.IRoleRepository;
@@ -121,5 +122,8 @@ public class UserService implements UserDetailsService {
         user.setResetPasswordToken(null);
         userRepository.save(user);
     }
-
+    public void updateAuthenticationType(String username, String oauth2ClientName) {
+        AuthenticationType authenticationType = AuthenticationType.valueOf(oauth2ClientName.toUpperCase());
+        userRepository.updateAuthenticationType(username,authenticationType);
+    }
 }

@@ -1,11 +1,14 @@
-package hutech.mixture.petstore.config;
+package hutech.mixture.petstore.security.config;
 
+import hutech.mixture.petstore.security.oauth2.CustomOAuth2UserService;
+import hutech.mixture.petstore.security.oauth2.OAuthLoginSuccessHandler;
 import hutech.mixture.petstore.services.UserService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -28,6 +31,8 @@ import javax.sql.DataSource;
 public class SecurityConfig {
     @Autowired
     private DataSource dataSource;
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final OAuthLoginSuccessHandler oauthLoginSuccessHandler;
     @Bean // Đánh dấu phương thức trả về một bean được quản lý bởi Spring Context.
     public UserDetailsService userDetailsService() {
         return new UserService(passwordEncoder()); // Cung cấp dịch vụ xử lý chi tiết người dùng.
@@ -55,6 +60,12 @@ public class SecurityConfig {
                         .requestMatchers("/api/**")
                         .permitAll() // API mở cho mọi người dùng.
                         .anyRequest().authenticated() // Bất kỳ yêu cầu nào khác cần xác thực.
+                )
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/auth/login")
+                        .userInfoEndpoint(userInfo ->
+                                userInfo.userService(customOAuth2UserService))
+                        .successHandler(oauthLoginSuccessHandler)
                 )
                 .logout(logout -> logout
                         .logoutUrl("/auth/logout")
