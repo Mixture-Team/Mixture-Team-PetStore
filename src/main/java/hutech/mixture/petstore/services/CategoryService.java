@@ -15,8 +15,13 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public List<Category> getAllCategories() {
+    public Category getCategory(Long id){
+        return categoryRepository.findById(id).orElse(null);
+    }
+    public List<Category> getAllCategories(){
         return categoryRepository.findAll();
     }
-
+    public List<Category> getCategoryParentById(long parentId){
+        return categoryRepository.findByParentId(parentId);
+    }
 }

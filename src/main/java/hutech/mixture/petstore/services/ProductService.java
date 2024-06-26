@@ -1,5 +1,6 @@
 package hutech.mixture.petstore.service;
 
+import hutech.mixture.petstore.models.Category;
 import hutech.mixture.petstore.models.CategoryParent;
 import hutech.mixture.petstore.models.Product;
 import hutech.mixture.petstore.repository.ProductRepository;
@@ -7,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.security.core.parameters.P;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,14 +28,12 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    // Lấy sản phẩm theo ID
-    public Optional<Product> getProductById(Long id) {
-        return productRepository.findById(id);
+    public List<Product> getProductByCategoryId(Long categoryId){
+        return productRepository.findByCategoryId(categoryId);
     }
 
-    // laays saản phẩm theo danh mục cha
-    public List<Product> getProductsByCategoryParent(String categoryParentName) {
-        return productRepository.findByCategoryParent_Name(categoryParentName);
+    public List<Product> getProductByCategoryParentId(Long categoryParentId){
+        return productRepository.findByCategoryParentId(categoryParentId);
     }
 
 
