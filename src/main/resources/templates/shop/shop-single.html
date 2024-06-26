@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head th:replace="~{fragment/lib.html :: lib}"></head>
+<head th:replace="~{fragment/lib.html :: lib}">
+    <script src="/js/cart.js"></script>
+</head>
 
 <body>
 <!-- Header -->
@@ -65,11 +67,11 @@
                                         </li>
                                     </ul>
                                     <div class="row pb-3">
-                                        <div class="col d-grid">
-                                            <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Buy</button>
+                                        <div class="col-6 d-grid">
+                                            <button type="submit" class="btn btn-success btn-lg w-100" name="submit" value="buy">Buy</button>
                                         </div>
                                         <div class="col d-grid">
-                                            <button type="submit" class="btn btn-success btn-lg">Add To Cart</button>
+                                            <button type="submit" class="btn btn-success btn-lg" name="submit" >Add To Cart</button>
                                         </div>
                                     </div>
                                 </div>

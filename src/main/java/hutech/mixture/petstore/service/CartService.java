@@ -26,7 +26,7 @@ public class CartService {
         // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
         for (CartItem item : cartItems) {
             if (item.getProduct().getId().equals(productId)) {
-                // Nếu đã có, cập nhật số lượng
+                // Nếu đã có, cập nhật số lượng và tổng giá
                 item.setQuantity(item.getQuantity() + quantity);
                 return;
             }
@@ -49,5 +49,14 @@ public class CartService {
     // Phương thức để xóa toàn bộ các mặt hàng trong giỏ hàng
     public void clearCart() {
         cartItems.clear();
+    }
+
+    // Phương thức tính tổng total_price của các mặt hàng trong giỏ hàng
+    public double calculateCartTotalPrice() {
+        double totalPrice = 0.0;
+        for (CartItem item : cartItems) {
+            totalPrice += item.getTotal_price();
+        }
+        return totalPrice;
     }
 }

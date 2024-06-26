@@ -106,6 +106,7 @@ Custom Css
     justify-content: center;
 }
 
+/*trang giỏ hàng*/
 .container {
     padding: 20px;
 }
@@ -119,4 +120,21 @@ Custom Css
 }
 .product-name {
     font-weight: bold;
+}
+
+/*tônng tiền
+ */
+.total-amount {
+    font-weight: bold;
+    font-size: 1.5em;
+    text-decoration: underline;
+}
+.btn-red {
+    background-color: red;
+    color: white;
+}
+.btn-outline-red {
+    border: 2px solid red;
+    background-color: white;
+    color: red;
 }
