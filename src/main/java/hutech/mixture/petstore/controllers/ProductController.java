@@ -5,6 +5,7 @@ import hutech.mixture.petstore.models.CategoryParent;
 import hutech.mixture.petstore.models.Product;
 import hutech.mixture.petstore.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +25,7 @@ public class ProductController {
     private final CategoryParentService categoryParentService;
 
     @GetMapping
-    public String getProducts(@RequestParam(required = false) Long categoryId,
-                              @RequestParam(required = false) Long categoryParentId,
-                              Model model) {
+    public String getProducts(@RequestParam(required = false) Long categoryId, Model model) {
         List<Product> products;
         List<CategoryParent> categoryParents = categoryParentService.getAllCategoryParents();
         List<Category> categories = categoryService.getAllCategories();
@@ -40,5 +39,18 @@ public class ProductController {
         model.addAttribute("categoryParents", categoryParents);
         model.addAttribute("categories",categories);
         return "/product/shop";
+    }
+
+    @GetMapping("/by-category-parent")
+    @ResponseBody
+    public ResponseEntity<List<Product>> getProductsByCategoryParent(@RequestParam(required = false) Long categoryParentId) {
+        List<Product> products;
+        if (categoryParentId == null) {
+            products = productService.getAllProducts();
+        } else {
+            products = productService.getProductByCategoryParentId(categoryParentId);
+        }
+        System.out.println("Number of products returned: " + products.size());
+        return ResponseEntity.ok(products);
     }
 }

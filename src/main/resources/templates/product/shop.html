@@ -30,20 +30,23 @@
         <div class="row">
 
             <div class="col-lg-3">
-                <h1 class="h2 pb-4">Categories</h1>
+                <h1 class="h2 pb-4 fw-bold">Danh mục sản phẩm</h1>
+                <li class="pb-3 list-unstyled templatemo-accordion">
+                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" th:href="@{/san-pham}">
+                        Tất cả sản phẩm
+                    </a>
+                </li>
                 <ul th:each="categoryParent : ${categoryParents}" class="list-unstyled templatemo-accordion">
                     <li class="pb-3">
                         <a class="collapsed d-flex justify-content-between h3 text-decoration-none" th:attr="data-bs-target='#category-' + ${categoryParent.id}" href="#">
-                            <span th:text="${categoryParent.name}">Category Parent Name</span>
+                            <span th:text="${categoryParent.name}"></span>
                             <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
                         </a>
                         <ul th:id="'category-' + ${categoryParent.id}" class="collapse show list-unstyled pl-3">
                             <li th:each="category : ${categories}" th:if="${category.parent.id == categoryParent.id}">
                                 <a class="text-decoration-none"
                                    th:href="@{/san-pham(categoryId=${category.id})}"
-                                   th:text="${category.name}"
-                                   th:classappend="${category.id == selectedCategoryId} ? 'active' : ''">
-                                </a></li>
+                                   th:text="${category.name}"></a></li>
                         </ul>
                     </li>
                 </ul>
@@ -55,18 +58,17 @@
                     </div>
                     <div class="col-md-6 pb-4">
                         <div class="d-flex">
-                            <select class="form-control" onchange="location=this.value;">
-                                <option value="/san-pham" th:selected="${selectedCategoryParentId == null and selectedCategoryId == null}">Tất cả</option>
+                            <select id="categoryParentSelect" class="form-control">
                                 <option th:each="categoryParent : ${categoryParents}"
-                                        th:value="'/san-pham?categoryParentId=' + ${categoryParent.id}"
+                                        th:value="${categoryParent.id}"
                                         th:text="${categoryParent.name}">
                                 </option>
                             </select>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div th:each="product : ${products}" class="col-md-4 col-6">
+                <div id="productContainer" class="row">
+                    <div th:each="product : ${products}" class="col-md-4 col-6 product-item">
                         <div class="card mb-4 product-wap rounded-0">
                             <div class="card rounded-0">
                                 <img class="card-img rounded-0 img-fluid" th:src="@{'/img/' + ${product.img}}">
@@ -231,6 +233,44 @@
 <!-- Start Footer -->
 <div th:replace="~{fragment/footer.html :: footer}"></div>
 <!-- End Footer -->
+
+    <script th:inline="javascript">
+        $(document).ready(function() {
+            $('#categoryParentSelect').change(function() {
+                var categoryParentId = $(this).val();
+
+                $.ajax({
+                    url: '/san-pham/by-category-parent',
+                    data: { categoryParentId: categoryParentId },
+                    dataType: 'json',
+                    success: function(products) {
+                        var productHtml = '';
+                        products.forEach(function(product) {
+                            productHtml += `
+                                <div class="col-md-4 col-6 product-item">
+                                    <div class="card mb-4 product-wap rounded-0">
+                                        <div class="card rounded-0">
+                                            <img class="card-img rounded-0 img-fluid" src="/img/${product.img}">
+                                        </div>
+                                        <div class="card-body">
+                                            <a href="/thong-tin-san-pham" class="h3 text-decoration-none">${product.name}</a>
+                                            <p class="text-center mb-0">${product.price}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        $('#productContainer').html(productHtml);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX error: " + status + ": " + error);
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+
 </body>
 
 </html>

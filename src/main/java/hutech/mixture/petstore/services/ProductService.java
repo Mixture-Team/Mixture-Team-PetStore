@@ -33,6 +33,8 @@ public class ProductService {
     }
 
     public List<Product> getProductByCategoryParentId(Long categoryParentId){
+        List<Product> products = productRepository.findByCategoryParentId(categoryParentId);
+        System.out.println("Products found for categoryParentId " + categoryParentId + ": " + products.size());
         return productRepository.findByCategoryParentId(categoryParentId);
     }
 
