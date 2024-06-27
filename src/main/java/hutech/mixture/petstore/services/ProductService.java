@@ -24,19 +24,15 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     // Lấy tất cả sản phẩm từ cơ sở dữ liệu
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public Page<Product> getAllProducts(Pageable pageable) {
+        return productRepository.findAll(pageable);
     }
 
-    public List<Product> getProductByCategoryId(Long categoryId){
-        return productRepository.findByCategoryId(categoryId);
+    public Page<Product> getProductByCategoryId(Long categoryId, Pageable pageable) {
+        return productRepository.findByCategoryId(categoryId, pageable);
     }
 
-    public List<Product> getProductByCategoryParentId(Long categoryParentId){
-        List<Product> products = productRepository.findByCategoryParentId(categoryParentId);
-        System.out.println("Products found for categoryParentId " + categoryParentId + ": " + products.size());
-        return productRepository.findByCategoryParentId(categoryParentId);
+    public Page<Product> getProductByCategoryParentId(Long categoryParentId, Pageable pageable) {
+        return productRepository.findByCategoryParentId(categoryParentId, pageable);
     }
-
-
 }

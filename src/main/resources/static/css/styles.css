@@ -86,3 +86,15 @@ Custom Css
     -webkit-animation: border-dance 4s infinite linear;
     animation: border-dance 4s infinite linear;
 }
+
+.card-body {
+    height: 175px !important;  /* Ensure the card body takes full height */
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.card-body a {
+    flex: 1 !important; /* Allow the product name link to expand vertically */
+    display: flex !important;
+    align-items: center !important; /* Center the product name vertically */
+}

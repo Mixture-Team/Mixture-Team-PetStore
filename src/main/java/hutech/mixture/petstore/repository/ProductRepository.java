@@ -3,6 +3,8 @@ package hutech.mixture.petstore.repository;
 import hutech.mixture.petstore.models.Category;
 import hutech.mixture.petstore.models.CategoryParent;
 import hutech.mixture.petstore.models.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,8 +14,8 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    List<Product> findByCategoryId(Long id);
+    Page<Product> findByCategoryId(Long id, Pageable pageable);
 
     @Query("SELECT p FROM Product p WHERE p.category.parent.id = :categoryParentId")
-    List<Product> findByCategoryParentId(@Param("categoryParentId") Long categoryParentId);
+    Page<Product> findByCategoryParentId(@Param("categoryParentId") Long categoryParentId, Pageable pageable);
 }
