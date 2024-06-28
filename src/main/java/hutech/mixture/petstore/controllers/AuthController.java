@@ -2,12 +2,14 @@ package hutech.mixture.petstore.controllers;
 
 import hutech.mixture.petstore.models.User;
 import hutech.mixture.petstore.repositories.IUserRepository;
+import hutech.mixture.petstore.repositories.UserRepository;
 import hutech.mixture.petstore.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,6 +23,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.security.Principal;
 
 @Controller // Đánh dấu lớp này là một Controller trong Spring MVC.
 @RequestMapping("/auth")
@@ -142,4 +146,8 @@ public class AuthController {
             return "redirect:/auth/reset-password?verificationCode=" + resetPasswordToken;
         }
     }
+    ///////////////////////////
+
+
+
 }

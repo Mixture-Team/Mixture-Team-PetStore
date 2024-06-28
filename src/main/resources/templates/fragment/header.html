@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -47,12 +47,51 @@
                         <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
                             <i class="fa fa-fw fa-search text-light mr-2"></i>
                         </a>
-                        <a class="nav-icon position-relative text-decoration-none" href="#">
-                            <i class="fa fa-fw fa-cart-arrow-down text-light mr-1"></i>
+                        <!-- Hiển thị khi đã đăng nhập -->
+                        <a class="nav-icon position-relative text-decoration-none" th:if="${#authorization.expression('isAuthenticated()')}" href="#">
+                            <i class="fa fa-fw fa-cart-arrow-down text-light mr-1">
+                                <path fill-rule="nonzero" d="M452.707 549.293a1 1 0 0 0-1.414 1.414l4 4a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L456 552.586l-3.293-3.293z"></path>
+                            </i>
                             <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-dark text-light">7</span>
                         </a>
-                        <a class="nav-icon position-relative text-decoration-none" href="#">
-                            <i class="fa fa-fw fa-user text-light mr-3"></i>
+                        <a class="nav-icon position-relative text-decoration-none"  href="#">
+                            <!--<i class="fa fa-fw fa-user text-light mr-3"></i>-->
+                            <!--<span th:text="${#authentication.principal.getUsername()}" class="nav-link"></span>-->
+
+                            <!--<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" th:text="${#authentication.principal.getUsername()}"></a>
+                            <ul class="dropdown-menu" style="background-color: #06D001">
+                                <li><a class="dropdown-item" href="#">Personal Information</a></li>
+                                <li><a class="dropdown-item" href="#">Change password</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li >
+                                    <a class="dropdown-item" th:if="${#authorization.expression('isAuthenticated()')}" href="/auth/logout">Logout</a>
+                                </li>
+                            </ul>-->
+
+                            <i class="nav-item d-flex align-items-center"
+                                sec:authorize="isAuthenticated()">
+                                <span class="navbar-text text-white">
+                                    <i class="fa fa-fw fa-user text-light mr-3" >
+                                    </i>
+                                    <span sec:authentication="name" style="margin-right: 20px;"  ></span>
+                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" ></a>
+                                        <ul class="dropdown-menu" style="background-color: #06D001">
+                                            <li><a class="dropdown-item" href="#">Personal Information</a></li>
+                                            <li><a class="dropdown-item" href="#">Change password</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li >
+                                                <a class="dropdown-item" sec:authorize="isAuthenticated()" href="/auth/logout">Logout</a>
+                                            </li>
+                                        </ul>
+
+                                </span>
+                            </i>
+
+                        </a>
+
+                        <!-- Hiển thị khi chưa đăng nhập -->
+                        <a th:unless="${#authorization.expression('isAuthenticated()')}" href="/auth/login" class="btn btn-outline-light">
+                            Login
                         </a>
                     </div>
                 </div>

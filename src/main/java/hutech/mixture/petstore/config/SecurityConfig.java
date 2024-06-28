@@ -18,6 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 
 import javax.sql.DataSource;
 
@@ -46,6 +47,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(@NotNull HttpSecurity http) throws Exception {
         return http
+                //.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/js/**", "/img/**", "/css/**", "/vendor/**", "/webfonts/**", "/fonts/**", "/trang-chu", "/cua-hang", "/thong-tin-san-pham", "/gioi-thieu", "/lien-he", "/oauth/**",
                                 "/auth/register", "/auth/error", "/auth/forgot-password","/auth/verify-token", "/auth/reset-password")
@@ -76,9 +78,8 @@ public class SecurityConfig {
                         .maximumSessions(1) // Giới hạn số phiên đăng nhập.
                         .expiredUrl("/auth/login") // Trang khi phiên hết hạn.
                 )
-                .httpBasic(httpBasic -> httpBasic
-                        .realmName("hutech") // Tên miền cho xác thực cơ bản.
-                )
+
+                //.httpBasic(AbstractHttpConfigurer::disable)
                 .build(); // Xây dựng và trả về chuỗi lọc bảo mật.
     }
 
