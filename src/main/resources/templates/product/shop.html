@@ -28,7 +28,6 @@
     <!-- Start Content -->
     <div class="container py-5">
         <div class="row">
-
             <div class="col-lg-3">
                 <h1 class="h2 pb-4 fw-bold">Danh mục sản phẩm</h1>
                 <li class="pb-3 list-unstyled templatemo-accordion">
@@ -46,7 +45,9 @@
                             <li th:each="category : ${categories}" th:if="${category.parent.id == categoryParent.id}">
                                 <a class="text-decoration-none"
                                    th:href="@{/san-pham(categoryId=${category.id})}"
-                                   th:text="${category.name}"></a></li>
+                                   th:text="${category.name}">
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -72,6 +73,11 @@
                         <div class="card mb-4 product-wap rounded-0">
                             <div class="card rounded-0">
                                 <img class="card-img rounded-0 img-fluid" th:src="@{'/img/' + ${product.img}}">
+                                <span class="discount-item position-absolute ps-1 pe-1" th:if="${product.discount != 0}" >
+                                        <span>Giảm giá</span>
+                                        <span th:text="${product.discount}"></span>
+                                        <span class="percent">%</span>
+                                    </span>
                                 <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                     <ul class="list-unstyled">
                                         <li><a class="btn btn-success text-white" href="/thong-tin-san-pham"><i class="far fa-heart"></i></a></li>
@@ -83,7 +89,6 @@
                             <div class="card-body">
                                 <a href="shop-single.html" class="h3 text-decoration-none" th:text="${product.name}"></a>
                                 <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
-                                    <li>M/L/X/XL</li>
                                     <li class="pt-2">
                                         <span class="product-color-dot color-dot-red float-left rounded-circle ml-1"></span>
                                         <span class="product-color-dot color-dot-blue float-left rounded-circle ml-1"></span>
@@ -101,7 +106,14 @@
                                         <i class="text-muted fa fa-star"></i>
                                     </li>
                                 </ul>
-                                <p class="text-center fw-bold mb-0" th:text="${product.price}"></p>
+                                <p class="text-center fw-bold mb-0">
+                                    <span th:if="${product.price == product.promotionPrice}" th:text="${product.price}"></span>
+                                    <span th:if="${product.price > product.promotionPrice}">
+                                        <del th:text="${product.price}"></del>
+                                        <span class="text-secondary">|</span>
+                                        <span class="promotion-price" th:text="${product.promotionPrice}"></span>
+                                    </span>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -126,7 +138,6 @@
                     </ul>
                 </div>
             </div>
-
         </div>
     </div>
     <!-- End Content -->

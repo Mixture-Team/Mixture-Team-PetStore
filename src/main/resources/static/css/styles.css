@@ -2,6 +2,8 @@
 Custom Css
 */
 
+/* header */
+
 .navbar{
     background-color: #06D001;
 }
@@ -87,14 +89,27 @@ Custom Css
     animation: border-dance 4s infinite linear;
 }
 
+/* product */
+
 .card-body {
     height: 175px !important;  /* Ensure the card body takes full height */
     display: flex !important;
     flex-direction: column !important;
 }
-
 .card-body a {
     flex: 1 !important; /* Allow the product name link to expand vertically */
     display: flex !important;
     align-items: center !important; /* Center the product name vertically */
+}
+.promotion-price{
+    color: #E10600;
+}
+.discount-item{
+    font-size: 14px;
+    color: #E10600;
+    background-color: #FFD8D7;
+    border-radius: 0 0 5px 0;
+}
+.percent{
+    margin-left: -3px;
 }
