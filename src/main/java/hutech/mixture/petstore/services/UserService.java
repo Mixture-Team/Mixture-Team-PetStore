@@ -73,10 +73,6 @@ public class UserService implements UserDetailsService {
                 .disabled(!user.isEnabled())
                 .build();
     }
-    // Tìm kiếm người dùng dựa trên tên đăng nhập.
-//    public Optional<User> findByUsername(String username) throws UsernameNotFoundException {
-//        return userRepository.findByUsername(username);
-//    }
 
     public boolean usernameExists(String username) {
         return userRepository.findByUsername(username).isPresent();
@@ -121,5 +117,4 @@ public class UserService implements UserDetailsService {
         user.setResetPasswordToken(null);
         userRepository.save(user);
     }
-
 }

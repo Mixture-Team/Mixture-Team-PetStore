@@ -11,6 +11,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,6 +30,7 @@ import javax.sql.DataSource;
 public class SecurityConfig {
     @Autowired
     private DataSource dataSource;
+
     @Bean // Đánh dấu phương thức trả về một bean được quản lý bởi Spring Context.
     public UserDetailsService userDetailsService() {
         return new UserService(passwordEncoder()); // Cung cấp dịch vụ xử lý chi tiết người dùng.
@@ -47,42 +49,50 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(@NotNull HttpSecurity http) throws Exception {
         return http
-                //.csrf(csrf -> csrf.disable())
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/js/**", "/img/**", "/css/**", "/vendor/**", "/webfonts/**", "/fonts/**", "/trang-chu", "/cua-hang", "/thong-tin-san-pham", "/gioi-thieu", "/lien-he", "/oauth/**",
+                        .requestMatchers("/resources/**","/js/**", "/img/**", "/css/**", "/vendor/**", "/webfonts/**", "/fonts/**", "/trang-chu", "/cua-hang", "/thong-tin-san-pham", "/gioi-thieu", "/lien-he", "/oauth/**",
                                 "/auth/register", "/auth/error", "/auth/forgot-password","/auth/verify-token", "/auth/reset-password")
                         .permitAll()
                         .requestMatchers("/products/edit/**", "/products/add", "/products/delete/**", "/categories/add", "/categories/delete/**", "/categories/edit/**")
                         .hasAnyAuthority("ADMIN")
                         .requestMatchers("/api/**")
-                        .permitAll() // API mở cho mọi người dùng.
-                        .anyRequest().authenticated() // Bất kỳ yêu cầu nào khác cần xác thực.
+                        .permitAll()
+                        .anyRequest().authenticated()
+                )
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/auth/login") // Trang đăng nhập.
+                        .loginProcessingUrl("/auth/login") // URL xử lý đăng nhập.
+                        .defaultSuccessUrl("/trang-chu",true) // Trang sau đăng nhập thành công.
+                        .failureUrl("/auth/login?error=true") // Trang đăng nhập thất bại.
+                        .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/auth/logout")
-                        .logoutSuccessUrl("/auth/login") // Trang chuyển hướng sau khi đăng xuất.
-                        .deleteCookies("JSESSIONID") // Xóa cookie.
-                        .invalidateHttpSession(true) // Hủy phiên làm việc.
-                        .clearAuthentication(true) // Xóa xác thực.
+                        .logoutSuccessUrl("/auth/login")
+                        .deleteCookies("JSESSIONID")
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
                         .permitAll()
                 )
                 .rememberMe(rememberMe -> rememberMe
-                        .tokenRepository(persistentTokenRepository())
-                        .tokenValiditySeconds(24*60*60)
+                        .key("mixture-pet-store")
+                        .rememberMeCookieName("mixture-pet-store")
+                        .tokenValiditySeconds(24 * 60 * 60) // Thời gian nhớ đăng nhập.
                         .userDetailsService(userDetailsService())
                 )
                 .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .accessDeniedPage("/403") // Trang báo lỗi khi truy cập không được phép.
+                        .accessDeniedPage("/403")
                 )
                 .sessionManagement(sessionManagement -> sessionManagement
-                        .maximumSessions(1) // Giới hạn số phiên đăng nhập.
-                        .expiredUrl("/auth/login") // Trang khi phiên hết hạn.
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                        .invalidSessionUrl("/auth/login")
+                        .maximumSessions(1)
+                        .expiredUrl("/auth/login")
                 )
-
-                //.httpBasic(AbstractHttpConfigurer::disable)
-                .build(); // Xây dựng và trả về chuỗi lọc bảo mật.
+                .httpBasic(httpBasic -> httpBasic.realmName("mixture"))
+                .build();
     }
-
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {
         JdbcTokenRepositoryImpl tokenRepo = new JdbcTokenRepositoryImpl();

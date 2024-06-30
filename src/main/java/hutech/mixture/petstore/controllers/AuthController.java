@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,27 +37,6 @@ public class AuthController {
     @GetMapping("/login")
     public String login() {
         return "auth/login";
-    }
-    @PostMapping("/login")
-    public String login(@RequestParam("username") String username,
-                        @RequestParam("password") String password,
-                        @RequestParam(value = "remember-me", required = false) Boolean rememberMe,
-                        RedirectAttributes redirectAttributes,
-                        HttpServletRequest request,
-                        HttpServletResponse response) {
-        try {
-            UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
-            Authentication authentication = authenticationManager.authenticate(authRequest);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            if(Boolean.TRUE.equals(rememberMe)){
-                rememberMeServices.loginSuccess(request,response,authentication);
-            }
-            return "redirect:/trang-chu";
-        } catch (AuthenticationException e) {
-            redirectAttributes.addFlashAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng!");
-            return "redirect:/auth/login";
-        }
     }
     @GetMapping("/register")
     public String register(@NotNull Model model) {
@@ -146,8 +126,4 @@ public class AuthController {
             return "redirect:/auth/reset-password?verificationCode=" + resetPasswordToken;
         }
     }
-    ///////////////////////////
-
-
-
 }

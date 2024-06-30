@@ -1,104 +1,94 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-    <th:fragment th:fragment="header">
-        <!-- Header -->
-        <nav class="navbar navbar-expand-lg navbar-light shadow">
-            <div class="container d-flex justify-content-between align-items-center">
+<th:fragment th:fragment="header">
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg navbar-light shadow">
+        <div class="container d-flex justify-content-between align-items-center">
 
-                <a class="navbar-brand text-primary logo h1 align-self-center" href="index.html">
-                    Mixture
-                </a>
+            <a class="navbar-brand text-primary logo h1 align-self-center" href="index.html">
+                Mixture
+            </a>
 
-                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
-                    <div class="flex-fill">
-                        <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
-                            <li class="nav-item">
-                                <a class="nav-link" href="/trang-chu">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/gioi-thieu">About</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/cua-hang">Shop</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/lien-he">Contact</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="navbar align-self-center d-flex">
-                        <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ...">
-                                <div class="input-group-text">
-                                    <i class="fa fa-fw fa-search"></i>
-                                </div>
+            <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+                <div class="flex-fill">
+                    <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/trang-chu">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/gioi-thieu">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/cua-hang">Shop</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/lien-he">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="navbar align-self-center d-flex">
+                    <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ...">
+                            <div class="input-group-text">
+                                <i class="fa fa-fw fa-search"></i>
                             </div>
                         </div>
-                        <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
-                            <i class="fa fa-fw fa-search text-light mr-2"></i>
-                        </a>
-                        <!-- Hiển thị khi đã đăng nhập -->
-                        <a class="nav-icon position-relative text-decoration-none" th:if="${#authorization.expression('isAuthenticated()')}" href="#">
-                            <i class="fa fa-fw fa-cart-arrow-down text-light mr-1">
-                                <path fill-rule="nonzero" d="M452.707 549.293a1 1 0 0 0-1.414 1.414l4 4a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L456 552.586l-3.293-3.293z"></path>
-                            </i>
-                            <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-dark text-light">7</span>
-                        </a>
-                        <a class="nav-icon position-relative text-decoration-none"  href="#">
-                            <!--<i class="fa fa-fw fa-user text-light mr-3"></i>-->
-                            <!--<span th:text="${#authentication.principal.getUsername()}" class="nav-link"></span>-->
-
-                            <!--<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" th:text="${#authentication.principal.getUsername()}"></a>
-                            <ul class="dropdown-menu" style="background-color: #06D001">
-                                <li><a class="dropdown-item" href="#">Personal Information</a></li>
-                                <li><a class="dropdown-item" href="#">Change password</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li >
-                                    <a class="dropdown-item" th:if="${#authorization.expression('isAuthenticated()')}" href="/auth/logout">Logout</a>
-                                </li>
-                            </ul>-->
-
-                            <i class="nav-item d-flex align-items-center"
-                                sec:authorize="isAuthenticated()">
-                                <span class="navbar-text text-white">
-                                    <i class="fa fa-fw fa-user text-light mr-3" >
-                                    </i>
-                                    <span sec:authentication="name" style="margin-right: 20px;"  ></span>
-                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" ></a>
-                                        <ul class="dropdown-menu" style="background-color: #06D001">
-                                            <li><a class="dropdown-item" href="#">Personal Information</a></li>
-                                            <li><a class="dropdown-item" href="#">Change password</a></li>
-                                            <li><hr class="dropdown-divider"></li>
-                                            <li >
-                                                <a class="dropdown-item" sec:authorize="isAuthenticated()" href="/auth/logout">Logout</a>
-                                            </li>
-                                        </ul>
-
-                                </span>
-                            </i>
-
-                        </a>
-
-                        <!-- Hiển thị khi chưa đăng nhập -->
-                        <a th:unless="${#authorization.expression('isAuthenticated()')}" href="/auth/login" class="btn btn-outline-light">
-                            Login
-                        </a>
                     </div>
+                    <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                        <i class="fa fa-fw fa-search text-light mr-2"></i>
+                    </a>
+                    <!-- Hiển thị khi đã đăng nhập -->
+                    <a class="nav-icon position-relative text-decoration-none" href="#">
+                        <i class="fa fa-fw fa-cart-arrow-down text-light mr-1">
+                        </i>
+                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-dark text-light">7</span>
+                    </a>
+                    <!-- Hiển thị thông tin người dùng khi đã đăng nhập -->
+                    <div sec:authorize="isAuthenticated()" class="dropdown">
+                        <button class="btn-dropdown">
+                            <i onclick="myFunction()" class="fa fa-fw fa-user text-light mr-3 dropbtn"></i>
+                            <div id="myDropdown" class="dropdown-content">
+                                <a href="/user/profile">Thông tin cá nhân</a>
+                                <a href="/auth/logout">Đăng xuất</a>
+                            </div>
+                        </button>
+                    </div>
+                    <!-- Hiển thị khi chưa đăng nhập -->
+                    <a th:unless="${#authorization.expression('isAuthenticated()')}" href="/auth/login" class="btn btn-outline-light ms-2">
+                        Đăng nhập
+                    </a>
                 </div>
-
             </div>
-        </nav>
-        <!-- Close Header -->
-    </th:fragment>
+        </div>
+    </nav>
+    <!-- Close Header -->
+    <script>
+        function myFunction() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+    </script>
+</th:fragment>
 </body>
 </html>
