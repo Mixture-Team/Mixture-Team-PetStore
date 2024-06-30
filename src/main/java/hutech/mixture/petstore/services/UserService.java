@@ -1,5 +1,6 @@
 package hutech.mixture.petstore.services;
 
+import hutech.mixture.petstore.enums.AuthenticationType;
 import hutech.mixture.petstore.enums.Role;
 import hutech.mixture.petstore.models.User;
 import hutech.mixture.petstore.repositories.IRoleRepository;
@@ -73,6 +74,10 @@ public class UserService implements UserDetailsService {
                 .disabled(!user.isEnabled())
                 .build();
     }
+    // Tìm kiếm người dùng dựa trên tên đăng nhập.
+//    public Optional<User> findByUsername(String username) throws UsernameNotFoundException {
+//        return userRepository.findByUsername(username);
+//    }
 
     public boolean usernameExists(String username) {
         return userRepository.findByUsername(username).isPresent();
@@ -116,5 +121,9 @@ public class UserService implements UserDetailsService {
         user.setPassword(passwordEncoder.encode(newPassword));
         user.setResetPasswordToken(null);
         userRepository.save(user);
+    }
+    public void updateAuthenticationType(String username, String oauth2ClientName) {
+        AuthenticationType authenticationType = AuthenticationType.valueOf(oauth2ClientName.toUpperCase());
+        userRepository.updateAuthenticationType(username,authenticationType);
     }
 }

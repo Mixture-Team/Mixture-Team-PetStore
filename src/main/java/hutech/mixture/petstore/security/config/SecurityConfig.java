@@ -1,5 +1,7 @@
-package hutech.mixture.petstore.config;
+package hutech.mixture.petstore.security.config;
 
+import hutech.mixture.petstore.security.oauth2.CustomOAuth2UserService;
+import hutech.mixture.petstore.security.oauth2.OAuthLoginSuccessHandler;
 import hutech.mixture.petstore.services.UserService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +21,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 
 import javax.sql.DataSource;
 
@@ -30,7 +31,8 @@ import javax.sql.DataSource;
 public class SecurityConfig {
     @Autowired
     private DataSource dataSource;
-
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final OAuthLoginSuccessHandler oauthLoginSuccessHandler;
     @Bean // Đánh dấu phương thức trả về một bean được quản lý bởi Spring Context.
     public UserDetailsService userDetailsService() {
         return new UserService(passwordEncoder()); // Cung cấp dịch vụ xử lý chi tiết người dùng.
@@ -67,12 +69,18 @@ public class SecurityConfig {
                         .failureUrl("/auth/login?error=true") // Trang đăng nhập thất bại.
                         .permitAll()
                 )
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/auth/login")
+                        .userInfoEndpoint(userInfo ->
+                                userInfo.userService(customOAuth2UserService))
+                        .successHandler(oauthLoginSuccessHandler)
+                )
                 .logout(logout -> logout
                         .logoutUrl("/auth/logout")
-                        .logoutSuccessUrl("/auth/login")
-                        .deleteCookies("JSESSIONID")
-                        .invalidateHttpSession(true)
-                        .clearAuthentication(true)
+                        .logoutSuccessUrl("/auth/login") // Trang chuyển hướng sau khi đăng xuất.
+                        .deleteCookies("JSESSIONID") // Xóa cookie.
+                        .invalidateHttpSession(true) // Hủy phiên làm việc.
+                        .clearAuthentication(true) // Xóa xác thực.
                         .permitAll()
                 )
                 .rememberMe(rememberMe -> rememberMe
@@ -82,7 +90,7 @@ public class SecurityConfig {
                         .userDetailsService(userDetailsService())
                 )
                 .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .accessDeniedPage("/403")
+                        .accessDeniedPage("/403") // Trang báo lỗi khi truy cập không được phép.
                 )
                 .sessionManagement(sessionManagement -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
@@ -93,6 +101,7 @@ public class SecurityConfig {
                 .httpBasic(httpBasic -> httpBasic.realmName("mixture"))
                 .build();
     }
+
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {
         JdbcTokenRepositoryImpl tokenRepo = new JdbcTokenRepositoryImpl();
