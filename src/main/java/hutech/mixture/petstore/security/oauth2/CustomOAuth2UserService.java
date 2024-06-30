@@ -12,7 +12,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         String clientName = userRequest.getClientRegistration().getClientName();
         OAuth2User user = super.loadUser(userRequest);
-        System.out.println("CÓ CÁI CON CẶC NÈ" + clientName);
         return new CustomOAuth2User(user,clientName);
     }
 }

@@ -30,7 +30,6 @@ public class OAuthLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 
         UserService userService = applicationContext.getBean(UserService.class);
         userService.updateAuthenticationType(username, oauth2ClientName);
-        System.out.println("TAO LÀ HOÀNG " + username + " " + email);
         super.onAuthenticationSuccess(request, response, authentication);
     }
 }
