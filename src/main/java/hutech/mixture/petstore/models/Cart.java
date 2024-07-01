@@ -2,7 +2,9 @@ package hutech.mixture.petstore.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -20,6 +22,19 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank
+    @Column(name = "customer_name")
+    private String customerName;
+
+    @NotBlank
+    @Column(name = "phone", length = 10, unique = true)
+    @Length(min = 10, max = 10, message = "Phone must be 10 characters")
+    @Pattern(regexp = "^[0-9]*$", message = "Phone must be number")
+    private String phone;
+
+    @Column(name = "notes")
+    private String notes;
 
     @NotBlank
     @Column(name = "date_begin")
