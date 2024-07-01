@@ -53,7 +53,14 @@ public class Cart {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "shipping_id")
+    private Province province;
+
+
     @OneToMany(mappedBy = "cart")
     private List<Cart_Product> cartProducts;
+
+
 
 }
