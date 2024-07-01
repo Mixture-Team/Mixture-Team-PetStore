@@ -2,8 +2,6 @@
 Custom Css
 */
 
-/* header */
-
 .navbar{
     background-color: #06D001;
 }
@@ -88,6 +86,58 @@ Custom Css
     -webkit-animation: border-dance 4s infinite linear;
     animation: border-dance 4s infinite linear;
 }
+
+/* dropdown user */
+.btn-dropdown{
+    background-color: #06D001;
+    color: #06D001;
+    border: none;
+    padding: 0;
+}
+.dropbtn {
+    background-color: #06D001;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+.dropbtn:hover, .dropbtn:focus {
+    background-color: #06D001;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    border-radius: 10px 0 10px 10px;
+    background-color: #000000;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    margin: 4px 0 0 -160px;
+}
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    position: relative;
+    display: block;
+    font-size: 15px !important;
+}
+.dropdown-content a:hover {
+    background-color: #fff;
+}
+
+/* bỏ viền khi nhấn vào button */
+[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled){
+    outline: none !important;
+}
+.show {
+    display: block;
+}
+
 
 /* product */
 

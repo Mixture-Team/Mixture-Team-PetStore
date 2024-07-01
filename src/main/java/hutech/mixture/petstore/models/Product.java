@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -60,6 +61,8 @@ public class Product {
     @JsonBackReference
     private Category category;
 
-    @ManyToMany(mappedBy = "products")
-    private Set<Cart> carts = new HashSet<>();
+    @OneToMany(mappedBy = "product")
+    private List<Cart_Product> cart_products;
+//    @ManyToMany(mappedBy = "products")
+//    private Set<Cart> carts = new HashSet<>();
 }
