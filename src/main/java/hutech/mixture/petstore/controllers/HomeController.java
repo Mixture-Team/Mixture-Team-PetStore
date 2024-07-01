@@ -1,24 +1,24 @@
-package hutech.mixture.petstore.controllers;
+    package hutech.mixture.petstore.controllers;
+    import org.springframework.stereotype.Controller;
+    import org.springframework.web.bind.annotation.GetMapping;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+    import java.util.List;
 
-@Controller
-public class HomeController {
+    @Controller
+    public class HomeController {
 
-    @GetMapping("/trang-chu")
-    public String index() {
-        return "/home/index";
+        @GetMapping("/trang-chu")
+        public String index() {
+            return "/home/index";
+        }
+
+        @GetMapping("/gioi-thieu")
+        public String about() {
+            return "/home/about";
+        }
+
+        @GetMapping("/lien-he")
+        public String contact() {
+            return "/home/contact";
+        }
     }
-
-    @GetMapping("/gioi-thieu")
-    public String about() {
-        return "/home/about";
-    }
-
-    @GetMapping("/lien-he")
-    public String contact() {
-        return "/home/contact";
-    }
-
-}

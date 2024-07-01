@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragment/lib.html :: lib}"></head>
+
+<body>
+<!-- Header -->
+<div th:replace="~{fragment/header.html :: header}"></div>
+<!-- Close Header -->
+
+<!-- Modal -->
+<div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="w-100 pt-1 mb-5 text-right">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="/search" method="get" class="modal-content modal-body border-0 p-0">
+            <div class="input-group mb-2">
+                <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
+                <button type="submit" class="input-group-text bg-success text-light">
+                    <i class="fa fa-fw fa-search text-white"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<section class="claim-annually padding-mobile">
+    <div class="container">
+        <div class="row">
+            <div class="inner-boxcls common-claims">
+                <div class="row mb-4 mb-lg-0">
+                    <div class="col-xl-5 text-md-start pt-md-4">
+                        <h2 class="head-title mb-4 mb-xl-3" th:text="${customServices.name}"></h2>
+                        <p class="mb-4">Tại Mixture's Pet Paradise, chúng tôi cam kết cung cấp thông tin rõ ràng
+                            về những gì được bao gồm và những gì không. Đừng để bị giới hạn bởi các chính sách
+                            khác - chúng tôi không có giới hạn phụ và không có khoản khấu trừ hàng năm, đảm bảo thú
+                            cưng của bạn được bảo vệ tối đa. Nếu có thắc mắc, xin vui lòng gọi ngay số điện thoại
+                            [010-020-0340] để được hỗ trợ và tư vấn ngay lập tức.</p>
+                    </div>
+                    <div class="col-xl-7 ps-lg-5 mt-5 mt-xl-0">
+
+                    <img width="1312" height="980" th:src="@{/img/Group-633150.png}" alt="" class="img-fluid">
+                    </div>
+
+                    <div class="new-content-block text-center text-sm-start mb-5">
+                        <div class="new-content-header mb-4">
+                            <h3 class="sub-title">Chi tiết giá của dịch vụ</h3>
+                        </div>
+                        <div class="new-content-body">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Tên dịch vụ</th>
+                                    <th scope="col">Giá</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="service: ${customServices.serviceDetails}">
+                                    <td th:text="${service.name}"></td>
+                                    <td th:text="${service.price}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div th:replace="~{fragment/footer.html :: footer}"></div>
+<!-- End Footer -->
+</body>
+
+</html>
