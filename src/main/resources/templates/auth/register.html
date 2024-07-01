@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{auth/lib.html :: lib}">
+    <title>Đăng ký</title>
+</head>
+<body>
+<div class="row vh-100 g-0">
+    <!-- Left side -->
+    <div class="col-lg-6 position-relative d-none d-lg-block">
+        <div class="bg-holder">
+        </div>
+    </div>
+    <!-- /Left side -->
+
+    <!-- Right side -->
+    <div class="col-lg-6">
+        <div class="row align-items-center justify-content-center h-100 g-0 px-4 px-sm-0">
+            <div class="col col-sm-6 col-lg-8 col-xl-6 shadow-lg p-5 rounded">
+                <!-- Logo -->
+                <a href="" class="d-flex justify-content-center mb-4">
+                    <img src="" alt="" width="60">
+                </a>
+                <!-- /Logo -->
+
+                <div class="text-center mb-5">
+                    <h3 class="fw-bold">ĐĂNG KÝ</h3>
+                </div>
+
+                <!-- Form -->
+                <form th:action="@{/auth/register}" method="post">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">
+                            <i class="bx bx-envelope"></i>
+                        </span>
+                        <input type="email" class="form-control form-control-lg fs-6" name="email" id="email" placeholder="Email">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">
+                            <i class="bx bx-user"></i>
+                        </span>
+                        <input type="text" class="form-control form-control-lg fs-6" name="username" id="username" placeholder="Tên người dùng">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">
+                            <i class="bx bx-lock-alt"></i>
+                        </span>
+                        <input type="password" class="form-control form-control-lg fs-6" name="password" id="password" placeholder="Mật khẩu">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">
+                            <i class="bx bx-phone"></i>
+                        </span>
+                        <input type="tel" class="form-control form-control-lg fs-6" name="phone" id="phone" placeholder="Số điện thoại">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">
+                            <i class="bx bx-map"></i>
+                        </span>
+                        <input type="text" class="form-control form-control-lg fs-6" name="address" id="address" placeholder="Địa chỉ">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg w-100">
+                        Đăng ký
+                    </button>
+                </form>
+                <!-- /Form -->
+
+                <div class="text-center mt-2">
+                    <small>Bạn đã có tài khoản?
+                        <a th:href="@{/auth/login}" class="fw-bold">Đăng nhập</a>
+                    </small>
+                </div>
+
+                <div th:if="${errors}" class="alert alert-danger mt-2" role="alert">
+                    <ul class="mb-0">
+                        <li th:each="error : ${errors}" th:text="${error}" class="text-danger"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Right side -->
+
+</body>
+</html>

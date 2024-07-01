@@ -1,0 +1,89 @@
+body{
+    font-family: "Nunito Sans", sans-serif !important;
+    background-color: #fff !important;
+}
+
+a{
+    text-decoration: none !important;
+}
+
+a:hover{
+    text-decoration: underline !important;
+}
+
+.btn{
+    font-size: 0.8rem !important;
+    font-weight: 700 !important;
+}
+
+.btn-outline-custom{
+    color: #31374a !important;
+    border-color: #ddd !important;
+}
+
+.btn-outline-custom:hover{
+    color: #31374a;
+    border-color: #eee;
+    background-color: #eee;
+}
+
+.bg-holder{
+    /*background-image: url('/img/bg-login.jpg') !important;*/
+    background-image: url('/img/bg-login.jpg');
+    width: 100%;
+    position: absolute;
+    min-height: 100%;
+    top: 0;
+    left: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.divider-content-center{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    background-color: #fff;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #999;
+}
+
+.divider{
+    margin: 2rem 0 !important;
+}
+
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    right: 0;
+}
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
+
+

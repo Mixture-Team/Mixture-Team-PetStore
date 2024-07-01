@@ -1,5 +1,6 @@
 package hutech.mixture.petstore.models;
 
+import hutech.mixture.petstore.enums.AuthenticationType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -25,34 +26,40 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username")
-    @NotBlank(message = "Username is required")
-    @Size(min = 1, max = 50, message = "Username must be between 1 and 50 characters")
+    @Column(name = "username", unique = true, nullable = false)
+    @Size(min = 1, max = 50, message = "Tên người dùng phải từ 1 đến 50 ký tự")
     private String username;
 
     @Column(name = "email",length = 50, unique = true)
-    @NotBlank(message = "Email is required")
+    @NotBlank(message = "Email là bắt buộc")
     private String email;
 
     @Column(name = "password", length = 250)
-    @NotBlank(message = "Password is required")
+    @NotBlank(message = "Mật khẩu là bắt buộc")
     private String password;
 
-    @Column(name = "phone", length = 10, unique = true)
-    @Length(min = 10, max = 10, message = "Phone must be 10 characters")
-    @Pattern(regexp = "^[0-9]*$", message = "Phone must be number")
+    @Column(name = "phone", length = 10, unique = true, nullable = false)
+    @Length(min = 10, max = 10, message = "Số điện thoại phải có 10 số")
+    @Pattern(regexp = "^[0-9]*$", message = "Số điện thoại phải là số")
     private String phone;
 
     @Column(name = "address", length = 250)
-    @NotBlank
+    @NotBlank(message = "Địa chỉ là bắt buộc")
     private String address;
 
+    @Column(name = "reset_password_token", length = 64)
+    private String resetPasswordToken;
+
     @Column(name = "is_deleted")
-    private boolean isDeleted = false;
+    private boolean isDeleted;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private Role role;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "auth_type")
+    private AuthenticationType authenticationType;
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.getName()));
