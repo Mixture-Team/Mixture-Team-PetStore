@@ -1,4 +1,4 @@
-package hutech.mixture.petstore.controllers.admin;
+package hutech.mixture.petstore.admin.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
