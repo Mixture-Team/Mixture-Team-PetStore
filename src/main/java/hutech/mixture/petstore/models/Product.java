@@ -1,5 +1,6 @@
 package hutech.mixture.petstore.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -57,6 +58,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "category_id")
+    @JsonBackReference
     private Category category;
 
     @OneToMany(mappedBy = "product")

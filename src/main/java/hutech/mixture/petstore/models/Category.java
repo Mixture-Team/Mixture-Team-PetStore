@@ -1,5 +1,6 @@
 package hutech.mixture.petstore.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -36,5 +37,6 @@ public class Category {
     private CategoryParent parent;
 
     @OneToMany(mappedBy = "category")
+    @JsonManagedReference
     private Set<Product> products = new HashSet<>();
 }
