@@ -1,4 +1,4 @@
-package hutech.mixture.petstore.service;
+package hutech.mixture.petstore.services;
 
 import hutech.mixture.petstore.models.Category;
 import hutech.mixture.petstore.models.CategoryParent;
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,8 +26,10 @@ public class ProductService {
 
     // Lấy tất cả sản phẩm từ cơ sở dữ liệu
     public Page<Product> getAllProducts(Pageable pageable) {
+
         return productRepository.findAll(pageable);
     }
+
 
     public Page<Product> getProductByCategoryId(Long categoryId, Pageable pageable) {
         return productRepository.findByCategoryId(categoryId, pageable);
@@ -35,4 +38,15 @@ public class ProductService {
     public Page<Product> getProductByCategoryParentId(Long categoryParentId, Pageable pageable) {
         return productRepository.findByCategoryParentId(categoryParentId, pageable);
     }
+    ////
+
+    public Page<Product> searchProduct(String name, Pageable pageable) {
+        return productRepository.search(name, pageable);
+    }
+    ///// search auto
+    public List<String> findProductNamesByKeyword(String name) {
+        return productRepository.findProductNamesByKeyword(name);
+    }
+
+
 }
