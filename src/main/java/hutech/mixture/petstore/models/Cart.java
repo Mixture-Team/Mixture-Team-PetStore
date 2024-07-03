@@ -30,9 +30,8 @@ public class Cart {
     private String customerName;
 
     @Column(name = "phone")
-    @Pattern(regexp = "^[0-9]*$", message = "Phone must be numeric")
+    @Pattern(regexp = "^[0-9]{10}$", message = "Phone must be numeric and exactly 10 digits")
     private String phone;
-
     @Column(name = "notes")
     private String notes;
 

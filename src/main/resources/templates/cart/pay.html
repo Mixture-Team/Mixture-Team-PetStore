@@ -32,23 +32,27 @@
                     </select>
                 </div>
 
-                <!-- Dropdown menu cho huyện -->
-                <div class="mb-3">
-                    <label for="district" class="form-label">Quận/Huyện:</label>
-                    <select id="district" name="district" class="form-control" required>
-                        <option value="">Chọn quận/huyện</option>
-                        <!-- Thymeleaf iteration để hiển thị danh sách huyện -->
-                        <option th:each="district : ${districts}" th:value="${district.id}" th:text="${district.districtName}" th:attr="data-provinceId=${district.province.id}"></option>
-                    </select>
-                </div>
+            <!-- Dropdown menu cho huyện -->
+            <div class="mb-3">
+                <label for="district" class="form-label">Quận/Huyện:</label>
+                <select id="district" name="districtId" class="form-control" required>
+                    <option value="">Chọn quận/huyện</option>
+                    <!-- Thymeleaf iteration để hiển thị danh sách huyện -->
+                    <option th:each="district : ${districts}" th:value="${district.id}" th:text="${district.districtName}"></option>
+                </select>
+            </div>
                 <div class="mb-3">
                     <label for="shippingAddress" class="form-label">Địa Chỉ Giao Hàng:</label>
                     <input type="text" id="shippingAddress" name="shippingAddress" class="form-control" required>
                 </div>
-                <div class="mb-3">
-                    <label for="phoneNumber" class="form-label">Số Điện Thoại:</label>
-                    <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" required>
+            <div class="mb-3">
+                <label for="phoneNumber" class="form-label">Số Điện Thoại:</label>
+                <input type="text" id="phoneNumber" name="phoneNumber" class="form-control"
+                       pattern="^[0-9]{10}$" title="Số điện thoại phải có đúng 10 số" required>
+                <div class="invalid-feedback">
+                    Vui lòng nhập số điện thoại hợp lệ (10 số).
                 </div>
+            </div>
                 <div class="mb-3">
                     <label for="notes" class="form-label">Ghi Chú:</label>
                     <textarea id="notes" name="notes" class="form-control"></textarea>
@@ -103,9 +107,9 @@
                     <h5 class="card-title">Phương thức thanh toán:</h5>
                     <div class="input-group mb-3">
                         <select id="paymentMethod" name="paymentMethod" class="form-select" required>
-                            <option value="Cash on Delivery">Thanh toán khi giao hàng</option>
-                            <option value="Credit Card">Thẻ tín dụng</option>
-                            <option value="Bank Transfer">Chuyển khoản ngân hàng</option>
+                            <option value="Thanh toán khi giao hàng">Thanh toán khi giao hàng</option>
+                            <option value="Thẻ tín dụng">Thẻ tín dụng</option>
+                            <option value="Chuyển khoản ngân hàng">Chuyển khoản ngân hàng</option>
                         </select>
                     </div>
                     <!-- Nút thanh toán trong form -->
