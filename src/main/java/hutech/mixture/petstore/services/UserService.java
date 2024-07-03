@@ -1,20 +1,16 @@
 package hutech.mixture.petstore.services;
-
 import hutech.mixture.petstore.enums.AuthenticationType;
 import hutech.mixture.petstore.enums.Role;
 import hutech.mixture.petstore.models.User;
 import hutech.mixture.petstore.repositories.IRoleRepository;
 import hutech.mixture.petstore.repositories.IUserRepository;
+import hutech.mixture.petstore.repositories.UserRepository;
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -74,10 +71,7 @@ public class UserService implements UserDetailsService {
                 .disabled(!user.isEnabled())
                 .build();
     }
-    // Tìm kiếm người dùng dựa trên tên đăng nhập.
-//    public Optional<User> findByUsername(String username) throws UsernameNotFoundException {
-//        return userRepository.findByUsername(username);
-//    }
+
 
     public boolean usernameExists(String username) {
         return userRepository.findByUsername(username).isPresent();
@@ -125,5 +119,30 @@ public class UserService implements UserDetailsService {
     public void updateAuthenticationType(String username, String oauth2ClientName) {
         AuthenticationType authenticationType = AuthenticationType.valueOf(oauth2ClientName.toUpperCase());
         userRepository.updateAuthenticationType(username,authenticationType);
+    }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+    public User findById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+    public void updateUser(User user) {
+        User existingUser = userRepository.findById(user.getId()).orElseThrow(
+                () -> new RuntimeException("Không tìm thấy user có id " + user.getId())
+        );
+        existingUser.setUsername(user.getUsername());
+        existingUser.setEmail(user.getEmail());
+        existingUser.setPassword(user.getPassword());
+        existingUser.setPhone(user.getPhone());
+        existingUser.setAddress(user.getAddress());
+        existingUser.setResetPasswordToken(user.getResetPasswordToken());
+        existingUser.setDeleted(user.isDeleted());
+        existingUser.setRole(user.getRole());
+        existingUser.setAuthenticationType(user.getAuthenticationType());
+        userRepository.save(existingUser);
     }
 }
