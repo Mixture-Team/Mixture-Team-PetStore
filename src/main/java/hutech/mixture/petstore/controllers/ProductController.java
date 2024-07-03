@@ -3,7 +3,7 @@ package hutech.mixture.petstore.controllers;
 import hutech.mixture.petstore.models.Category;
 import hutech.mixture.petstore.models.CategoryParent;
 import hutech.mixture.petstore.models.Product;
-import hutech.mixture.petstore.service.ProductService;
+import hutech.mixture.petstore.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

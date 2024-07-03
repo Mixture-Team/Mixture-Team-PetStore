@@ -54,63 +54,41 @@
             <div class="container-fluid">
 
                 <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">Update Product</h1>
-                <p class="mb-4">Use the form below to update a product.</p>
+                <h1 class="h3 mb-2 text-gray-800">Update User</h1>
+                <p class="mb-4">Use the form below to update a user.</p>
 
                 <!-- Add Product Form -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Update Product</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Update User</h6>
                     </div>
                     <div class="card-body">
-                        <form action="#" method="post" th:action="@{/admin/update/{id}(id=${product.id})}" th:object="${product}"
-                              enctype="multipart/form-data">
+                        <form action="#" method="post" th:action="@{/admin/users/update/{id}(id=${user.id})}" th:object="${user}">
                             <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="Enter product name">
+                                <input type="hidden" class="form-control" id="name" th:field="*{username}">
                             </div>
                             <div class="form-group">
-                                <label for="num">Quantity</label>
-                                <input type="number" class="form-control" id="num" th:field="*{nums}">
+                                <input type="hidden" class="form-control" id="email" th:field="*{email}">
                             </div>
                             <div class="form-group">
-                                <label for="image">Image</label>
-                                <input type="file" class="form-control-file" id="image" name="file">
-                                <!-- Hidden field for current image -->
-                                <input type="hidden" th:field="*{img}" name="currentImage">
-                                <img th:src="@{${product.img}}" alt="Current Image" class="img-thumbnail">
-                                <!-- Display current image -->
-
+                                <input type="hidden" class="form-control" id="password" th:field="*{password}">
                             </div>
                             <div class="form-group">
-                                <label for="description">Description</label>
-                                <textarea class="form-control" id="description" th:field="*{description}" placeholder="Enter product description"></textarea>
+                                <input type="hidden" class="form-control" id="address" th:field="*{address}">
                             </div>
                             <div class="form-group">
-                                <label for="link">Link</label>
-                                <input type="text" class="form-control" id="link" th:field="*{link}" placeholder="Enter product link">
-                            </div>
-                            <div class="form-group">
-                                <label for="price">Price</label>
-                                <input type="number" class="form-control" id="price" th:field="*{price}" placeholder="Enter product price">
-                            </div>
-                            <div class="form-group">
-                                <label for="discount">Discount</label>
-                                <input type="number" class="form-control" id="discount" th:field="*{discount}" placeholder="Enter product discount">
-                            </div>
-                            <div class="form-group">
-                                <label for="category" class="form-label">Category:</label>
-                                <select th:field="*{category}" class="form-control" id="category">
-                                    <option th:each="category : ${categories}"
-                                            th:value="${category.id}" th:text="${category.name}"></option>
+                                <label for="role" class="form-label">Role:</label>
+                                <select th:field="*{role}" class="form-control" id="role">
+                                    <option th:each="role : ${roles}"
+                                            th:value="${role.id}" th:text="${role.name}"></option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="isDeleted">IsDeleted:</label>
-                                <input type="checkbox" class="form-control d-inline me-3" style="width: 20px; height: 20px; vertical-align: middle" id="isDeleted" th:field="*{deleted}">
+<!--                                <label for="isDeleted">IsDeleted:</label>-->
+                                <input type="hidden" class="form-control d-inline me-3" style="width: 20px; height: 20px; vertical-align: middle" id="isDeleted" th:field="*{deleted}">
                             </div>
                             <button type="submit" class="btn btn-primary">Save changes</button>
-                            <a th:href="@{/admin/products}" class="btn btn-link">Cancel</a>
+                            <a th:href="@{/admin/users}" class="btn btn-link">Cancel</a>
                         </form>
                     </div>
                 </div>

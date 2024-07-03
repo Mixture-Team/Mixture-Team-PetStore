@@ -21,45 +21,49 @@
             <div class="container-fluid">
 
                 <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">Category Management</h1>
+                <h1 class="h3 mb-2 text-gray-800">User Management</h1>
+
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <a href="/admin/categories/add" class="btn btn-primary">Add Category</a>
-                    </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead class="text-center">
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Link</th>
-                                        <th>Parent Category</th>
-                                        <th>Is Deleted</th>
-                                        <th>Action</th>
-                                    </tr>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Role</th>
+                                    <th>Is Deleted</th>
+                                    <th>Actions</th>
+                                </tr>
                                 </thead>
                                 <tfoot class="text-center">
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Link</th>
-                                        <th>Parent Category</th>
-                                        <th>Is Deleted</th>
-                                        <th>Action</th>
-                                    </tr>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Role</th>
+                                    <th>Is Deleted</th>
+                                    <th>Actions</th>
+                                </tr>
                                 </tfoot>
                                 <tbody>
-                                <tr th:each="category : ${categories}">
-                                    <td th:text="${category.id}"></td>
-                                    <td th:text="${category.name}"></td>
-                                    <td th:text="${category.link}"></td>
-                                    <td th:text="${category.parent.name}"></td>
-                                    <td th:text="${category.isDeleted()}"></td>
+                                <tr th:each="user : ${users}">
+                                    <td th:text="${user.id}"></td>
+                                    <td th:text="${user.username}"></td>
+                                    <td th:text="${user.email}"></td>
+                                    <td th:text="${user.phone}"></td>
+                                    <td th:text="${user.address}"></td>
+                                    <td th:text="${user.role.name}"></td>
+                                    <td th:text="${user.isDeleted()}"></td>
                                     <td>
-                                        <div class="text-center">
-                                            <a th:href="@{/admin/categories/edit/{id}(id=${category.id})}" class="btn btn-success btn-sm mb-2" style="width: 59px !important;">Edit</a>
+                                        <div th:if="${user.role.name != 'ADMIN'}" class="text-center">
+                                            <a th:href="@{/admin/users/edit/{id}(id=${user.id})}" class="btn btn-success btn-sm btn-equal">Edit</a>
                                         </div>
                                     </td>
                                 </tr>
@@ -69,20 +73,20 @@
                         <!-- Pagination -->
                         <div class="d-flex justify-content-between">
                             <div>
-                                <span th:text="'Page ' + ${categories.number + 1} + ' of ' + ${categories.totalPages}"></span>
+                                <span th:text="'Page ' + ${users.number + 1} + ' of ' + ${users.totalPages}"></span>
                             </div>
                             <div>
                                 <ul class="pagination">
-                                    <li class="page-item" th:classappend="${categories.first} ? 'disabled'">
-                                        <a class="page-link" th:href="@{/admin/categories(page=${categories.number - 1}, size=${categories.size})}">Previous</a>
+                                    <li class="page-item" th:classappend="${users.first} ? 'disabled'">
+                                        <a class="page-link" th:href="@{/admin/users(page=${users.number - 1}, size=${users.size})}">Previous</a>
                                     </li>
-                                    <li class="page-item" th:each="page : ${#numbers.sequence(0, categories.totalPages - 1)}"
-                                        th:classappend="${page == categories.number} ? 'active'">
-                                        <a class="page-link" th:href="@{/admin/categories(page=${page}, size=${categories.size})}"
+                                    <li class="page-item" th:each="page : ${#numbers.sequence(0, users.totalPages - 1)}"
+                                        th:classappend="${page == users.number} ? 'active'">
+                                        <a class="page-link" th:href="@{/admin/users(page=${page}, size=${users.size})}"
                                            th:text="${page + 1}"></a>
                                     </li>
-                                    <li class="page-item" th:classappend="${categories.last} ? 'disabled'">
-                                        <a class="page-link" th:href="@{/admin/categories(page=${categories.number + 1}, size=${categories.size})}">Next</a>
+                                    <li class="page-item" th:classappend="${users.last} ? 'disabled'">
+                                        <a class="page-link" th:href="@{/admin/users(page=${users.number + 1}, size=${users.size})}">Next</a>
                                     </li>
                                 </ul>
                             </div>

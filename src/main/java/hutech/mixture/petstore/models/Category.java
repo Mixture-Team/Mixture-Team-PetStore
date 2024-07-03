@@ -3,6 +3,7 @@ package hutech.mixture.petstore.models;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.HashSet;
@@ -28,7 +29,7 @@ public class Category {
     @Column(name = "link")
     private String link;
 
-    @NotBlank
+    @NotNull
     @Column(name = "is_deleted")
     private boolean isDeleted = false;
 

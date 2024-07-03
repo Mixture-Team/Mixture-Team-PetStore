@@ -11,6 +11,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,6 +24,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -125,5 +128,32 @@ public class UserService implements UserDetailsService {
     public void updateAuthenticationType(String username, String oauth2ClientName) {
         AuthenticationType authenticationType = AuthenticationType.valueOf(oauth2ClientName.toUpperCase());
         userRepository.updateAuthenticationType(username,authenticationType);
+    }
+
+    public Page<User> getAllUsersForAdmin(Pageable pageable){
+        return userRepository.findAll(pageable);
+    }
+
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Không tìm thấy user có id " + id)
+        );
+    }
+
+    public void updateUser(User user) {
+        User existingUser = userRepository.findById(user.getId()).orElseThrow(
+                () -> new RuntimeException("Không tìm thấy user có id " + user.getId())
+        );
+        existingUser.setUsername(user.getUsername());
+        existingUser.setEmail(user.getEmail());
+        existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        existingUser.setPhone(user.getPhone());
+        existingUser.setAddress(user.getAddress());
+        existingUser.setResetPasswordToken(user.getResetPasswordToken());
+        existingUser.setDeleted(user.isDeleted());
+        existingUser.setRole(user.getRole());
+        existingUser.setAuthenticationType(user.getAuthenticationType());
+        System.out.println("ĐỤ MÁ MÀY");
+        userRepository.save(user);
     }
 }
