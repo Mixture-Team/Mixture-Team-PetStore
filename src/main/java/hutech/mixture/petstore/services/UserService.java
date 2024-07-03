@@ -154,6 +154,6 @@ public class UserService implements UserDetailsService {
         existingUser.setRole(user.getRole());
         existingUser.setAuthenticationType(user.getAuthenticationType());
         System.out.println("ĐỤ MÁ MÀY");
-        userRepository.save(user);
+        userRepository.save(existingUser);
     }
 }

@@ -71,6 +71,9 @@
                                 <input type="hidden" class="form-control" id="email" th:field="*{email}">
                             </div>
                             <div class="form-group">
+                                <input type="hidden" class="form-control" id="phone" th:field="*{phone}">
+                            </div>
+                            <div class="form-group">
                                 <input type="hidden" class="form-control" id="password" th:field="*{password}">
                             </div>
                             <div class="form-group">
@@ -80,6 +83,7 @@
                                 <label for="role" class="form-label">Role:</label>
                                 <select th:field="*{role}" class="form-control" id="role">
                                     <option th:each="role : ${roles}"
+                                            th:if="${role.name} != 'ADMIN'"
                                             th:value="${role.id}" th:text="${role.name}"></option>
                                 </select>
                             </div>

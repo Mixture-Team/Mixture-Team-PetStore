@@ -4,8 +4,10 @@ import hutech.mixture.petstore.models.Product;
 import hutech.mixture.petstore.services.CategoryService;
 import hutech.mixture.petstore.services.ProductService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -40,11 +42,13 @@ public class ProductAdminController {
         return "/admin/management/product/add-product";
     }
     @PostMapping("/add")
-    public String addProduct(@Valid Product product, BindingResult result) {
+    public String addProduct(@Valid Product product,
+                             @RequestParam(value = "file", required = false) MultipartFile file,
+                             BindingResult result) {
         if (result.hasErrors()) {
             return "/admin/management/product/add-product";
         }
-        productService.addProduct(product);
+        productService.addProduct(product,file);
         return "redirect:/admin/products";
     }
 
@@ -61,7 +65,7 @@ public class ProductAdminController {
     public String updateProduct(@PathVariable Long id,
                                 @Valid Product product,
                                 BindingResult result,
-                                @RequestParam("file") MultipartFile file) {
+                                @RequestParam(value = "file", required = false) MultipartFile file) {
         if (result.hasErrors()) {
             product.setId(id);
             return "/admin/management/product/update-product";

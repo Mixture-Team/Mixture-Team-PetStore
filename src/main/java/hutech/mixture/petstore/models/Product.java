@@ -37,7 +37,6 @@ public class Product {
     @Column(name = "description")
     private String description;
 
-    @NotBlank
     @Column(name = "img")
     private String img;
 

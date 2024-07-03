@@ -63,7 +63,7 @@
                         <h6 class="m-0 font-weight-bold text-primary">New Product</h6>
                     </div>
                     <div class="card-body">
-                        <form action="#" method="post" th:action="@{/admin/add}" th:object="${product}">
+                        <form action="#" method="post" th:action="@{/admin/add}" th:object="${product}" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="name">Name</label>
                                 <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="Enter product name">
@@ -74,7 +74,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="image">Image</label>
-                                <input type="file" class="form-control" id="image" th:field="*{img}">
+                                <input type="file" class="form-control" id="image" name="file">
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>

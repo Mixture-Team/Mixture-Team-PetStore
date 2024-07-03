@@ -27,7 +27,8 @@ import java.util.Optional;
 @Transactional
 public class ProductService {
     private final ProductRepository productRepository;
-    private static String UPLOAD_DIR = "E:\\Dev\\Source\\Project\\Pet-Store\\src\\main\\resources\\static\\img\\";
+//    private static String UPLOAD_DIR = "E:\\Dev\\Source\\Project\\Pet-Store\\src\\main\\resources\\static\\uploads\\";
+    private static String UPLOAD_DIR = "src/main/resources/static/img/";
 
     public Page<Product> getAllProductForAdmin(Pageable pageable){
         return productRepository.findAll(pageable);
@@ -45,7 +46,11 @@ public class ProductService {
         return productRepository.findByCategoryParentId(categoryParentId, pageable);
     }
 
-    public void addProduct(Product product) {
+    public void addProduct(Product product, MultipartFile file) {
+        if(!file.isEmpty()){
+            String fileName = saveImage(file);
+            product.setImg(fileName);
+        }
         product.setPromotionPrice(product.getPrice() - (product.getPrice() * product.getDiscount() / 100));
         productRepository.save(product);
     }
@@ -70,23 +75,21 @@ public class ProductService {
         existingProduct.setCategory(product.getCategory());
         existingProduct.setDeleted(product.isDeleted());
 
-        // Xử lý tệp hình ảnh
-        if (!file.isEmpty()) {
-            try {
-                // Lưu tệp hình ảnh vào thư mục lưu trữ
-                String fileName = file.getOriginalFilename();
-                byte[] bytes = file.getBytes();
-                Path path = Paths.get(UPLOAD_DIR + fileName);
-                Files.write(path, bytes);
-
-                // Cập nhật đường dẫn hình ảnh trong sản phẩm
-                existingProduct.setImg(fileName);
-            } catch (IOException e) {
-                e.printStackTrace();
-                // Xử lý ngoại lệ khi không thể lưu tệp hình ảnh
-                // Thông báo cho người dùng hoặc quay lại trạng thái trước đó
-            }
+        if(!file.isEmpty()){
+            String fileName = saveImage(file);
+            existingProduct.setImg(fileName);
         }
         return productRepository.save(existingProduct);
+    }
+    private String saveImage(MultipartFile file) {
+        try {
+            String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+            Path path = Paths.get(UPLOAD_DIR + fileName);
+            Files.createDirectories(path.getParent());
+            Files.write(path, file.getBytes());
+            return fileName;
+        } catch (IOException e) {
+            throw new RuntimeException("Không thể lưu file hình ảnh", e);
+        }
     }
 }
