@@ -1,10 +1,10 @@
 package hutech.mixture.petstore.services;
-
 import hutech.mixture.petstore.enums.AuthenticationType;
 import hutech.mixture.petstore.enums.Role;
 import hutech.mixture.petstore.models.User;
 import hutech.mixture.petstore.repositories.IRoleRepository;
 import hutech.mixture.petstore.repositories.IUserRepository;
+import hutech.mixture.petstore.repositories.UserRepository;
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
@@ -138,6 +138,14 @@ public class UserService implements UserDetailsService {
         return userRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("Không tìm thấy user có id " + id)
         );
+    }
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+    public User findById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     public void updateUser(User user) {
