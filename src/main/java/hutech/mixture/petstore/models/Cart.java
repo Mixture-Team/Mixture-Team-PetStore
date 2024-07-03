@@ -2,7 +2,9 @@ package hutech.mixture.petstore.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -27,20 +29,18 @@ public class Cart {
     @Column(name = "customer_name")
     private String customerName;
 
-    @NotBlank
-    @Column(name = "phone", length = 10, unique = true)
-    @Length(min = 10, max = 10, message = "Phone must be 10 characters")
-    @Pattern(regexp = "^[0-9]*$", message = "Phone must be number")
+    @Column(name = "phone")
+    @Pattern(regexp = "^[0-9]*$", message = "Phone must be numeric")
     private String phone;
 
     @Column(name = "notes")
     private String notes;
 
-    @NotBlank
+    @NotNull
     @Column(name = "date_begin")
     private LocalDateTime dateBegin;
 
-    @NotBlank
+    @NotNull
     @Column(name = "date_end")
     private LocalDateTime dateEnd;
 
@@ -52,15 +52,15 @@ public class Cart {
     @Column(name = "order_status")
     private String orderStatus;
 
-    @NotBlank
+    @NotNull
     @Column(name = "total_price")
-    private double totalPrice;
+    private Double totalPrice;
 
     @NotBlank
     @Column(name = "address")
     private String address;
 
-    @NotBlank
+
     @Column(name = "trading_code")
     private String tradingCode;
 
@@ -70,7 +70,7 @@ public class Cart {
 
     @ManyToOne
     @JoinColumn(name = "shipping_id")
-    private Province province;
+    private District district;
 
 
     @OneToMany(mappedBy = "cart")

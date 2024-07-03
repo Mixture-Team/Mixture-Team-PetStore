@@ -1,10 +1,11 @@
 package hutech.mixture.petstore.controllers;
 
+import hutech.mixture.petstore.models.District;
 import hutech.mixture.petstore.models.Province;
-import hutech.mixture.petstore.repository.CartRepository;
-import hutech.mixture.petstore.repository.ProductRepository;
+import hutech.mixture.petstore.repository.DistrictRepository;
 import hutech.mixture.petstore.repository.ProvinceRepository;
-import hutech.mixture.petstore.service.CartService;
+import hutech.mixture.petstore.service.Cart_cartService;
+import hutech.mixture.petstore.service.DistrictService;
 import hutech.mixture.petstore.service.ProductService;
 import hutech.mixture.petstore.service.ProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -21,13 +23,17 @@ import java.util.Optional;
 @RequestMapping("/cart")
 public class CartController {
     @Autowired
-    private CartService cartService;
+    private Cart_cartService cartService;
     @Autowired
     private ProvinceRepository provinceRepository;
     @Autowired
     private ProductService productService;
     @Autowired
     private ProvinceService provinceService;
+    @Autowired
+    private DistrictRepository districtRepository;
+    @Autowired
+    private DistrictService districtService;
 
     @GetMapping
     public String showCart(Model model) {
@@ -55,28 +61,25 @@ public class CartController {
         return "redirect:/cart";
     }
     @GetMapping("/pay")
-    public String pay(  Model model) {
+    public String pay(Model model) {
         model.addAttribute("cartItems", cartService.getCartItems());
         model.addAttribute("cartTotalPrice", cartService.calculateCartTotalPrice());
-       model.addAttribute("provinces",provinceService.getAllProvinces()); //Load categories
+        model.addAttribute("provinces", provinceService.getAllProvinces());
+        model.addAttribute("districts", districtService.getAllDistricts());
         return "/cart/pay";
-
     }
 
-    @GetMapping("/getFee")
-    @ResponseBody
-    public String getShippingFee(@RequestParam Long provinceId) {
-        Optional<Province> optionalProvince = provinceService.findById(provinceId);
-        if (optionalProvince.isPresent()) {
-            BigDecimal fee = BigDecimal.valueOf(optionalProvince.get().getFee()); // Lấy giá trị fee từ Optional<Province>
-            return fee.toString(); // Trả về phí vận chuyển dưới dạng chuỗi
-        } else {
-            return "0"; // Trả về giá trị mặc định nếu không tìm thấy Province
-        }
-    }
-
-
-
+//    @GetMapping("/getFee")
+//    @ResponseBody
+//    public String getShippingFee(@RequestParam Long districtId) {
+//        Optional<District> optionalDistrict = districtService.findById(districtId);
+//        if (optionalDistrict.isPresent()) {
+//            BigDecimal fee = BigDecimal.valueOf(optionalDistrict.get().getFee()); // Lấy giá trị fee từ Optional<Province>
+//            return fee.toString(); // Trả về phí vận chuyển dưới dạng chuỗi
+//        } else {
+//            return "0"; // Trả về giá trị mặc định nếu không tìm thấy Province
+//        }
+//    }
 
     @GetMapping("/count")
     @ResponseBody
@@ -85,6 +88,11 @@ public class CartController {
         Map<String, Integer> response = new HashMap<>();
         response.put("count", count);
         return response;
+    }
+    @GetMapping("/districts/{provinceId}")
+    @ResponseBody
+    public List<District> getDistrictsByProvince(@PathVariable Long provinceId) {
+        return districtService.getDistrictsByProvinceId(provinceId);
     }
 
 }

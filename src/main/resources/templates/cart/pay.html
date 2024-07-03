@@ -1,231 +1,60 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>THANH TOÁN</title>-->
-<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">-->
-<!--    &lt;!&ndash; Include Thymeleaf fragment for additional resources &ndash;&gt;-->
-<!--    <th:block th:replace="~{fragment/lib.html :: lib}"></th:block>-->
-<!--    <script src="/js/cart.js"></script>-->
-<!--</head>-->
-<!--<body>-->
-<!--&lt;!&ndash; Header &ndash;&gt;-->
-<!--<div th:replace="~{fragment/header.html :: header}"></div>-->
-
-<!--<div class="container mt-4">-->
-<!--    <div class="row">-->
-<!--        &lt;!&ndash; Form để điền thông tin đơn hàng &ndash;&gt;-->
-<!--&lt;!&ndash;        <div class="col-lg-6">&ndash;&gt;-->
-<!--&lt;!&ndash;            <h1>Place Your Order</h1>&ndash;&gt;-->
-<!--&lt;!&ndash;            <form th:action="@{/order/submit}" method="post">&ndash;&gt;-->
-<!--&lt;!&ndash;                <div class="mb-3">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <label for="customerName" class="form-label">Your Name:</label>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <input type="text" id="customerName" name="customerName" class="form-control" required>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                <div class="mb-3">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <label for="shippingAddress" class="form-label">Shipping Address:</label>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <input type="text" id="shippingAddress" name="shippingAddress" class="form-control" required>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;                <div class="mb-3">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <label for="phoneNumber" class="form-label">Phone Number:</label>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" required>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                <div class="mb-3">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <label for="email" class="form-label">Email:</label>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <input type="email" id="email" name="email" class="form-control" required>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                <div class="mb-3">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <label for="notes" class="form-label">Notes:</label>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <textarea id="notes" name="notes" class="form-control"></textarea>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-
-
-<!--&lt;!&ndash;            </form>&ndash;&gt;-->
-<!--&lt;!&ndash;        </div>&ndash;&gt;-->
-
-<!--        &lt;!&ndash; Form để điền thông tin đơn hàng &ndash;&gt;-->
-<!--        <div class="col-lg-6">-->
-<!--            <h1>Place Your Order</h1>-->
-<!--            <form th:action="@{/order/submit}" method="post">-->
-<!--                <div class="mb-3">-->
-<!--                    <label for="customerName" class="form-label">Your Name:</label>-->
-<!--                    <input type="text" id="customerName" name="customerName" class="form-control" required>-->
-<!--                </div>-->
-<!--                <div class="mb-3">-->
-<!--                    <label for="shippingAddress" class="form-label">Shipping Address:</label>-->
-<!--                    <input type="text" id="shippingAddress" name="shippingAddress" class="form-control" required>-->
-<!--                </div>-->
-
-<!--                &lt;!&ndash; Dropdown menu cho tỉnh thành &ndash;&gt;-->
-<!--                <div class="mb-3">-->
-<!--                    <label for="province" class="form-label">Province:</label>-->
-<!--                    <select id="province" name="province" class="form-control" required>-->
-<!--                        <option value="">Select Province</option>-->
-<!--                        &lt;!&ndash; Thymeleaf iteration để hiển thị danh sách tỉnh thành &ndash;&gt;-->
-<!--                        <option th:each="province : ${provinces}" th:value="${province.id}" th:text="${province.name}"></option>-->
-<!--                    </select>-->
-<!--                </div>-->
-<!--                <div class="mb-3">-->
-<!--                    <label for="phoneNumber" class="form-label">Phone Number:</label>-->
-<!--                    <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" required>-->
-<!--                </div>-->
-<!--                <div class="mb-3">-->
-<!--                    <label for="email" class="form-label">Email:</label>-->
-<!--                    <input type="email" id="email" name="email" class="form-control" required>-->
-<!--                </div>-->
-<!--                <div class="mb-3">-->
-<!--                    <label for="notes" class="form-label">Notes:</label>-->
-<!--                    <textarea id="notes" name="notes" class="form-control"></textarea>-->
-<!--                </div>-->
-
-
-
-<!--                &lt;!&ndash; Nút thanh toán &ndash;&gt;-->
-<!--                <button type="submit" class="btn btn-primary">Thanh Toán</button>-->
-<!--            </form>-->
-<!--        </div>-->
-
-
-<!--        &lt;!&ndash; Phần hiển thị mã vận chuyển, tổng số tiền và phương thức thanh toán &ndash;&gt;-->
-<!--        <div class="col-lg-6">-->
-<!--            <div class="card mb-3">-->
-<!--                <div class="card-body">-->
-
-
-<!--                    &lt;!&ndash; Thông tin sản phẩm &ndash;&gt;-->
-<!--                    <div th:if="${cartItems.isEmpty()}" class="alert alert-info">Your cart is empty.</div>-->
-<!--                    <table class="table table-bordered">-->
-<!--                        <thead class="table-light">-->
-<!--                        <tr>-->
-<!--&lt;!&ndash;                            <th></th>&ndash;&gt;-->
-<!--                            <th>Sản phẩm</th>-->
-<!--                            <th>SL</th>-->
-<!--                            <th>Giá</th>-->
-
-<!--                        </tr>-->
-<!--                        </thead>-->
-<!--                        <tbody>-->
-<!--                        <tr th:each="item : ${cartItems}">-->
-<!--&lt;!&ndash;                            <td th:text="${item.orderIndex}"></td>&ndash;&gt;-->
-<!--                            <td th:text="${item.product.name}"></td>-->
-<!--                            <td th:text="${item.quantity}"></td>-->
-<!--                            <td th:text="${#numbers.formatDecimal(item.total_price, 0, 'COMMA', 2, 'POINT')}"></td>-->
-<!--                        </tr>-->
-<!--                        </tbody>-->
-<!--                    </table>-->
-
-<!--                    &lt;!&ndash; Input nhập mã vận chuyển &ndash;&gt;-->
-<!--                    <div class="input-group mb-3">-->
-<!--                        <input type="text" class="form-control" placeholder="Nhập mã vận chuyển" aria-label="Mã vận chuyển" aria-describedby="apply-shipping-code">-->
-<!--                        <button class="btn btn-danger" type="button" id="apply-shipping-code">Áp dụng</button>-->
-<!--                    </div>-->
-
-<!--                    &lt;!&ndash; Tổng số tiền &ndash;&gt;-->
-<!--                    <div class="d-flex justify-content-between align-items-center mb-3">-->
-<!--                        <h5 class="card-title mb-0">Tổng số tiền:</h5>-->
-<!--                        <p class="card-text mb-0" > <span th:text="${#numbers.formatDecimal(cartTotalPrice, 0, 'COMMA', 2, 'POINT')}"></span></p>-->
-<!--                    </div>-->
-
-<!--                    &lt;!&ndash; Phương thức thanh toán &ndash;&gt;-->
-<!--                    <h5 class="card-title">Phương thức thanh toán:</h5>-->
-<!--                    <div class="input-group mb-3">-->
-<!--                        <select id="paymentMethod" name="paymentMethod" class="form-select" required>-->
-<!--                            <option value="Credit Card">Credit Card</option>-->
-<!--                            <option value="PayPal">PayPal</option>-->
-<!--                            <option value="Bank Transfer">Bank Transfer</option>-->
-<!--                            <option value="Cash on Delivery">Cash on Delivery</option>-->
-<!--                        </select>-->
-<!--                    </div>-->
-
-<!--                    &lt;!&ndash; Nút thanh toán &ndash;&gt;-->
-<!--                    <button type="submit" class="btn btn-primary">Thanh Toán</button>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-
-
-<!--    </div>-->
-<!--</div>-->
-<!--&lt;!&ndash; Start Footer &ndash;&gt;-->
-<!--<div th:replace="~{fragment/footer.html :: footer}"></div>-->
-<!--&lt;!&ndash; End Footer &ndash;&gt;-->
-<!--</body>-->
-<!--</html>-->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>THANH TOÁN</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <!-- Include Thymeleaf fragment for additional resources -->
     <th:block th:replace="~{fragment/lib.html :: lib}"></th:block>
-    <script src="/js/cart.js"></script>ư
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script th:inline="javascript">
-        $(document).ready(function() {
-            $('#province').change(function() {
-                var provinceId = $(this).val();
-                $.ajax({
-                    url: '/getFee',
-                    type: 'GET',
-                    data: { provinceId: provinceId },
-                    success: function(data) {
-                        $('#shippingFee').val(data);
-                    },
-                    error: function() {
-                        console.log('Error fetching shipping fee');
-                    }
-                });
-            });
-        });
-    </script>
-
 </head>
 <body>
 <!-- Header -->
 <div th:replace="~{fragment/header.html :: header}"></div>
 
 <div class="container mt-4">
+    <form th:action="@{/payy/submit}" method="post">
     <div class="row">
         <!-- Form để điền thông tin đơn hàng -->
         <div class="col-lg-6">
-            <h1>Place Your Order</h1>
-            <form th:action="@{/order/submit}" method="post">
+            <h1>Đặt hàng</h1>
+
                 <div class="mb-3">
-                    <label for="customerName" class="form-label">Your Name:</label>
+                    <label for="customerName" class="form-label">Họ và Tên:</label>
                     <input type="text" id="customerName" name="customerName" class="form-control" required>
                 </div>
-                <div class="mb-3">
-                    <label for="shippingAddress" class="form-label">Shipping Address:</label>
-                    <input type="text" id="shippingAddress" name="shippingAddress" class="form-control" required>
-                </div>
-
                 <!-- Dropdown menu cho tỉnh thành -->
                 <div class="mb-3">
-                    <label for="province" class="form-label">Province:</label>
+                    <label for="province" class="form-label">Tỉnh:</label>
                     <select id="province" name="province" class="form-control" required>
-                        <option value="">Select Province</option>
+                        <option value="">Chọn tỉnh</option>
                         <!-- Thymeleaf iteration để hiển thị danh sách tỉnh thành -->
                         <option th:each="province : ${provinces}" th:value="${province.id}" th:text="${province.provinceName}"></option>
                     </select>
                 </div>
+
+                <!-- Dropdown menu cho huyện -->
                 <div class="mb-3">
-                    <label for="phoneNumber" class="form-label">Phone Number:</label>
+                    <label for="district" class="form-label">Quận/Huyện:</label>
+                    <select id="district" name="district" class="form-control" required>
+                        <option value="">Chọn quận/huyện</option>
+                        <!-- Thymeleaf iteration để hiển thị danh sách huyện -->
+                        <option th:each="district : ${districts}" th:value="${district.id}" th:text="${district.districtName}" th:attr="data-provinceId=${district.province.id}"></option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="shippingAddress" class="form-label">Địa Chỉ Giao Hàng:</label>
+                    <input type="text" id="shippingAddress" name="shippingAddress" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="phoneNumber" class="form-label">Số Điện Thoại:</label>
                     <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" required>
                 </div>
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email:</label>
-                    <input type="email" id="email" name="email" class="form-control" required>
-                </div>
-                <div class="mb-3">
-                    <label for="notes" class="form-label">Notes:</label>
+                    <label for="notes" class="form-label">Ghi Chú:</label>
                     <textarea id="notes" name="notes" class="form-control"></textarea>
                 </div>
 
-                <!-- Nút thanh toán -->
-                <button type="submit" class="btn btn-primary">Thanh Toán</button>
-            </form>
+
         </div>
 
         <!-- Phần hiển thị mã vận chuyển, tổng số tiền và phương thức thanh toán -->
@@ -233,7 +62,7 @@
             <div class="card mb-3">
                 <div class="card-body">
                     <!-- Thông tin sản phẩm -->
-                    <div th:if="${cartItems.isEmpty()}" class="alert alert-info">Your cart is empty.</div>
+                    <div th:if="${cartItems.isEmpty()}" class="alert alert-info">Giỏ của bạn đang trống !!!</div>
                     <table class="table table-bordered">
                         <thead class="table-light">
                         <tr>
@@ -244,50 +73,75 @@
                         </thead>
                         <tbody>
                         <tr th:each="item : ${cartItems}">
-                            <td th:text="${item.product.name}"></td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img th:src="@{'/img/' + ${item.product.img}}" class="img-thumbnail mr-2" style="max-width: 50px; max-height: 50px;" alt="Product Image">
+                                    <span th:text="${item.product.name}"></span>
+                                </div>
+                            </td>
                             <td th:text="${item.quantity}"></td>
                             <td th:text="${#numbers.formatDecimal(item.total_price, 0, 'COMMA', 2, 'POINT')}"></td>
                         </tr>
                         </tbody>
                     </table>
-
-                    <!-- Input nhập mã vận chuyển -->
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Nhập mã vận chuyển" aria-label="Mã vận chuyển" aria-describedby="apply-shipping-code">
-                        <button class="btn btn-danger" type="button" id="apply-shipping-code">Áp dụng</button>
+                    <!-- Tổng số tiền sản phẩm -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title mb-0">Tổng số tiền sản phẩm:</h5>
+                        <p class="card-text mb-0"><span id="cartTotalPrice" th:text="${#numbers.formatDecimal(cartTotalPrice, 0, 'COMMA', 2, 'POINT')}"></span></p>
                     </div>
                     <div class="mb-3">
                         <label for="shippingFee" class="form-label">Phí vận chuyển:</label>
                         <input type="text" id="shippingFee" name="shippingFee" class="form-control" readonly>
                     </div>
-
-
                     <!-- Tổng số tiền -->
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="card-title mb-0">Tổng số tiền:</h5>
-                        <p class="card-text mb-0"><span th:text="${#numbers.formatDecimal(cartTotalPrice, 0, 'COMMA', 2, 'POINT')}"></span></p>
+                        <p class="card-text mb-0" id="totalPrice">0,00</p> <!-- Đặt id cho phần tổng số tiền -->
                     </div>
 
                     <!-- Phương thức thanh toán -->
                     <h5 class="card-title">Phương thức thanh toán:</h5>
                     <div class="input-group mb-3">
                         <select id="paymentMethod" name="paymentMethod" class="form-select" required>
-                            <option value="Credit Card">Credit Card</option>
-                            <option value="PayPal">PayPal</option>
-                            <option value="Bank Transfer">Bank Transfer</option>
-                            <option value="Cash on Delivery">Cash on Delivery</option>
+                            <option value="Cash on Delivery">Thanh toán khi giao hàng</option>
+                            <option value="Credit Card">Thẻ tín dụng</option>
+                            <option value="Bank Transfer">Chuyển khoản ngân hàng</option>
                         </select>
                     </div>
-
-                    <!-- Nút thanh toán -->
+                    <!-- Nút thanh toán trong form -->
                     <button type="submit" class="btn btn-primary">Thanh Toán</button>
                 </div>
             </div>
         </div>
     </div>
+    </form>
 </div>
 <!-- Start Footer -->
 <div th:replace="~{fragment/footer.html :: footer}"></div>
 <!-- End Footer -->
+
+
+<script th:inline="javascript">
+    $(document).ready(function() {
+        var provinceSelect = $('#province');
+        var districtSelect = $('#district');
+
+        // Sự kiện khi thay đổi tỉnh thành
+        provinceSelect.change(function() {
+            var selectedProvinceId = $(this).val();
+            districtSelect.empty();
+            districtSelect.append('<option value="">          </option>');
+
+            // Gửi yêu cầu GET để lấy danh sách huyện tương ứng với tỉnh được chọn
+            $.get('/cart/districts/' + selectedProvinceId, function(data) {
+                $.each(data, function(index, district) {
+                    districtSelect.append('<option value="' + district.id + '">' + district.districtName + '</option>');
+                });
+            });
+        });
+    });
+</script>
+
+
 </body>
 </html>

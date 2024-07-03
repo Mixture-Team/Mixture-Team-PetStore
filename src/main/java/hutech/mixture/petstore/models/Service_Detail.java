@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -45,4 +47,8 @@ public class Service_Detail {
     @ManyToOne
     @JoinColumn(name ="service_id")
     private Service service;
+
+
+    @OneToMany(mappedBy = "serviceDetail")
+    private List<Cart_Product> cart_products;
 }

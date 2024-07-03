@@ -21,14 +21,12 @@ public class Province {
     @NotBlank(message = "Province name is required")
     private String provinceName;
 
-    @NotBlank
-    @Column(name = "fee")
-    private double fee;
+
 
     @ManyToOne
     @JoinColumn(name = "area_id")
     private Area area;
 
     @OneToMany(mappedBy = "province")
-    private Set<Cart> carts = new HashSet<>();
+    private Set<District> districts = new HashSet<>();
 }

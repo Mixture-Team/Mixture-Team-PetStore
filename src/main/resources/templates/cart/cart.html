@@ -32,7 +32,12 @@
                 </thead>
                 <tbody>
                 <tr th:each="item : ${cartItems}">
-                    <td th:text="${item.product.name}"></td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img th:src="@{'/img/' + ${item.product.img}}" class="img-thumbnail mr-2" style="max-width: 50px; max-height: 50px;" alt="Product Image">
+                            <span th:text="${item.product.name}"></span>
+                        </div>
+                    </td>
                     <td th:text="${item.quantity}"></td>
                     <td th:text="${#numbers.formatDecimal(item.product.promotionPrice, 0, 'COMMA', 2, 'POINT')}"></td>
                     <td th:text="${#numbers.formatDecimal(item.total_price, 0, 'COMMA', 2, 'POINT')}"></td>
@@ -44,7 +49,7 @@
             </table>
             <div class="row mt-3">
                 <div class="col-auto">
-                    <a th:href="@{/cart/clear}" class="btn btn-secondary">Clear Cart</a>
+                    <a th:href="@{/cart/clear}" class="btn btn-secondary">Xóa Giỏ Hàng</a>
                 </div>
             </div>
         </div>

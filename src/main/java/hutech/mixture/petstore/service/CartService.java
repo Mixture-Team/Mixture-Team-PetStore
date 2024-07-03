@@ -1,62 +1,71 @@
 package hutech.mixture.petstore.service;
 
+import hutech.mixture.petstore.models.Cart;
 import hutech.mixture.petstore.models.CartItem;
-import hutech.mixture.petstore.models.Product;
-import hutech.mixture.petstore.repository.ProductRepository;
+import hutech.mixture.petstore.models.Cart_Product;
+import hutech.mixture.petstore.repository.CartRepository;
+import hutech.mixture.petstore.repository.Cart_ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class CartService {
-    // Danh sách các mặt hàng trong giỏ hàng
-    private List<CartItem> cartItems = new ArrayList<>();
 
-    // Repository để tương tác với cơ sở dữ liệu sản phẩm
     @Autowired
-    private ProductRepository productRepository;
+    private CartRepository cartRepository;
 
-    // Phương thức để thêm sản phẩm vào giỏ hàng
-    public void addToCart(Long productId, int quantity) {
-        // Tìm sản phẩm trong cơ sở dữ liệu
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy sản phẩm: " + productId));
+    @Autowired
+    private Cart_ProductRepository cartProductRepository;
 
-        // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+    @Transactional
+    public Cart createOrder(String customerName, String shippingAddress, String phoneNumber, String notes, String paymentMethod, List<CartItem> cartItems, double totalPrice) {
+        Cart order = new Cart();
+        order.setCustomerName(customerName);
+        order.setAddress(shippingAddress);
+        order.setPhone(phoneNumber);
+        order.setNotes(notes);
+        order.setTotalPrice(totalPrice);
+        order.setPaymentMethods(paymentMethod);
+
+        order.setDateBegin(LocalDateTime.now()); // Ngày hiện tại
+        order.setDateEnd(LocalDateTime.now()); // Ngày hiện tại
+        order.setOrderStatus("đang xử lý"); // Trạng thái đơn hàng
+        order.setTradingCode("0"); // Mã giao dịch
+
+        // Lưu đơn hàng
+        order = cartRepository.save(order);
+
+        // Lưu chi tiết đơn hàng
         for (CartItem item : cartItems) {
-            if (item.getProduct().getId().equals(productId)) {
-                // Nếu đã có, cập nhật số lượng và tổng giá
-                item.setQuantity(item.getQuantity() + quantity);
-                return;
-            }
+            Cart_Product detail = new Cart_Product();
+            detail.setQuantity(item.getQuantity());
+            detail.setTotal_price(item.getTotal_price());
+            detail.setCart(order);
+            detail.setProduct(item.getProduct());
+            detail.setServiceDetail(item.getServiceDetail());
+            cartProductRepository.save(detail);
         }
 
-        // Nếu chưa có, thêm một mục mới vào giỏ hàng
-        cartItems.add(new CartItem(product, quantity));
+        // Các bước xử lý thanh toán thành công có thể được triển khai ở đây,
+        // bao gồm tích hợp với cổng thanh toán, xác nhận thanh toán, cập nhật trạng thái đơn hàng, v.v.
+
+        return order;
     }
 
-    // Phương thức để lấy danh sách các mặt hàng trong giỏ hàng
-    public List<CartItem> getCartItems() {
-        return cartItems;
+    public List<Cart> getAllOrders() {
+        return cartRepository.findAll();
     }
 
-    // Phương thức để xóa một mặt hàng khỏi giỏ hàng dựa trên productId
-    public void removeFromCart(Long productId) {
-        cartItems.removeIf(item -> item.getProduct().getId().equals(productId));
+    public Optional<Cart> getOrderById(Long id) {
+        return cartRepository.findById(id);
     }
 
-    // Phương thức để xóa toàn bộ các mặt hàng trong giỏ hàng
-    public void clearCart() {
-        cartItems.clear();
-    }
-
-    // Phương thức tính tổng total_price của các mặt hàng trong giỏ hàng
-    public double calculateCartTotalPrice() {
-        double totalPrice = 0.0;
-        for (CartItem item : cartItems) {
-            totalPrice += item.getTotal_price();
-        }
-        return totalPrice;
+    public Cart saveOrder(Cart order) {
+        return cartRepository.save(order);
     }
 }
