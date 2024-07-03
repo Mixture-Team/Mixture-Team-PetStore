@@ -5,43 +5,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
-    <script>
-        $(document).ready(function (){
-            $('#inputModalSearch').autocomplete({
-                source: function (request, response) {
-                    $.ajax({
-                        url: "/san-pham/autocomplete", // Đường dẫn đến endpoint để lấy danh sách gợi ý
-                        dataType: 'json',
-                        data: {
-                            q: request.term
-                        },
-                        success: function (data) {
-                            // Hiển thị danh sách gợi ý trong div #suggestions
-                            $('#suggestions').empty(); // Xóa các gợi ý trước đó
-                            $.each(data, function (index, item) {
-                                $('#suggestions').append('<a href="#" class="list-group-item list-group-item-action suggestion">' + item.label + '</a>');
-                            });
-                        }
-                    });
-                },
-                minLength: 2, // Số ký tự tối thiểu để bắt đầu gợi ý
-                select: function (event, ui) {
-                    $('#inputModalSearch').val(ui.item.label); // Hiển thị label của mục đã chọn
-                    $('#searchForm').submit(); // Gửi form khi mục đã chọn từ gợi ý
-                    return false;
-                }
-            });
-
-            // Xử lý khi người dùng chọn một gợi ý từ danh sách
-            $(document).on('click', '.suggestion', function () {
-                var selectedSuggestion = $(this).text(); // Lấy giá trị của gợi ý được chọn
-                $('#inputModalSearch').val(selectedSuggestion); // Điền giá trị của gợi ý vào thanh tìm kiếm
-                $('#searchForm').submit(); // Gửi form khi mục đã chọn từ gợi ý
-                return false;
-            });
-        });
-    </script>
-
 </head>
 
 
@@ -56,13 +19,13 @@
         <div class="w-100 pt-1 mb-5 text-right">
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form   id="searchForm" class="modal-content modal-body border-0 p-0">
-        <div class="input-group mb-2">
-            <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ..." autocomplete="off" th:value="${param.q}">
-            <button  type="button" onclick="submitSearchForm()" class="input-group-text bg-success text-light" id="searchButton">
-                <i class="fa fa-fw fa-search text-white"></i>
-            </button>
-        </div>
+        <form th:action="@{/san-pham/search}" method="get"  id="searchForm" class="modal-content modal-body border-0 p-0" >
+            <div class="input-group mb-2">
+                <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ..." autocomplete="on" th:value="${param.q}">
+                <button  type="submit"   class="input-group-text bg-success text-light" id="searchButton">
+                    <i class="fa fa-fw fa-search text-white"></i>
+                </button>
+            </div>
         </form>
 
         <!-- Container để hiển thị kết quả tìm kiếm -->
@@ -148,7 +111,7 @@
                                     <i class="text-warning fa fa-star"></i>
                                     <i class="text-warning fa fa-star"></i>
                                     <i class="text-warning fa fa-star"></i>
-                                    <i class="text-muted fa fa-star"></i>
+                                    <i class="text-muted fa fa-star"></i>0
                                     <i class="text-muted fa fa-star"></i>
                                 </li>
                             </ul>
@@ -298,41 +261,11 @@
 <!-- End Footer -->
 
 <script th:inline="javascript">
-    function submitSearchForm() {
-        // Lấy giá trị từ input search
-        var query = document.getElementById('inputModalSearch').value;
-
-        // Gọi hàm AJAX để tải dữ liệu và truyền query vào loadPSearch
-        loadPSearch(query);
-    }
-
-    function loadPSearch(query) {
-        $.ajax({
-            url: '/san-pham/by-name-product',
-            data: {
-                q: query,
-                page: 0, // Đã mặc định trong hàm loadPSearch
-                size: 15
-            },
-            dataType: 'json',
-            success: function(response) {
-                // Cập nhật danh sách sản phẩm
-                updateProductList(response.content);
-                // Cập nhật phân trang
-                updatePagination(response);
-            },
-            error: function(xhr, status, error) {
-                console.error("AJAX error: " + status + ": " + error);
-                console.error(xhr.responseText);
-            }
-        });
-    }
+    $(document).ready(function() {
 
         var selectedCategoryParentId;
-
-
         // Xử lý sự kiện khi người dùng thay đổi danh mục cha
-        $('#categoryParentSelect').change(function() {
+        $('#categoryParentSelect').change(function () {
             selectedCategoryParentId = $(this).val();
             loadProducts(0);
         });
@@ -351,14 +284,14 @@
                 // Kiểu dữ liệu trả về
                 dataType: 'json',
                 // Xử lý khi request thành công
-                success: function(response) {
+                success: function (response) {
                     // Cập nhật danh sách sản phẩm
                     updateProductList(response.content);
                     // Cập nhật phân trang
                     updatePagination(response);
                 },
                 // Xử lý khi request thất bại
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error("AJAX error: " + status + ": " + error);
                     console.error(xhr.responseText);
                 }
@@ -369,7 +302,7 @@
         function updateProductList(products) {
             var productHtml = '';
             // Lặp qua từng sản phẩm và tạo HTML
-            products.forEach(function(product) {
+            products.forEach(function (product) {
                 productHtml += `
                             <div class="col-md-4 col-6 product-item">
                                 <div class="card mb-4 product-wap rounded-0">
@@ -453,6 +386,7 @@
 
         // Đưa hàm loadProducts ra global scope để có thể gọi từ onclick
         window.loadProducts = loadProducts;
+    });
 </script>
 
 

@@ -17,7 +17,7 @@
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
+            <!--bat dau-->
             <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
@@ -36,6 +36,8 @@
                     </ul>
                 </div>
                 <div class="navbar align-self-center d-flex">
+                    <!--search-->
+
                     <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
                         <div class="input-group">
                             <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ..." >
@@ -47,7 +49,10 @@
                     </div>
                     <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
                         <i class="fa fa-fw fa-search text-light mr-2"></i>
+
                     </a>
+
+
                     <!-- Hiển thị khi đã đăng nhập -->
                     <a class="nav-icon position-relative text-decoration-none" href="#">
                         <i class="fa fa-fw fa-cart-arrow-down text-light mr-1">
@@ -89,35 +94,7 @@
                 }
             }
         }
-        function submitSearchForm() {
-            // Lấy giá trị từ input search
-            var query = document.getElementById('inputModalSearch').value;
 
-            // Gọi hàm AJAX để tải dữ liệu và truyền query vào loadPSearch
-            loadPSearch(query);
-        }
-
-        function loadPSearch(query) {
-            $.ajax({
-                url: '/san-pham/by-name-product',
-                data: {
-                    q: query,
-                    page: 0, // Đã mặc định trong hàm loadPSearch
-                    size: 15
-                },
-                dataType: 'json',
-                success: function(response) {
-                    // Cập nhật danh sách sản phẩm
-                    updateProductList(response.content);
-                    // Cập nhật phân trang
-                    updatePagination(response);
-                },
-                error: function(xhr, status, error) {
-                    console.error("AJAX error: " + status + ": " + error);
-                    console.error(xhr.responseText);
-                }
-            });
-        }
     </script>
 </th:fragment>
 </body>
