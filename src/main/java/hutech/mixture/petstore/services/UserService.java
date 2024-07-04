@@ -154,14 +154,13 @@ public class UserService implements UserDetailsService {
         );
         existingUser.setUsername(user.getUsername());
         existingUser.setEmail(user.getEmail());
-        existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        existingUser.setPassword(user.getPassword());
         existingUser.setPhone(user.getPhone());
         existingUser.setAddress(user.getAddress());
         existingUser.setResetPasswordToken(user.getResetPasswordToken());
         existingUser.setDeleted(user.isDeleted());
         existingUser.setRole(user.getRole());
         existingUser.setAuthenticationType(user.getAuthenticationType());
-        System.out.println("ĐỤ MÁ MÀY");
         userRepository.save(existingUser);
     }
 }
