@@ -67,10 +67,14 @@
                             <div class="form-group">
                                 <label for="name">Name</label>
                                 <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="Enter product name">
+                                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></span>
+
                             </div>
                             <div class="form-group">
                                 <label for="link">Link</label>
                                 <input type="text" class="form-control" id="link" th:field="*{link}" placeholder="Enter product link">
+                                <span th:if="${#fields.hasErrors('link')}" th:errors="*{link}" class="text-danger"></span>
+
                             </div>
                             <div class="form-group">
                                 <label for="category" class="form-label">Category Parent:</label>

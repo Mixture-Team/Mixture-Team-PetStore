@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+
 import lombok.*;
 
 import java.util.HashSet;
@@ -33,14 +34,14 @@ public class Product {
     @Column(name = "price")
     private double price;
 
-    @NotBlank
+    @NotBlank(message = "Description is required")
     @Column(name = "description")
     private String description;
 
     @Column(name = "img")
     private String img;
 
-    @NotBlank
+    @NotBlank(message = "Link is required")
     @Column(name = "link")
     private String link;
 

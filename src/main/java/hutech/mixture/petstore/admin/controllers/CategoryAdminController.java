@@ -1,10 +1,12 @@
 package hutech.mixture.petstore.admin.controllers;
 
+import com.nimbusds.oauth2.sdk.util.StringUtils;
 import hutech.mixture.petstore.models.Category;
 import hutech.mixture.petstore.models.Product;
 import hutech.mixture.petstore.services.CategoryParentService;
 import hutech.mixture.petstore.services.CategoryService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -43,9 +45,17 @@ public class CategoryAdminController
         return "/admin/management/category/add-category";
     }
     @PostMapping("/categories/add")
-    public String addCategory(@Valid Category category, BindingResult result) {
+    public String addCategory(@Valid @ModelAttribute("category") Category category, BindingResult result, @NotNull Model model) {
+        if (!StringUtils.isBlank(category.getName())) {
+            // Kiểm tra nếu tên danh mục bắt đầu bằng số hoặc ký tự đặc biệt
+            char firstChar = category.getName().charAt(0);
+            if (!Character.isLetter(firstChar)) {
+                result.rejectValue("name", "error.name", "Category name first character must be a letter");
+            }
+        }
         if (result.hasErrors()) {
-            return "/admin/management/category/update-category";
+            model.addAttribute("categoryParents", categoryParentService.getAllCategoryParents());
+            return "/admin/management/category/add-category";
         }
         categoryService.addProduct(category);
         return "redirect:/admin/categories";

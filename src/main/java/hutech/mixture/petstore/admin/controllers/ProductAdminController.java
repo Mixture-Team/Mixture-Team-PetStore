@@ -1,5 +1,6 @@
 package hutech.mixture.petstore.admin.controllers;
 
+import com.nimbusds.oauth2.sdk.util.StringUtils;
 import hutech.mixture.petstore.models.Product;
 import hutech.mixture.petstore.services.CategoryService;
 import hutech.mixture.petstore.services.ProductService;
@@ -42,13 +43,28 @@ public class ProductAdminController {
         return "/admin/management/product/add-product";
     }
     @PostMapping("/add")
-    public String addProduct(@Valid Product product,
+    public String addProduct(@Valid  @ModelAttribute("product") Product product,
                              @RequestParam(value = "file", required = false) MultipartFile file,
-                             BindingResult result) {
+                             BindingResult result,
+                             @NotNull Model model) {
+        if (product.getPrice() == 0) {
+            result.rejectValue("price", "error.price", "Price cannot be zero");
+        }
+        if (product.getNums() == 0) {
+            result.rejectValue("nums", "error.nums", "Quantity cannot be zero");
+        }
+        if (!StringUtils.isBlank(product.getName())) {
+            // Kiểm tra nếu tên sản phẩm bắt đầu bằng số hoặc ký tự đặc biệt
+            char firstChar = product.getName().charAt(0);
+            if (!Character.isLetter(firstChar)) {
+                result.rejectValue("name", "error.name", "Product name first character must be a letter");
+            }
+        }
         if (result.hasErrors()) {
+            model.addAttribute("categories", categoryService.getAllCategories());
             return "/admin/management/product/add-product";
         }
-        productService.addProduct(product,file);
+        productService.addProduct(product, file);
         return "redirect:/admin/products";
     }
 
