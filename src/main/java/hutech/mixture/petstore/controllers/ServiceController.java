@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/service")
+@RequestMapping("/dich-vu")
 public class ServiceController {
 
     @Autowired
@@ -24,7 +24,7 @@ public class ServiceController {
     private ServiceDetailService serviceDetailService;
 
 
-    @GetMapping("/service-list")
+    @GetMapping
     public String showServiceList(Model model) {
         List<CustomService> customServices = CustomServiceService.findAllActiveCustomServices();
         model.addAttribute("customServices", customServices);
