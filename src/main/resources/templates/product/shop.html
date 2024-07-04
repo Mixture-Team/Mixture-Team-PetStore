@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragment/lib.html :: lib}"></head>
+
+<body>
+    <!-- Header -->
+    <div th:replace="~{fragment/header.html :: header}"></div>
+    <!-- Close Header -->
+
+    <!-- Modal -->
+    <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="w-100 pt-1 mb-5 text-right">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="" method="get" class="modal-content modal-body border-0 p-0">
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
+                    <button type="submit" class="input-group-text bg-success text-light">
+                        <i class="fa fa-fw fa-search text-white"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Start Content -->
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-3">
+                <h1 class="h2 pb-4 fw-bold">Danh mục sản phẩm</h1>
+                <li class="pb-3 list-unstyled templatemo-accordion">
+                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" th:href="@{/san-pham}">
+                        Tất cả sản phẩm
+                    </a>
+                </li>
+                <ul th:each="categoryParent : ${categoryParents}" class="list-unstyled templatemo-accordion">
+                    <li class="pb-3">
+                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none" th:attr="data-bs-target='#category-' + ${categoryParent.id}" href="#">
+                            <span th:text="${categoryParent.name}"></span>
+                            <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
+                        </a>
+                        <ul th:id="'category-' + ${categoryParent.id}" class="collapse show list-unstyled pl-3">
+                            <li th:each="category : ${categories}" th:if="${category.parent.id == categoryParent.id}">
+                                <a class="text-decoration-none"
+                                   th:href="@{/san-pham(categoryId=${category.id})}"
+                                   th:text="${category.name}">
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                    <h4 class="fw-bold">Giá sản phẩm</h4>
+                <div>
+                    <div class="form-check">
+                        <input class="form-check-input price-range" type="checkbox" value="" id="price-under-100k" data-min="0" data-max="100000">
+                        <label class="form-check-label" for="price-under-100k">Dưới 100.000đ</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input price-range" type="checkbox" value="" id="price-100k-300k" data-min="100000" data-max="300000">
+                        <label class="form-check-label" for="price-100k-300k">Từ 100.000đ - 300.000đ</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input price-range" type="checkbox" value="" id="price-300k-500k" data-min="300000" data-max="500000">
+                        <label class="form-check-label" for="price-300k-500k">Từ 300.000đ - 500.000đ</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input price-range" type="checkbox" value="" id="price-500k-700k" data-min="500000" data-max="700000">
+                        <label class="form-check-label" for="price-500k-700k">Từ 500.000đ - 700.000đ</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input price-range" type="checkbox" value="" id="price-700k-1m" data-min="700000" data-max="1000000">
+                        <label class="form-check-label" for="price-700k-1m">Từ 700.000đ - 1.000.000đ</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input price-range" type="checkbox" value="" id="price-above-1m" data-min="1000000" data-max="">
+                        <label class="form-check-label" for="price-above-1m">Trên 1.000.000đ</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-9">
+                <div class="row">
+                    <div class="col-md-6">
+                    </div>
+                    <div class="col-md-6 pb-4">
+                        <div class="d-flex">
+                            <select id="categoryParentSelect" class="form-control">
+                                <option th:each="categoryParent : ${categoryParents}"
+                                        th:value="${categoryParent.id}"
+                                        th:text="${categoryParent.name}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div id="productContainer" class="row">
+                    <div th:each="product : ${products}" class="col-md-4 col-6 product-item">
+                        <div class="card mb-4 product-wap rounded-0">
+                            <div class="card rounded-0">
+                                <img class="card-img rounded-0 img-fluid" th:src="@{'/img/' + ${product.img}}">
+                                <span class="discount-item position-absolute ps-1 pe-1" th:if="${product.discount != 0}" >
+                                        <span>Giảm giá</span>
+                                        <span th:text="${product.discount}"></span>
+                                        <span class="percent">%</span>
+                                    </span>
+                                <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                    <ul class="list-unstyled">
+                                        <li><a class="btn btn-success text-white" href="/thong-tin-san-pham"><i class="far fa-heart"></i></a></li>
+                                        <li><a class="btn btn-success text-white mt-2" href="/thong-tin-san-pham"><i class="far fa-eye"></i></a></li>
+                                        <li><a class="btn btn-success text-white mt-2" href="/thong-tin-san-pham"><i class="fas fa-cart-plus"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <a href="shop-single.html" class="h3 text-decoration-none" th:text="${product.name}"></a>
+                                <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
+                                    <li class="pt-2">
+                                        <span class="product-color-dot color-dot-red float-left rounded-circle ml-1"></span>
+                                        <span class="product-color-dot color-dot-blue float-left rounded-circle ml-1"></span>
+                                        <span class="product-color-dot color-dot-black float-left rounded-circle ml-1"></span>
+                                        <span class="product-color-dot color-dot-light float-left rounded-circle ml-1"></span>
+                                        <span class="product-color-dot color-dot-green float-left rounded-circle ml-1"></span>
+                                    </li>
+                                </ul>
+                                <ul class="list-unstyled d-flex justify-content-center mb-1">
+                                    <li>
+                                        <i class="text-warning fa fa-star"></i>
+                                        <i class="text-warning fa fa-star"></i>
+                                        <i class="text-warning fa fa-star"></i>
+                                        <i class="text-muted fa fa-star"></i>
+                                        <i class="text-muted fa fa-star"></i>
+                                    </li>
+                                </ul>
+                                <p class="text-center fw-bold mb-0">
+                                    <span th:if="${product.price == product.promotionPrice}" th:text="${product.price}"></span>
+                                    <span th:if="${product.price > product.promotionPrice}">
+                                        <del th:text="${product.price}"></del>
+                                        <span class="text-secondary">|</span>
+                                        <span class="promotion-price" th:text="${product.promotionPrice}"></span>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <ul class="pagination justify-content-end">
+                        <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark"
+                               th:href="@{/san-pham(page=${currentPage - 1}, categoryId=${categoryId})}"
+                               tabindex="-1">Previous</a>
+                        </li>
+                        <li class="page-item" th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
+                            th:classappend="${pageNum == currentPage} ? 'active'">
+                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark"
+                               th:href="@{/san-pham(page=${pageNum}, categoryId=${categoryId})}"
+                               th:text="${pageNum + 1}"></a>
+                        </li>
+                        <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                            <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark"
+                               th:href="@{/san-pham(page=${currentPage + 1}, categoryId=${categoryId})}">Next</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Content -->
+
+    <!-- Start Brands -->
+    <section class="bg-light py-5">
+        <div class="container my-4">
+            <div class="row text-center py-3">
+                <div class="col-lg-6 m-auto">
+                    <h1 class="h1">Our Brands</h1>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        Lorem ipsum dolor sit amet.
+                    </p>
+                </div>
+                <div class="col-lg-9 m-auto tempaltemo-carousel">
+                    <div class="row d-flex flex-row">
+                        <!--Controls-->
+                        <div class="col-1 align-self-center">
+                            <a class="h1" href="#multi-item-example" role="button" data-bs-slide="prev">
+                                <i class="text-light fas fa-chevron-left"></i>
+                            </a>
+                        </div>
+                        <!--End Controls-->
+
+                        <!--Carousel Wrapper-->
+                        <div class="col">
+                            <div class="carousel slide carousel-multi-item pt-2 pt-md-0" id="templatemo-slide-brand" data-bs-ride="carousel">
+                                <!--Slides-->
+                                <div class="carousel-inner product-links-wap" role="listbox">
+
+                                    <!--First slide-->
+                                    <div class="carousel-item active">
+                                        <div class="row">
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_01.png}" alt="Brand Logo"></a>
+                                            </div>
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_02.png}" alt="Brand Logo"></a>
+                                            </div>
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_03.png}" alt="Brand Logo"></a>
+                                            </div>
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_04.png}" alt="Brand Logo"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--End First slide-->
+
+                                    <!--Second slide-->
+                                    <div class="carousel-item">
+                                        <div class="row">
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_01.png}" alt="Brand Logo"></a>
+                                            </div>
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_02.png}" alt="Brand Logo"></a>
+                                            </div>
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_03.png}" alt="Brand Logo"></a>
+                                            </div>
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_04.png}" alt="Brand Logo"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--End Second slide-->
+
+                                    <!--Third slide-->
+                                    <div class="carousel-item">
+                                        <div class="row">
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_01.png}" alt="Brand Logo"></a>
+                                            </div>
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_02.png}" alt="Brand Logo"></a>
+                                            </div>
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_03.png}" alt="Brand Logo"></a>
+                                            </div>
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_04.png}" alt="Brand Logo"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--End Third slide-->
+
+                                </div>
+                                <!--End Slides-->
+                            </div>
+                        </div>
+                        <!--End Carousel Wrapper-->
+
+                        <!--Controls-->
+                        <div class="col-1 align-self-center">
+                            <a class="h1" href="#multi-item-example" role="button" data-bs-slide="next">
+                                <i class="text-light fas fa-chevron-right"></i>
+                            </a>
+                        </div>
+                        <!--End Controls-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--End Brands-->
+
+
+<!-- Start Footer -->
+<div th:replace="~{fragment/footer.html :: footer}"></div>
+<!-- End Footer -->
+
+    <script th:inline="javascript">
+        $(document).ready(function() {
+            var selectedCategoryParentId;
+            var selectedPriceRanges = [];
+
+            $('#categoryParentSelect').change(function() {
+                selectedCategoryParentId = $(this).val();
+                searchProducts(0);
+            });
+
+            $('.price-range').change(function() {
+                selectedPriceRanges = [];
+                $('.price-range:checked').each(function() {
+                    selectedPriceRanges.push({
+                        min: $(this).data('min'),
+                        max: $(this).data('max')
+                    });
+                });
+                searchProducts(0);
+            });
+
+            function searchProducts(page) {
+                var url, data;
+
+                if (selectedPriceRanges.length > 0) {
+                    url = '/san-pham/searchByPriceAndCatoParent';
+                    data = {
+                        categoryParentId: selectedCategoryParentId,
+                        priceRanges: JSON.stringify(selectedPriceRanges),
+                        page: page,
+                        size: 15
+                    };
+                } else {
+                    url = '/san-pham/by-category-parent';
+                    data = {
+                        categoryParentId: selectedCategoryParentId,
+                        page: page,
+                        size: 15
+                    };
+                }
+
+                $.ajax({
+                    url: url,
+                    data: data,
+                    dataType: 'json',
+                    success: function(response) {
+                        updateProductList(response.content);
+                        updatePagination(response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX error: " + status + ": " + error);
+                    }
+                });
+            }
+
+            // Hàm cập nhật danh sách sản phẩm trên giao diện
+            function updateProductList(products) {
+                var productHtml = '';
+                // Lặp qua từng sản phẩm và tạo HTML
+                products.forEach(function (product) {
+                    productHtml += `
+                            <div class="col-md-4 col-6 product-item">
+                                <div class="card mb-4 product-wap rounded-0">
+                                    <div class="card rounded-0">
+                                        <img class="card-img rounded-0 img-fluid" src="/img/${product.img}">
+                                        <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                            <ul class="list-unstyled">
+                                                <li><a class="btn btn-success text-white" href="/thong-tin-san-pham"><i class="far fa-heart"></i></a></li>
+                                                <li><a class="btn btn-success text-white mt-2" href="/thong-tin-san-pham"><i class="far fa-eye"></i></a></li>
+                                                <li><a class="btn btn-success text-white mt-2" href="/thong-tin-san-pham"><i class="fas fa-cart-plus"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <a href="shop-single.html" class="h3 text-decoration-none">${product.name}</a>
+                                        <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
+                                            <li>M/L/X/XL</li>
+                                            <li class="pt-2">
+                                                <span class="product-color-dot color-dot-red float-left rounded-circle ml-1"></span>
+                                                <span class="product-color-dot color-dot-blue float-left rounded-circle ml-1"></span>
+                                                <span class="product-color-dot color-dot-black float-left rounded-circle ml-1"></span>
+                                                <span class="product-color-dot color-dot-light float-left rounded-circle ml-1"></span>
+                                                <span class="product-color-dot color-dot-green float-left rounded-circle ml-1"></span>
+                                            </li>
+                                        </ul>
+                                        <ul class="list-unstyled d-flex justify-content-center mb-1">
+                                            <li>
+                                                <i class="text-warning fa fa-star"></i>
+                                                <i class="text-warning fa fa-star"></i>
+                                                <i class="text-warning fa fa-star"></i>
+                                                <i class="text-muted fa fa-star"></i>
+                                                <i class="text-muted fa fa-star"></i>
+                                            </li>
+                                        </ul>
+                                        <p class="text-center mb-0 fw-bold">${product.price}</p>
+                                    </div>
+                                </div>
+                            </div>
+                    `;
+                });
+                // Cập nhật HTML vào container sản phẩm
+                $('#productContainer').html(productHtml);
+            }
+
+            // Hàm cập nhật phân trang
+            function updatePagination(pageData) {
+                var paginationHtml = '';
+
+                paginationHtml += `
+            <li class="page-item ${pageData.number === 0 ? 'disabled' : ''}">
+                <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark"
+                   href="#" onclick="searchProducts(${pageData.number - 1}); return false;">
+                    Previous
+                </a>
+            </li>
+        `;
+
+                for (var i = 0; i < pageData.totalPages; i++) {
+                    paginationHtml += `
+                    <li class="page-item ${i === pageData.number ? 'active' : ''}">
+                    <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark"
+                       href="#" onclick="searchProducts(${i}); return false;">
+                        ${i + 1}
+                    </a>
+                </li>
+            `;
+                }
+
+                paginationHtml += `
+            <li class="page-item ${pageData.number === pageData.totalPages - 1 ? 'disabled' : ''}">
+                <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark"
+                   href="#" onclick="searchProducts(${pageData.number + 1}); return false;">
+                    Next
+                </a>
+            </li>
+        `;
+
+                $('.pagination').html(paginationHtml);
+            }
+
+            // Đưa hàm searchProducts ra global scope để có thể gọi từ onclick
+            window.searchProducts = searchProducts;
+        });
+    </script>
+
+</body>
+
+</html>
