@@ -2,7 +2,7 @@ package hutech.mixture.petstore.controllers;
 
 import hutech.mixture.petstore.Services.ServiceDetailService;
 import hutech.mixture.petstore.models.CustomService;
-import hutech.mixture.petstore.Services.CustomServiceService;
+import hutech.mixture.petstore.services.CustomServiceService;
 import hutech.mixture.petstore.models.ServiceDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
