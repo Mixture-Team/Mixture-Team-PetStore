@@ -51,6 +51,33 @@
                         </ul>
                     </li>
                 </ul>
+                    <h4 class="fw-bold">Giá sản phẩm</h4>
+                <div>
+                    <div class="form-check">
+                        <input class="form-check-input price-range" type="checkbox" value="" id="price-under-100k" data-min="0" data-max="100000">
+                        <label class="form-check-label" for="price-under-100k">Dưới 100.000đ</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input price-range" type="checkbox" value="" id="price-100k-300k" data-min="100000" data-max="300000">
+                        <label class="form-check-label" for="price-100k-300k">Từ 100.000đ - 300.000đ</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input price-range" type="checkbox" value="" id="price-300k-500k" data-min="300000" data-max="500000">
+                        <label class="form-check-label" for="price-300k-500k">Từ 300.000đ - 500.000đ</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input price-range" type="checkbox" value="" id="price-500k-700k" data-min="500000" data-max="700000">
+                        <label class="form-check-label" for="price-500k-700k">Từ 500.000đ - 700.000đ</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input price-range" type="checkbox" value="" id="price-700k-1m" data-min="700000" data-max="1000000">
+                        <label class="form-check-label" for="price-700k-1m">Từ 700.000đ - 1.000.000đ</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input price-range" type="checkbox" value="" id="price-above-1m" data-min="1000000" data-max="">
+                        <label class="form-check-label" for="price-above-1m">Trên 1.000.000đ</label>
+                    </div>
+                </div>
             </div>
 
             <div class="col-lg-9">
@@ -254,37 +281,54 @@
     <script th:inline="javascript">
         $(document).ready(function() {
             var selectedCategoryParentId;
+            var selectedPriceRanges = [];
 
-            // Xử lý sự kiện khi người dùng thay đổi danh mục cha
             $('#categoryParentSelect').change(function() {
                 selectedCategoryParentId = $(this).val();
-                loadProducts(0);
+                searchProducts(0);
             });
 
-            // Hàm tải sản phẩm dựa trên danh mục cha và trang
-            function loadProducts(page) {
-                $.ajax({
-                    // URL endpoint để lấy sản phẩm
-                    url: '/san-pham/by-category-parent',
-                    // Dữ liệu gửi đi: ID danh mục cha, số trang và số lượng sản phẩm mỗi trang
-                    data: {
+            $('.price-range').change(function() {
+                selectedPriceRanges = [];
+                $('.price-range:checked').each(function() {
+                    selectedPriceRanges.push({
+                        min: $(this).data('min'),
+                        max: $(this).data('max')
+                    });
+                });
+                searchProducts(0);
+            });
+
+            function searchProducts(page) {
+                var url, data;
+
+                if (selectedPriceRanges.length > 0) {
+                    url = '/san-pham/searchByPriceAndCatoParent';
+                    data = {
+                        categoryParentId: selectedCategoryParentId,
+                        priceRanges: JSON.stringify(selectedPriceRanges),
+                        page: page,
+                        size: 15
+                    };
+                } else {
+                    url = '/san-pham/by-category-parent';
+                    data = {
                         categoryParentId: selectedCategoryParentId,
                         page: page,
                         size: 15
-                    },
-                    // Kiểu dữ liệu trả về
+                    };
+                }
+
+                $.ajax({
+                    url: url,
+                    data: data,
                     dataType: 'json',
-                    // Xử lý khi request thành công
                     success: function(response) {
-                        // Cập nhật danh sách sản phẩm
                         updateProductList(response.content);
-                        // Cập nhật phân trang
                         updatePagination(response);
                     },
-                    // Xử lý khi request thất bại
                     error: function(xhr, status, error) {
                         console.error("AJAX error: " + status + ": " + error);
-                        console.error(xhr.responseText);
                     }
                 });
             }
@@ -293,7 +337,7 @@
             function updateProductList(products) {
                 var productHtml = '';
                 // Lặp qua từng sản phẩm và tạo HTML
-                products.forEach(function(product) {
+                products.forEach(function (product) {
                     productHtml += `
                             <div class="col-md-4 col-6 product-item">
                                 <div class="card mb-4 product-wap rounded-0">
@@ -343,40 +387,39 @@
                 var paginationHtml = '';
 
                 paginationHtml += `
-                    <li class="page-item ${pageData.number === 0 ? 'disabled' : ''}">
-                        <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark"
-                           href="#" onclick="loadProducts(${pageData.number - 1}); return false;">
-                            Previous
-                        </a>
-                    </li>
-                `;
+            <li class="page-item ${pageData.number === 0 ? 'disabled' : ''}">
+                <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark"
+                   href="#" onclick="searchProducts(${pageData.number - 1}); return false;">
+                    Previous
+                </a>
+            </li>
+        `;
 
-                // Tạo các nút phân trang dựa trên dữ liệu trang
                 for (var i = 0; i < pageData.totalPages; i++) {
                     paginationHtml += `
-                            <li class="page-item ${i === pageData.number ? 'active' : ''}">
-                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark"
-                               href="#" onclick="loadProducts(${i}); return false;">
-                                ${i + 1}
-                            </a>
-                        </li>
-                    `;
+                    <li class="page-item ${i === pageData.number ? 'active' : ''}">
+                    <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark"
+                       href="#" onclick="searchProducts(${i}); return false;">
+                        ${i + 1}
+                    </a>
+                </li>
+            `;
                 }
 
                 paginationHtml += `
-                    <li class="page-item ${pageData.number === pageData.totalPages - 1 ? 'disabled' : ''}">
-                        <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark"
-                           href="#" onclick="loadProducts(${pageData.number + 1}); return false;">
-                            Next
-                        </a>
-                    </li>
-                `;
-                // Cập nhật HTML phân trang
+            <li class="page-item ${pageData.number === pageData.totalPages - 1 ? 'disabled' : ''}">
+                <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark"
+                   href="#" onclick="searchProducts(${pageData.number + 1}); return false;">
+                    Next
+                </a>
+            </li>
+        `;
+
                 $('.pagination').html(paginationHtml);
             }
 
-            // Đưa hàm loadProducts ra global scope để có thể gọi từ onclick
-            window.loadProducts = loadProducts;
+            // Đưa hàm searchProducts ra global scope để có thể gọi từ onclick
+            window.searchProducts = searchProducts;
         });
     </script>
 

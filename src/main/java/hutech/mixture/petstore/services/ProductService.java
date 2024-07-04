@@ -1,7 +1,8 @@
-package hutech.mixture.petstore.service;
+package hutech.mixture.petstore.services;
 
 import hutech.mixture.petstore.models.Category;
 import hutech.mixture.petstore.models.CategoryParent;
+import hutech.mixture.petstore.models.PriceRange;
 import hutech.mixture.petstore.models.Product;
 import hutech.mixture.petstore.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,17 @@ public class ProductService {
 
     public Page<Product> getProductByCategoryParentId(Long categoryParentId, Pageable pageable) {
         return productRepository.findByCategoryParentId(categoryParentId, pageable);
+    }
+
+    public Page<Product> searchByPriceAndCatoParent(Long categoryParentId, List<PriceRange> priceRanges, Pageable pageable) {
+        Double minPrice = null;
+        Double maxPrice = null;
+
+        if (priceRanges != null && !priceRanges.isEmpty()) {
+            minPrice = priceRanges.stream().mapToDouble(PriceRange::getMin).min().orElse(0);
+            maxPrice = priceRanges.stream().mapToDouble(PriceRange::getMax).max().orElse(Double.MAX_VALUE);
+        }
+
+        return productRepository.searchByPriceAndCatoParent(categoryParentId, minPrice, maxPrice, pageable);
     }
 }

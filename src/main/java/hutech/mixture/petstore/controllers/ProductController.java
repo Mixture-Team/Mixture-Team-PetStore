@@ -1,9 +1,13 @@
 package hutech.mixture.petstore.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hutech.mixture.petstore.models.Category;
 import hutech.mixture.petstore.models.CategoryParent;
+import hutech.mixture.petstore.models.PriceRange;
 import hutech.mixture.petstore.models.Product;
-import hutech.mixture.petstore.service.ProductService;
+import hutech.mixture.petstore.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -65,6 +69,20 @@ public class ProductController {
         } else {
             products = productService.getProductByCategoryParentId(categoryParentId, pageable);
         }
+        return ResponseEntity.ok(products);
+    }
+
+    @GetMapping("/searchByPriceAndCatoParent")
+    @ResponseBody
+    public ResponseEntity<Page<Product>> searchByPriceAndCatoParent(
+            @RequestParam(required = false) Long categoryParentId,
+            @RequestParam String priceRanges,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "15") int size) throws JsonProcessingException {
+        Pageable pageable = PageRequest.of(page, size);
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<PriceRange> ranges = objectMapper.readValue(priceRanges, new TypeReference<List<PriceRange>>(){});
+        Page<Product> products = productService.searchByPriceAndCatoParent(categoryParentId, ranges, pageable);
         return ResponseEntity.ok(products);
     }
 }
