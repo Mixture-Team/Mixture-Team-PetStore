@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragment/lib.html :: lib}"></head>
+
+<body>
+<!-- Header -->
+<div th:replace="~{fragment/header.html :: header} "></div>
+<!-- Close Header -->
+
+<!-- Modal -->
+<div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="w-100 pt-1 mb-5 text-right">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="" method="get" class="modal-content modal-body border-0 p-0">
+            <div class="input-group mb-2">
+                <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
+                <button type="submit" class="input-group-text bg-success text-light">
+                    <i class="fa fa-fw fa-search text-white"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<section class="hero-banner">
+
+    <div class="container">
+
+        <div class="row align-items-center">
+
+            <div class="col-md-7">
+
+
+                <h1 class="head-title mb-3 mb-xl-4 text-start">Dịch vụ của chúng tôi đạt
+                    <span class="separator big">No. 1 Pet store </span> trên toàn quốc </h1>
+                <ul class="high-points nav flex-column mb-4 pb-xl-2">
+                    <li th:each="service : ${customServices}">
+                        <a th:href="'#service-' + ${service.id}" class="no-underline">
+                            <span th:text="${service.name}"></span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="co-12 text-center d-md-none"><img fetchpriority="high" width="1270" height="1231" th:src="@{/img/Group-633147.png}" alt="" class="img-fluid"></div>
+                <div class="highlight-text d-md-none">Dịch vụ an toàn , đảm bảo</div>
+            </div>
+
+            <div class="col-md-5 position-relative d-none d-md-block">
+                <img width="1270" height="1231" th:src="@{/img/Group-633147.png}" alt="" class="img-fluid">
+                <div class="highlight-text">Dịch vụ an toàn , đảm bảo</div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <section class="claim-annually">
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="inner-boxcls">
+
+
+                    <img width="1312" height="980" th:src="@{/img/Group-633150.png}" alt="" class="img-fluid top-left">
+
+
+                    <h2 class="head-title mb-4">Giảm giá lên đến <span class="separator">20%</span> cho khách hàng mới</h2>
+
+
+                    <p class="col-lg-11 mx-auto fs-5">Bạn đang tìm kiếm địa chỉ cung cấp dịch vụ cắt tỉa lông chó mèo chuyên nghiệp
+                        gần đây? Tại Mixture's Pet Paradise,
+                        chúng tôi cung cấp đầy đủ tất cả các loại hình dịch vụ chăm sóc và làm đẹp trọn gói tốt nhất dành cho thú cưng.</p>
+
+                    <div class="main-box">
+                        <p>Khu Công nghệ cao TP.HCM (SHTP), Xa lộ Hà Nội, P. Hiệp Phú, TP. Thủ Đức, TP.HCM</p>
+                    </div>
+
+
+
+                    <img width="992" height="875" th:src="@{/img/Group-633149.png}" alt="" class="img-fluid bottom-right">
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</section>
+<div th:each="service : ${customServices}">
+    <section th:id="'service-' + ${service.id}" th:if="${service.id == 1}" class="not-sure">
+
+        <div class="container">
+            <div class="row flex-column-reverse flex-lg-row">
+                <div class="col-lg-5 pt-md-4 ps-xl-5">
+                    <h2 class="head-title mb-5 pb-3 text-center text-sm-start" th:text="${service.name}"></h2>
+                    <div class="d-flex flex-column-reverse flex-sm-row gap-4 gap-sm-0 mb-5 text-center text-sm-start">
+
+                        <div class="flex-grow-1 me-sm-4">
+
+                            <h3 class="sub-title">Chuyên môn cao</h3>
+
+                            <p class="mb-4">Với đội ngũ nhân viên được đào tạo về dịch vụ cắt tỉa lông chó mèo chuyên nghiệp và được tham gia nhiều khóa đào tạo chăm sóc thú cưng trong và ngoài nước.
+                                Với hơn 10 năm kinh nghiệm, chúng tôi có thể đáp ứng được hầu hết nhu cầu làm đẹp của các giống vật nuôi.</p>
+
+                        </div>
+
+                        <div class="flex-shrink-0">
+
+                            <img width="122" height="112" th:src="@{/img/new-pet-insurance.svg}" alt="new to pet insurance?" class="img-fluid">
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="d-flex flex-column-reverse flex-sm-row gap-4 gap-sm-0 mb-5 text-center text-sm-start">
+
+                        <div class="flex-grow-1 me-sm-4">
+
+                            <h3 class="sub-title">Sử dụng công nghệ hiện đại:</h3>
+
+                            <p class="mb-4">Chúng tôi trang bị những công cụ và thiết bị cắt tỉa tiên tiến, giúp quá trình thực hiện nhanh chóng và chính xác, đồng thời đảm bảo an toàn cho thú cưng.</p>
+
+                        </div>
+
+                        <div class="flex-shrink-0">
+
+                            <img width="111" height="118" th:src="@{/img/want-switch-us.svg}" alt="new to pet insurance?" class="img-fluid">
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="d-flex flex-column-reverse flex-sm-row gap-4 gap-sm-0 mb-5 text-center text-sm-start">
+
+                        <div class="flex-grow-1 me-sm-4">
+
+                            <h3 class="sub-title">Tạo hình và phong cách đa dạng</h3>
+
+                            <p class="mb-4">Tại Mixture's Pet Paradise, chúng tôi cung cấp nhiều phong cách cắt tỉa khác nhau, từ những kiểu cơ bản đến những mẫu thiết kế độc đáo, giúp thú cưng của bạn trở nên nổi bật và phong cách hơn.</p>
+
+
+                        </div>
+
+                        <div class="flex-shrink-0">
+
+                            <img width="118" height="111" th:src="@{/img/new-puppy-kitten.svg}"  alt="" class="img-fluid">
+
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex flex-column-reverse flex-sm-row gap-4 gap-sm-0 mb-5 text-center text-sm-start">
+
+                        <div class="flex-grow-1 me-sm-4">
+
+                            <h3 class="sub-title">Tư vấn và hỗ trợ tận tình</h3>
+
+                            <p class="mb-4"> Đến với Mixture's Pet Paradise, bạn sẽ nhận được sự tư vấn nhiệt tình từ các chuyên gia
+                                về cách chăm sóc lông và da cho thú cưng tại nhà, giúp bạn duy trì sức khỏe và vẻ đẹp cho thú cưng lâu dài.</p>
+                            <a th:href="@{/service/details/{serviceLink}(serviceLink=${service.link})}"  class="danger-btn mb-2">
+                            <span>
+                               Xem chi tiết
+                            </span>
+                            </a>
+                        </div>
+
+                        <div class="flex-shrink-0">
+
+                            <img width="122" height="112" th:src="@{/img/new-pet-insurance.svg}" alt="" class="img-fluid">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-lg-7 text-center text-lg-end mb-5 mb-lg-0">
+                    <img width="1159" height="1230" th:src="@{/img/Group-633192.png}" alt="" class="img-fluid">
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <section th:id="'service-' + ${service.id}" th:if="${service.id == 2}" class="pet-policy">
+
+
+    <div class="container">
+
+        <div class="row flex-column-reverse flex-lg-row">
+
+
+            <div class="col-lg-6 pe-xl-5 text-center">
+
+                <img width="1255" height="1295" th:src="@{/img/Group-633160.png}" alt="pet your policy" class="img-fluid">
+
+            </div>
+
+
+
+
+            <div class="col-lg-6 px-xl-5">
+
+
+                <h2 class="head-title mb-5 pb-3 text-center text-sm-start" th:text="${service.name}"> </h2>
+                <div class ="d-flex flex-column-reverse flex-sm-row gap-4 gap-sm-0 mb-5 text-center text-sm-start">
+
+                    <div class="flex-grow-1 me-sm-5">
+
+                        <h3 class="sub-title">An toàn và chuyên nghiệp</h3>
+
+                        <p>Mixture's Pet Paradise có đội ngũ nhân viên chuyên nghiệp, được đào tạo bài bản về cách vận chuyển thú cưng an toàn và thoải mái. Điều này giúp đảm bảo thú cưng của bạn được chăm sóc cẩn thận trong suốt quá trình vận chuyển.
+
+                        </p>
+
+                    </div>
+
+                    <div class="flex-shrink-0">
+
+                        <img width="87" height="100"  th:src="@{/img/cover-your-pet.svg}" alt="cover your pet" class="img-fluid">
+
+                    </div>
+
+                </div>
+
+
+                <div class="d-flex flex-column-reverse flex-sm-row gap-4 gap-sm-0 mb-5 text-center text-sm-start">
+
+                    <div class="flex-grow-1 me-sm-5">
+
+                        <h3 class="sub-title">Trang thiết bị hiện đại</h3>
+
+                        <p>Chúng tôi sử dụng các phương tiện vận chuyển hiện đại, được trang bị đầy đủ tiện nghi như hệ thống thông gió, điều hòa không khí và thiết bị theo dõi để đảm bảo điều kiện tốt nhất cho thú cưng.</p>
+
+                    </div>
+
+                    <div class="flex-shrink-0">
+
+                        <img width="105" height="108" th:src="@{/img/one-simple-policy-1-green.svg}" alt="cover your pet" class="img-fluid">
+
+                    </div>
+
+                </div>
+
+
+                <div class="d-flex flex-column-reverse flex-sm-row gap-4 gap-sm-0 mb-5 text-center text-sm-start">
+
+                    <div class="flex-grow-1 me-sm-5">
+
+                        <h3 class="sub-title">Tiết kiệm thời gian và công sức</h3>
+
+                        <p>Sử dụng dịch vụ vận chuyển thú cưng giúp bạn tiết kiệm thời gian và công sức. Bạn không cần phải lo lắng về việc tự lái xe hoặc tìm cách vận chuyển thú cưng an toàn.</p>
+
+                    </div>
+
+                    <div class="flex-shrink-0">
+
+                        <img width="88" height="93" th:src="@{/img/choose-your-vet.svg}" alt="cover your pet" class="img-fluid">
+
+                    </div>
+
+                </div>
+
+
+                <div class="d-flex flex-column-reverse flex-sm-row gap-4 gap-sm-0 mb-5 text-center text-sm-start">
+
+                    <div class="flex-grow-1 me-sm-5">
+
+                        <h3 class="sub-title">Linh hoạt và tiện lợi</h3>
+
+                        <p>Chúng tôi cung cấp dịch vụ vận chuyển linh hoạt, phù hợp với nhu cầu của bạn. Bạn có thể lựa chọn vận chuyển trong ngày hoặc lên lịch trước theo yêu cầu.</p>
+                        <a th:href="@{/service/details/{serviceLink}(serviceLink=${service.link})}"  class="danger-btn mb-2">
+                            <span>
+                               Xem chi tiết
+                            </span>
+                        </a>
+                    </div>
+
+                    <div class="flex-shrink-0">
+
+                        <img width="85" height="98" th:src="@{/img/claims-made-easy-1.svg}" alt="cover your pet" class="img-fluid">
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+    <section th:id="'service-' + ${service.id}" th:if="${service.id == 3}" class="pet-owners">
+    <div class="container">
+
+        <div class="row flex-column-reverse flex-lg-row">
+
+            <div class="col-lg-6 top-padding ps-xl-5">
+
+
+                <h2 class="head-title mb-5 pb-4 text-center text-sm-start" th:text="${service.name}">
+
+                </h2>
+
+
+                <div class="d-flex flex-column-reverse flex-sm-row gap-4 gap-sm-0 mb-5 text-center text-sm-start">
+
+                    <div class="flex-grow-1 me-sm-5">
+
+                        <h3 class="sub-title">Duy trì sức khỏe da và lông</h3>
+
+                        <p>Spa thường xuyên giúp làm sạch da và lông, loại bỏ bụi bẩn, bã nhờn, và các tế bào chết. Điều này ngăn ngừa các vấn đề về da như viêm da, ngứa ngáy, và nhiễm trùng.</p>
+
+                    </div>
+
+                    <div class="flex-shrink-0">
+
+                        <img width="105" height="108" th:src="@{/img/one-simple-policy-1-green.svg}" alt="one simple policy" class="img-fluid">
+
+                    </div>
+
+                </div>
+
+
+                <div class="d-flex flex-column-reverse flex-sm-row gap-4 gap-sm-0 mb-5 text-center text-sm-start">
+
+                    <div class="flex-grow-1 me-sm-5">
+
+                        <h3 class="sub-title">Ngăn ngừa ký sinh trùng</h3>
+
+                        <p>Spa định kỳ giúp phát hiện sớm và loại bỏ các ký sinh trùng như bọ chét, ve, và rận. Điều này giúp bảo vệ thú cưng khỏi các bệnh truyền nhiễm và giữ cho chúng luôn khỏe mạnh.</p>
+
+                    </div>
+
+                    <div class="flex-shrink-0">
+
+                        <img width="96" height="122" th:src="@{/img/proudly-australian.svg}" alt="one simple policy" class="img-fluid">
+
+                    </div>
+
+                </div>
+
+
+                <div class="d-flex flex-column-reverse flex-sm-row gap-4 gap-sm-0 mb-5 text-center text-sm-start">
+
+                    <div class="flex-grow-1 me-sm-5">
+
+                        <h3 class="sub-title">Giảm rụng lông và sạch sẽ hơn</h3>
+
+                        <p>Spa định kỳ giúp loại bỏ lông rụng, giảm tình trạng lông rụng khắp nhà và giữ cho không gian sống sạch sẽ hơn.</p>
+
+                    </div>
+
+                    <div class="flex-shrink-0">
+
+                        <img width="85" height="98" th:src="@{/img/claims-made-easy-1.svg}" alt="one simple policy" class="img-fluid">
+
+                    </div>
+
+                </div>
+                <div class="d-flex flex-column-reverse flex-sm-row gap-4 gap-sm-0 mb-5 text-center text-sm-start">
+
+                    <div class="flex-grow-1 me-sm-5">
+
+                        <h3 class="sub-title">Giảm căng thẳng và lo lắng</h3>
+
+                        <p>Spa là một hoạt động thư giãn, giúp giảm căng thẳng và lo lắng cho thú cưng. Điều này đặc biệt quan trọng đối với những chú chó mèo dễ bị lo âu hoặc sợ hãi.</p>
+
+                        <a th:href="@{/service/details/{serviceLink}(serviceLink=${service.link})}"  class="danger-btn mb-2">
+                            <span>
+                               Xem chi tiết
+                            </span>
+                        </a>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <img width="105" height="108" th:src="@{/img/one-simple-policy-1-green.svg}" alt="" class="img-fluid">
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-6 text-center">
+
+                <img width="1438" height="1451" th:src="@{/img/Group-633190.png}" alt="" class="img-fluid right-img">
+
+            </div>
+        </div>
+    </div>
+</section>
+
+</div>
+<!-- Start Footer -->
+<script>
+    // JavaScript for smooth scrolling
+    document.addEventListener('DOMContentLoaded', function () {
+        const links = document.querySelectorAll('ul.high-points li a');
+        links.forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1); 
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    });
+    window.addEventListener('scroll', function() {
+        const backToTopButton = document.getElementById('back-to-top');
+        if (window.scrollY > 300) {
+            backToTopButton.style.display = 'block';
+        } else {
+            backToTopButton.style.display = 'none';
+        }
+    });
+
+    // Smooth scroll to top
+    document.addEventListener('DOMContentLoaded', function () {
+        const backToTopButton = document.getElementById('back-to-top');
+        backToTopButton.addEventListener('click', function (e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    });
+    
+</script>
+<div id="back-to-top" class="position-fixed bottom-0 end-0 p-3" style="display: none;">
+    <a href="#top" class="btn btn-primary rounded-pill"><i class="fas fa-arrow-up"></i></a>
+</div>
+
+<div th:replace="~{fragment/footer.html :: footer}"></div>
+<!-- End Footer -->
+</body>
+
+</html>
