@@ -1,8 +1,7 @@
-package hutech.mixture.petstore.service;
+package hutech.mixture.petstore.services;
 
 import hutech.mixture.petstore.models.District;
 
-import hutech.mixture.petstore.models.Province;
 import hutech.mixture.petstore.repository.DistrictRepository;
 
 import lombok.RequiredArgsConstructor;

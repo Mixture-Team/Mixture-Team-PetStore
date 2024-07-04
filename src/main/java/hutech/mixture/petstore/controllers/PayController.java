@@ -2,9 +2,9 @@ package hutech.mixture.petstore.controllers;
 
 import hutech.mixture.petstore.models.Cart;
 import hutech.mixture.petstore.models.CartItem;
-import hutech.mixture.petstore.service.CartService;
-import hutech.mixture.petstore.service.Cart_cartService;
-import hutech.mixture.petstore.service.DistrictService;
+import hutech.mixture.petstore.services.CartService;
+import hutech.mixture.petstore.services.Cart_cartService;
+import hutech.mixture.petstore.services.DistrictService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,17 +37,19 @@ public class PayController {
                               @RequestParam String phoneNumber,
                               @RequestParam String notes,
                               @RequestParam String paymentMethod,
-
+                              @RequestParam Long districtId, // Nhận districtId từ form
+                              @RequestParam Double totalShippingPrice, // Nhận giá trị totalPriceSpan từ form
                               Model model) {
         List<CartItem> cartItems = cart_cartService.getCartItems();
         if (cartItems.isEmpty()) {
             return "redirect:/cart"; // Chuyển hướng nếu giỏ hàng trống
         }
 
+
         double totalPrice = cart_cartService.calculateCartTotalPrice(); // Tính tổng tiền sản phẩm
 
         // Tạo đơn hàng mới và lưu vào cơ sở dữ liệu
-        Cart order = cartService.createOrder(customerName, shippingAddress, phoneNumber, notes, paymentMethod, cartItems, totalPrice);
+        Cart order = cartService.createOrder(customerName, shippingAddress, phoneNumber, notes, paymentMethod, cartItems, totalPrice, districtId,totalShippingPrice);
 
         // Xóa giỏ hàng sau khi đặt hàng thành công
         cart_cartService.clearCart();

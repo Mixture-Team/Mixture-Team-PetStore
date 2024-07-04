@@ -18,6 +18,7 @@ public interface IUserRepository extends JpaRepository<User, String> {
 
     Optional<User> findByResetPasswordToken(String resetPasswordToken);
 
+
     @Modifying
     @Query("UPDATE User u SET u.authenticationType = ?2 WHERE u.username = ?1")
     void updateAuthenticationType(String username, AuthenticationType authenticationType);

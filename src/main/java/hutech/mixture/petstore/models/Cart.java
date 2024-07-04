@@ -55,6 +55,10 @@ public class Cart {
     @Column(name = "total_price")
     private Double totalPrice;
 
+    @NotNull
+    @Column(name = "total_shippingprice")
+    private Double totalshippingprice;
+
     @NotBlank
     @Column(name = "address")
     private String address;

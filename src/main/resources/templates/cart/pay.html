@@ -13,10 +13,10 @@
 
 <div class="container mt-4">
     <form th:action="@{/payy/submit}" method="post">
-    <div class="row">
-        <!-- Form để điền thông tin đơn hàng -->
-        <div class="col-lg-6">
-            <h1>Đặt hàng</h1>
+        <div class="row">
+            <!-- Form để điền thông tin đơn hàng -->
+            <div class="col-lg-6">
+                <h1>Đặt hàng</h1>
 
                 <div class="mb-3">
                     <label for="customerName" class="form-label">Họ và Tên:</label>
@@ -32,109 +32,119 @@
                     </select>
                 </div>
 
-            <!-- Dropdown menu cho huyện -->
-            <div class="mb-3">
-                <label for="district" class="form-label">Quận/Huyện:</label>
-                <select id="district" name="districtId" class="form-control" required>
-                    <option value="">Chọn quận/huyện</option>
-                    <!-- Thymeleaf iteration để hiển thị danh sách huyện -->
-                    <option th:each="district : ${districts}" th:value="${district.id}" th:text="${district.districtName}"></option>
-                </select>
-            </div>
+                <!-- Dropdown menu cho huyện -->
+                <div class="mb-3">
+                    <label for="district" class="form-label">Quận/Huyện:</label>
+                    <select id="district" name="districtId" class="form-control" required>
+                        <option value="">Chọn quận/huyện</option>
+                        <!-- Thymeleaf iteration để hiển thị danh sách huyện -->
+                        <option th:each="district : ${districts}" th:value="${district.id}" th:text="${district.districtName}"></option>
+                    </select>
+                </div>
+
                 <div class="mb-3">
                     <label for="shippingAddress" class="form-label">Địa Chỉ Giao Hàng:</label>
                     <input type="text" id="shippingAddress" name="shippingAddress" class="form-control" required>
                 </div>
-            <div class="mb-3">
-                <label for="phoneNumber" class="form-label">Số Điện Thoại:</label>
-                <input type="text" id="phoneNumber" name="phoneNumber" class="form-control"
-                       pattern="^[0-9]{10}$" title="Số điện thoại phải có đúng 10 số" required>
-                <div class="invalid-feedback">
-                    Vui lòng nhập số điện thoại hợp lệ (10 số).
+
+                <div class="mb-3">
+                    <label for="phoneNumber" class="form-label">Số Điện Thoại:</label>
+                    <input type="text" id="phoneNumber" name="phoneNumber" class="form-control"
+                           pattern="^[0-9]{10}$" title="Số điện thoại phải có đúng 10 số" required>
+                    <div class="invalid-feedback">
+                        Vui lòng nhập số điện thoại hợp lệ (10 số).
+                    </div>
                 </div>
-            </div>
+
                 <div class="mb-3">
                     <label for="notes" class="form-label">Ghi Chú:</label>
                     <textarea id="notes" name="notes" class="form-control"></textarea>
                 </div>
+            </div>
 
+            <!-- Phần hiển thị mã vận chuyển, tổng số tiền và phương thức thanh toán -->
+            <div class="col-lg-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <!-- Thông tin sản phẩm -->
+                        <div th:if="${cartItems.isEmpty()}" class="alert alert-info">Giỏ của bạn đang trống !!!</div>
+                        <table class="table table-bordered">
+                            <thead class="table-light">
+                            <tr>
+                                <th>Sản phẩm</th>
+                                <th>SL</th>
+                                <th>Giá</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="item : ${cartItems}">
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img th:src="@{'/img/' + ${item.product.img}}" class="img-thumbnail mr-2" style="max-width: 50px; max-height: 50px;" alt="Product Image">
+                                        <span th:text="${item.product.name}"></span>
+                                    </div>
+                                </td>
+                                <td th:text="${item.quantity}"></td>
+                                <td th:text="${(item.total_price)}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
 
-        </div>
+                        <!-- Tổng số tiền sản phẩm -->
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="card-title mb-0">Tổng số tiền sản phẩm:</h5>
+                            <p class="card-text mb-0"><span id="cartTotalPrice" th:text="${(cartTotalPrice)}"></span></p>
+                        </div>
 
-        <!-- Phần hiển thị mã vận chuyển, tổng số tiền và phương thức thanh toán -->
-        <div class="col-lg-6">
-            <div class="card mb-3">
-                <div class="card-body">
-                    <!-- Thông tin sản phẩm -->
-                    <div th:if="${cartItems.isEmpty()}" class="alert alert-info">Giỏ của bạn đang trống !!!</div>
-                    <table class="table table-bordered">
-                        <thead class="table-light">
-                        <tr>
-                            <th>Sản phẩm</th>
-                            <th>SL</th>
-                            <th>Giá</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="item : ${cartItems}">
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img th:src="@{'/img/' + ${item.product.img}}" class="img-thumbnail mr-2" style="max-width: 50px; max-height: 50px;" alt="Product Image">
-                                    <span th:text="${item.product.name}"></span>
-                                </div>
-                            </td>
-                            <td th:text="${item.quantity}"></td>
-                            <td th:text="${#numbers.formatDecimal(item.total_price, 0, 'COMMA', 2, 'POINT')}"></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <!-- Tổng số tiền sản phẩm -->
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="card-title mb-0">Tổng số tiền sản phẩm:</h5>
-                        <p class="card-text mb-0"><span id="cartTotalPrice" th:text="${#numbers.formatDecimal(cartTotalPrice, 0, 'COMMA', 2, 'POINT')}"></span></p>
-                    </div>
-                    <div class="mb-3">
-                        <label for="shippingFee" class="form-label">Phí vận chuyển:</label>
-                        <input type="text" id="shippingFee" name="shippingFee" class="form-control" readonly>
-                    </div>
-                    <!-- Tổng số tiền -->
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="card-title mb-0">Tổng số tiền:</h5>
-                        <p class="card-text mb-0" id="totalPrice">0,00</p> <!-- Đặt id cho phần tổng số tiền -->
-                    </div>
+                        <!-- Phí vận chuyển -->
+                        <div class="mb-3">
+                            <label for="shippingFee" class="form-label">Phí vận chuyển:</label>
+                            <input type="text" id="shippingFee" name="shippingFee" class="form-control" readonly>
+                        </div>
 
-                    <!-- Phương thức thanh toán -->
-                    <h5 class="card-title">Phương thức thanh toán:</h5>
-                    <div class="input-group mb-3">
-                        <select id="paymentMethod" name="paymentMethod" class="form-select" required>
-                            <option value="Thanh toán khi giao hàng">Thanh toán khi giao hàng</option>
-                            <option value="Thẻ tín dụng">Thẻ tín dụng</option>
-                            <option value="Chuyển khoản ngân hàng">Chuyển khoản ngân hàng</option>
-                        </select>
+                        <!-- Tổng số tiền -->
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="card-title mb-0">Tổng số tiền:</h5>
+                            <p class="card-text mb-0" id="totalShippingPrice"></p>
+                            <!-- Đặt id cho phần tổng số tiền -->
+                            <input type="hidden" id="totalPriceInput" name="totalShippingPrice">
+                        </div>
+
+                        <!-- Phương thức thanh toán -->
+                        <h5 class="card-title">Phương thức thanh toán:</h5>
+                        <div class="input-group mb-3">
+                            <select id="paymentMethod" name="paymentMethod" class="form-select" required>
+                                <option value="Thanh toán khi giao hàng">Thanh toán khi giao hàng</option>
+                                <option value="Thẻ tín dụng">Thẻ tín dụng</option>
+                                <option value="Chuyển khoản ngân hàng">Chuyển khoản ngân hàng</option>
+                            </select>
+                        </div>
+
+                        <!-- Nút thanh toán trong form -->
+                        <button type="submit" class="btn btn-primary">Thanh Toán</button>
                     </div>
-                    <!-- Nút thanh toán trong form -->
-                    <button type="submit" class="btn btn-primary">Thanh Toán</button>
                 </div>
             </div>
         </div>
-    </div>
     </form>
 </div>
 <!-- Start Footer -->
 <div th:replace="~{fragment/footer.html :: footer}"></div>
 <!-- End Footer -->
 
-
 <script th:inline="javascript">
     $(document).ready(function() {
         var provinceSelect = $('#province');
         var districtSelect = $('#district');
+        var shippingFeeInput = $('#shippingFee');
+        var cartTotalPriceSpan = $('#cartTotalPrice');
+        var totalPriceSpan = $('#totalShippingPrice');
 
         // Sự kiện khi thay đổi tỉnh thành
         provinceSelect.change(function() {
             var selectedProvinceId = $(this).val();
             districtSelect.empty();
-            districtSelect.append('<option value="">          </option>');
+            districtSelect.append('<option value="">Chọn quận/huyện</option>');
 
             // Gửi yêu cầu GET để lấy danh sách huyện tương ứng với tỉnh được chọn
             $.get('/cart/districts/' + selectedProvinceId, function(data) {
@@ -143,9 +153,28 @@
                 });
             });
         });
+
+        // Sự kiện khi thay đổi quận/huyện
+        districtSelect.change(function() {
+            var selectedDistrictId = $(this).val();
+
+            // Gửi yêu cầu GET để lấy phí vận chuyển từ backend
+            $.get('/cart/getFee', { districtId: selectedDistrictId }, function(data) {
+                // Cập nhật giá trị phí vận chuyển lên giao diện
+                shippingFeeInput.val(data);
+
+                // Cập nhật tổng số tiền (tổng số tiền sản phẩm + phí vận chuyển)
+                var cartTotalPrice = parseFloat(cartTotalPriceSpan.text().replace(',', '.'));
+                var shippingFee = parseFloat(data);
+                var totalShippingPrice = cartTotalPrice + shippingFee;
+                totalPriceSpan.text(totalShippingPrice.toFixed(1));
+
+                // Cập nhật vào input hidden
+                $('#totalPriceInput').val(totalShippingPrice); // Đặt id cho phần tổng số tiền (input hidden)
+            });
+        });
     });
 </script>
-
 
 </body>
 </html>

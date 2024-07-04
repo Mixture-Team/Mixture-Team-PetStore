@@ -1,10 +1,10 @@
-package hutech.mixture.petstore.service;
+package hutech.mixture.petstore.services;
 
-import hutech.mixture.petstore.models.Cart;
-import hutech.mixture.petstore.models.CartItem;
-import hutech.mixture.petstore.models.Cart_Product;
+import hutech.mixture.petstore.models.*;
+import hutech.mixture.petstore.repositories.UserRepository;
 import hutech.mixture.petstore.repository.CartRepository;
 import hutech.mixture.petstore.repository.Cart_ProductRepository;
+import hutech.mixture.petstore.repository.DistrictRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,25 +17,43 @@ import java.util.Optional;
 public class CartService {
 
     @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private DistrictRepository districtRepository;
+    @Autowired
     private CartRepository cartRepository;
-
     @Autowired
     private Cart_ProductRepository cartProductRepository;
 
     @Transactional
-    public Cart createOrder(String customerName, String shippingAddress, String phoneNumber, String notes, String paymentMethod, List<CartItem> cartItems, double totalPrice) {
+    public Cart createOrder(String customerName, String shippingAddress, String phoneNumber, String notes, String paymentMethod, List<CartItem> cartItems, double totalPrice,Long districtId, double totalShippingPrice) {
+
+        // Lấy người dùng hiện tại
+        Long currentUserId = userService.getCurrentUserId();
+        User currentUser = userRepository.findById(currentUserId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+
         Cart order = new Cart();
         order.setCustomerName(customerName);
         order.setAddress(shippingAddress);
         order.setPhone(phoneNumber);
         order.setNotes(notes);
         order.setTotalPrice(totalPrice);
+        order.setTotalshippingprice(totalShippingPrice);
         order.setPaymentMethods(paymentMethod);
 
         order.setDateBegin(LocalDateTime.now()); // Ngày hiện tại
         order.setDateEnd(LocalDateTime.now()); // Ngày hiện tại
         order.setOrderStatus("đang xử lý"); // Trạng thái đơn hàng
         order.setTradingCode("0"); // Mã giao dịch
+
+        District district = districtRepository.findById(districtId).orElseThrow(() -> new RuntimeException("District not found"));
+        order.setDistrict(district);
+        // Gán người dùng hiện tại vào đơn hàng
+        order.setUser(currentUser);
 
         // Lưu đơn hàng
         order = cartRepository.save(order);

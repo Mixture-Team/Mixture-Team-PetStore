@@ -1,4 +1,4 @@
-package hutech.mixture.petstore.service;
+package hutech.mixture.petstore.services;
 
 import hutech.mixture.petstore.models.CartItem;
 import hutech.mixture.petstore.models.Product;
@@ -72,5 +72,7 @@ public class Cart_cartService {
         }
         return totalPrice;
     }
+
+
 
 }

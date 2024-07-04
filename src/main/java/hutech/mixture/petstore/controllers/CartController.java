@@ -1,19 +1,17 @@
 package hutech.mixture.petstore.controllers;
 
 import hutech.mixture.petstore.models.District;
-import hutech.mixture.petstore.models.Province;
 import hutech.mixture.petstore.repository.DistrictRepository;
 import hutech.mixture.petstore.repository.ProvinceRepository;
-import hutech.mixture.petstore.service.Cart_cartService;
-import hutech.mixture.petstore.service.DistrictService;
-import hutech.mixture.petstore.service.ProductService;
-import hutech.mixture.petstore.service.ProvinceService;
+import hutech.mixture.petstore.services.Cart_cartService;
+import hutech.mixture.petstore.services.DistrictService;
+import hutech.mixture.petstore.services.ProductService;
+import hutech.mixture.petstore.services.ProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,17 +67,17 @@ public class CartController {
         return "/cart/pay";
     }
 
-//    @GetMapping("/getFee")
-//    @ResponseBody
-//    public String getShippingFee(@RequestParam Long districtId) {
-//        Optional<District> optionalDistrict = districtService.findById(districtId);
-//        if (optionalDistrict.isPresent()) {
-//            BigDecimal fee = BigDecimal.valueOf(optionalDistrict.get().getFee()); // Lấy giá trị fee từ Optional<Province>
-//            return fee.toString(); // Trả về phí vận chuyển dưới dạng chuỗi
-//        } else {
-//            return "0"; // Trả về giá trị mặc định nếu không tìm thấy Province
-//        }
-//    }
+    @GetMapping("/getFee")
+    @ResponseBody
+    public String getShippingFee(@RequestParam Long districtId) {
+        Optional<District> optionalDistrict = districtService.findById(districtId);
+        if (optionalDistrict.isPresent()) {
+            double fee = optionalDistrict.get().getFee();
+            return String.valueOf(fee);
+        } else {
+            return "0"; // Trả về giá trị mặc định nếu không tìm thấy District
+        }
+    }
 
     @GetMapping("/count")
     @ResponseBody
@@ -94,5 +92,6 @@ public class CartController {
     public List<District> getDistrictsByProvince(@PathVariable Long provinceId) {
         return districtService.getDistrictsByProvinceId(provinceId);
     }
+
 
 }

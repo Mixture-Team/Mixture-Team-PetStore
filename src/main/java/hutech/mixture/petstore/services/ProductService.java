@@ -1,4 +1,4 @@
-package hutech.mixture.petstore.service;
+package hutech.mixture.petstore.services;
 
 import hutech.mixture.petstore.models.Product;
 import hutech.mixture.petstore.repository.ProductRepository;
