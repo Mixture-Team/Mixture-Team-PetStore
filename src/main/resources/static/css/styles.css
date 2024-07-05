@@ -190,3 +190,27 @@ Custom Css
     background-color: white;
     color: red;
 }
+
+/* Đặt trong thẻ <style> hoặc file CSS riêng */
+:root {
+    --header-height: 100px; /* Đặt chiều cao của header, có thể thay đổi giá trị này */
+    --footer-height: 100px; /* Đặt chiều cao của footer, có thể thay đổi giá trị này */
+}
+
+.content {
+    min-height: calc(100vh - var(--header-height) - var(--footer-height));
+}
+
+.header, .footer {
+    height: var(--header-height); /* Sử dụng chiều cao đã định nghĩa */
+    height: var(--footer-height); /* Sử dụng chiều cao đã định nghĩa */
+}
+.content {
+    min-height: calc(110vh - var(--header-height) - var(--footer-height));
+}
+
+/* Giả định chiều cao của header và footer */
+.header, .footer {
+    height: var(--header-height, 100px); /* Thay đổi giá trị nếu cần */
+    height: var(--footer-height, 100px); /* Thay đổi giá trị nếu cần */
+}

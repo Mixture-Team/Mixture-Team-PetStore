@@ -40,11 +40,16 @@ public class CartController {
 
         return "/cart/cart";
     }
-
     @RequestMapping(value = "/add", method = {RequestMethod.GET, RequestMethod.POST})
-    public String addToCart(@RequestParam Long productId, @RequestParam int quantity) {
+    public String addToCart(@RequestParam Long productId, @RequestParam int quantity, @RequestParam(required = false) String submit) {
         cartService.addToCart(productId, quantity);
-        return "redirect:/cua-hang";
+
+        if ("buy".equals(submit)) {
+            return "redirect:/cart"; // Điều hướng đến trang giỏ hàng
+        } else if ("addToCart".equals(submit)) {
+            return "redirect:/cua-hang"; // Điều hướng đến trang cửa hàng
+        }
+        return "redirect:/"; // Điều hướng mặc định
     }
 
     @GetMapping("/remove/{productId}")

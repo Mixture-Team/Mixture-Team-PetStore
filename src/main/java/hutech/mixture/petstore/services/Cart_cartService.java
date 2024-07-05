@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class Cart_cartService {
@@ -25,25 +26,27 @@ public class Cart_cartService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy sản phẩm: " + productId));
 
-        // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
-        for (CartItem item : cartItems) {
-            if (item.getProduct().getId().equals(productId)) {
-                // Nếu đã có, cập nhật số lượng và tổng giá
-                int newQuantity = item.getQuantity() + quantity;
-                if (newQuantity > product.getNums()) {
-                    throw new IllegalArgumentException("Không đủ số lượng sản phẩm: " + product.getNums());
-                }
-                item.setQuantity(newQuantity);
-                item.setTotal_price(product.getPrice() * newQuantity); // Cập nhật lại tổng giá
-                return;
-            }
-        }
+        // Kiểm tra xem có sản phẩm này trong giỏ hàng chưa
+        Optional<CartItem> existingItem = cartItems.stream()
+                .filter(item -> item.getProduct().getId().equals(productId))
+                .findFirst();
 
-        // Nếu chưa có, thêm một mục mới vào giỏ hàng
-        if (quantity > product.getNums()) {
-            throw new IllegalArgumentException("Không đủ số lượng sản phẩm: " + product.getNums());
+        if (existingItem.isPresent()) {
+            // Nếu đã có sản phẩm này trong giỏ hàng, cập nhật số lượng và tổng giá
+            CartItem item = existingItem.get();
+            int newQuantity = item.getQuantity() + quantity;
+            if (newQuantity > product.getNums()) {
+                throw new IllegalArgumentException("Không đủ số lượng sản phẩm: " + product.getNums());
+            }
+            item.setQuantity(newQuantity);
+            item.setTotalPrice(product.getPromotionPrice() * newQuantity); // Cập nhật lại tổng giá
+        } else {
+            // Nếu chưa có, thêm một mục mới vào giỏ hàng
+            if (quantity > product.getNums()) {
+                throw new IllegalArgumentException("Không đủ số lượng sản phẩm: " + product.getNums());
+            }
+            cartItems.add(new CartItem(product, quantity));
         }
-        cartItems.add(new CartItem(product, quantity));
     }
 
     // Phương thức để lấy danh sách các mặt hàng trong giỏ hàng

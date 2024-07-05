@@ -3,6 +3,56 @@
 
 <head th:replace="~{fragment/lib.html :: lib}">
     <script src="/js/cart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var quantityInput = document.getElementById('quantity');
+            var productNums = document.getElementById('product-nums').innerText;
+
+            quantityInput.addEventListener('input', function() {
+                var quantity = parseInt(quantityInput.value);
+                var maxNums = parseInt(productNums);
+
+                if (maxNums === 0) {
+                    alert('Sản phẩm đã hết hàng.');
+                    quantityInput.value = 0;
+                } else if (quantity > maxNums) {
+                    alert('Số lượng không được vượt quá số lượng sản phẩm có sẵn.');
+                    quantityInput.value = maxNums;
+                } else if (quantity <= 0) {
+                    alert('Số lượng không hợp lệ.');
+                    quantityInput.value = 1;
+                }
+            });
+
+            // Kiểm tra khi load trang
+            var initialQuantity = parseInt(quantityInput.value);
+            if (initialQuantity === maxNums) {
+                document.querySelector('button[name="submit"][value="buy"]').disabled = true;
+                document.querySelector('button[name="submit"][value="addToCart"]').disabled = true;
+            }
+        });
+
+    </script>
+
+    <style>
+        .product-container {
+            display: flex;
+            align-items: stretch;
+        }
+
+        .product-container .card {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-container .card-body {
+            flex: 1;
+        }
+
+        h6{
+            margin-bottom: 0 !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -13,7 +63,7 @@
 <!-- Open Content -->
 <section class="bg-light">
     <div class="container pb-5">
-        <div class="row">
+        <div class="row product-container">
             <div class="col-lg-5 mt-5">
                 <div class="card mb-3">
                     <img th:src="@{'/img/' + ${product.img}}" class="card-img-top" alt="Product Image">
@@ -21,14 +71,15 @@
             </div>
             <!-- col end -->
             <div class="col-lg-7 mt-5">
-                <div class="card">
+                <div class="card mb-3 h-100">
                     <div class="card-body">
-                        <h6 th:text="${product.name}"></h6>
+                        <h6 style="font-size: 28px; font-weight: bold; text-transform: uppercase;"
+                            th:text="${product.name}"></h6>
                         <p>
-                            <span class="h3 py-2" th:text="${product.promotionPrice}"></span> |
+                            <span class="h3 py-2" style="font-size: 18px;" th:text="${product.promotionPrice}"></span>
+                            |
                             <span style="text-decoration: line-through;" th:text="${product.price}"></span>
                         </p>
-
                         <p class="py-2">
                             <i class="fa fa-star text-warning"></i>
                             <i class="fa fa-star text-warning"></i>
@@ -37,42 +88,42 @@
                             <i class="fa fa-star text-secondary"></i>
                             <span class="list-inline-item text-dark">Rating 4.8 | 36 Comments</span>
                         </p>
-                        <ul class="list-inline">
-                            <li class="list-inline-item">
-                                <h6>Brand:</h6>
-                            </li>
-                            <li class="list-inline-item">
-                                <p class="text-muted"><strong>Easy Wear</strong></p>
-                            </li>
-                        </ul>
-
-                        <h6 th:text="'Description: ' + ${product.description}"></h6>
+                        <h6 style="margin-bottom: 0 !important;" th:text="'Description: ' + ${product.description}"></h6>
 
                         <form th:action="@{/cart/add}" method="post">
-                            <input type="hidden" th:value="${product.id}" name="productId"/>
+                            <input type="hidden" th:value="${product.id}" name="productId" />
                             <div class="row">
                                 <div class="col-auto">
                                     <ul class="list-inline pb-3">
                                         <li class="list-inline-item">Nums:
                                             <input type="hidden" name="product-size" id="product-size" value="S">
                                         </li>
-                                        <li class="list-inline-item"><span class="btn btn-success" th:text="${product.nums}"></span></li>
+                                        <li class="list-inline-item">
+                                                <span class="btn btn-success" id="product-nums"
+                                                      th:text="${product.nums}"></span>
+                                        </li>
                                     </ul>
                                 </div>
                                 <div class="col-auto">
                                     <ul class="list-inline pb-3">
                                         <li class="list-inline-item text-right">Quantity:</li>
                                         <li class="list-inline-item">
-                                            <input type="number" name="quantity" class="form-control d-inline-block" style="width: 70px;" min="1" value="1"/>
+                                            <input type="number" name="quantity"
+                                                   class="form-control d-inline-block" style="width: 70px;" id="quantity"
+                                                   min="1" value="1" th:max="${product.nums}" />
                                         </li>
                                     </ul>
-                                    <div class="row pb-3">
-                                        <div class="col-6 d-grid">
-                                            <button type="submit" class="btn btn-success btn-lg w-100" name="submit" value="buy">Buy</button>
-                                        </div>
-                                        <div class="col d-grid">
-                                            <button type="submit" class="btn btn-success btn-lg" name="submit" >Add To Cart</button>
-                                        </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="row pb-3">
+                                    <div class="col-6 d-grid">
+                                        <button type="submit" class="btn btn-success btn-lg w-100" name="submit"
+                                                value="buy">Buy</button>
+                                    </div>
+                                    <div class="col d-grid">
+                                        <button type="submit" class="btn btn-success btn-lg" name="submit"
+                                                value="addToCart">Add To Cart</button>
                                     </div>
                                 </div>
                             </div>

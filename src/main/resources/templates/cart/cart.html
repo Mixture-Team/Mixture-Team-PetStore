@@ -9,13 +9,23 @@
     <th:block th:replace="~{fragment/lib.html :: lib}"></th:block>
     <!-- Liên kết file JavaScript -->
     <script src="/js/cart.js"></script> <!-- Cập nhật đường dẫn đúng đến file cart.js -->
+    <style>
+        .content {
+            min-height: calc(110vh - var(--header-height) - var(--footer-height));
+        }
+
+        /* Giả định chiều cao của header và footer */
+        .header, .footer {
+            height: var(--header-height, 100px); /* Thay đổi giá trị nếu cần */
+            height: var(--footer-height, 100px); /* Thay đổi giá trị nếu cần */
+        }
+    </style>
 </head>
 
 <body>
 <!-- Header -->
 <div th:replace="~{fragment/header.html :: header}"></div>
-
-<div class="container mt-4">
+<div class="content container mt-4">
     <h1>GIỎ HÀNG</h1>
     <div class="row">
         <div class="col-lg-9">

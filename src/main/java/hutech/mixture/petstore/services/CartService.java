@@ -5,6 +5,7 @@ import hutech.mixture.petstore.repositories.UserRepository;
 import hutech.mixture.petstore.repository.CartRepository;
 import hutech.mixture.petstore.repository.Cart_ProductRepository;
 import hutech.mixture.petstore.repository.DistrictRepository;
+import hutech.mixture.petstore.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,8 @@ import java.util.Optional;
 public class CartService {
 
     @Autowired
+    private ProductRepository productRepository;
+    @Autowired
     private UserRepository userRepository;
     @Autowired
     private UserService userService;
@@ -28,13 +31,12 @@ public class CartService {
     private Cart_ProductRepository cartProductRepository;
 
     @Transactional
-    public Cart createOrder(String customerName, String shippingAddress, String phoneNumber, String notes, String paymentMethod, List<CartItem> cartItems, double totalPrice,Long districtId, double totalShippingPrice) {
+    public Cart createOrder(String customerName, String shippingAddress, String phoneNumber, String notes, String paymentMethod, List<CartItem> cartItems, double totalPrice, Long districtId, double totalShippingPrice) {
 
         // Lấy người dùng hiện tại
         Long currentUserId = userService.getCurrentUserId();
         User currentUser = userRepository.findById(currentUserId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-
 
         Cart order = new Cart();
         order.setCustomerName(customerName);
@@ -45,14 +47,13 @@ public class CartService {
         order.setTotalshippingprice(totalShippingPrice);
         order.setPaymentMethods(paymentMethod);
 
-        order.setDateBegin(LocalDateTime.now()); // Ngày hiện tại
-        order.setDateEnd(LocalDateTime.now()); // Ngày hiện tại
-        order.setOrderStatus("đang xử lý"); // Trạng thái đơn hàng
-        order.setTradingCode("0"); // Mã giao dịch
+        order.setDateBegin(LocalDateTime.now());
+        order.setDateEnd(LocalDateTime.now());
+        order.setOrderStatus("đang xử lý");
+        order.setTradingCode("0");
 
         District district = districtRepository.findById(districtId).orElseThrow(() -> new RuntimeException("District not found"));
         order.setDistrict(district);
-        // Gán người dùng hiện tại vào đơn hàng
         order.setUser(currentUser);
 
         // Lưu đơn hàng
@@ -69,12 +70,8 @@ public class CartService {
             cartProductRepository.save(detail);
         }
 
-        // Các bước xử lý thanh toán thành công có thể được triển khai ở đây,
-        // bao gồm tích hợp với cổng thanh toán, xác nhận thanh toán, cập nhật trạng thái đơn hàng, v.v.
-
         return order;
     }
-
     public List<Cart> getAllOrders() {
         return cartRepository.findAll();
     }

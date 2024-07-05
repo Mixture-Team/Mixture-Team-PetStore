@@ -14,10 +14,11 @@
 <div class="container mt-4">
     <form th:action="@{/payy/submit}" method="post">
         <div class="row">
+            <h1>Đặt Hàng</h1>
+        </div>
+        <div class="row">
             <!-- Form để điền thông tin đơn hàng -->
             <div class="col-lg-6">
-                <h1>Đặt hàng</h1>
-
                 <div class="mb-3">
                     <label for="customerName" class="form-label">Họ và Tên:</label>
                     <input type="text" id="customerName" name="customerName" class="form-control" required>
@@ -35,12 +36,13 @@
                 <!-- Dropdown menu cho huyện -->
                 <div class="mb-3">
                     <label for="district" class="form-label">Quận/Huyện:</label>
-                    <select id="district" name="districtId" class="form-control" required>
+                    <select id="district" name="districtId" class="form-control" required disabled>
                         <option value="">Chọn quận/huyện</option>
                         <!-- Thymeleaf iteration để hiển thị danh sách huyện -->
                         <option th:each="district : ${districts}" th:value="${district.id}" th:text="${district.districtName}"></option>
                     </select>
                 </div>
+
 
                 <div class="mb-3">
                     <label for="shippingAddress" class="form-label">Địa Chỉ Giao Hàng:</label>
@@ -119,9 +121,10 @@
                                 <option value="Chuyển khoản ngân hàng">Chuyển khoản ngân hàng</option>
                             </select>
                         </div>
-
                         <!-- Nút thanh toán trong form -->
-                        <button type="submit" class="btn btn-primary">Thanh Toán</button>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary justify-content-center">Thanh Toán</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -143,15 +146,19 @@
         // Sự kiện khi thay đổi tỉnh thành
         provinceSelect.change(function() {
             var selectedProvinceId = $(this).val();
-            districtSelect.empty();
-            districtSelect.append('<option value="">Chọn quận/huyện</option>');
-
-            // Gửi yêu cầu GET để lấy danh sách huyện tương ứng với tỉnh được chọn
-            $.get('/cart/districts/' + selectedProvinceId, function(data) {
-                $.each(data, function(index, district) {
-                    districtSelect.append('<option value="' + district.id + '">' + district.districtName + '</option>');
+            if (selectedProvinceId === '') {
+                districtSelect.empty().attr('disabled', true); // Nếu chưa chọn tỉnh, disable dropdown huyện và xóa tất cả options
+                districtSelect.append('<option value="">Chọn quận/huyện</option>');
+            } else {
+                districtSelect.empty().attr('disabled', false); // Nếu đã chọn tỉnh, enable dropdown huyện
+                districtSelect.append('<option value="">Chọn quận/huyện</option>');
+                // Gửi yêu cầu GET để lấy danh sách huyện tương ứng với tỉnh được chọn
+                $.get('/cart/districts/' + selectedProvinceId, function(data) {
+                    $.each(data, function(index, district) {
+                        districtSelect.append('<option value="' + district.id + '">' + district.districtName + '</option>');
+                    });
                 });
-            });
+            }
         });
 
         // Sự kiện khi thay đổi quận/huyện
@@ -174,6 +181,7 @@
             });
         });
     });
+
 </script>
 
 </body>
