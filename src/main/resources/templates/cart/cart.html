@@ -9,6 +9,10 @@
     <th:block th:replace="~{fragment/lib.html :: lib}"></th:block>
     <!-- Liên kết file JavaScript -->
     <script src="/js/cart.js"></script> <!-- Cập nhật đường dẫn đúng đến file cart.js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script th:src="@{/js/updatequantitycart.js}"></script>
+    <script th:src="@{/js/CartTotalPrice.js}"></script>
+    <!-- Cập nhật đường dẫn đúng đến file cart.js -->
     <style>
         .content {
             min-height: calc(110vh - var(--header-height) - var(--footer-height));
@@ -40,15 +44,17 @@
                     <th></th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="cart-tbody">
                 <tr th:each="item : ${cartItems}">
                     <td>
                         <div class="d-flex align-items-center">
-                            <img th:src="@{'/img/' + ${item.product.img}}" class="img-thumbnail mr-2" style="max-width: 50px; max-height: 50px;" alt="Product Image">
+<!--                            <img th:src="@{'/img/' + ${item.product.img}}" class="img-thumbnail mr-2" style="max-width: 50px; max-height: 50px;" alt="Product Image">-->
                             <span th:text="${item.product.name}"></span>
                         </div>
                     </td>
-                    <td th:text="${item.quantity}"></td>
+                    <td>
+                        <input class="form-control d-inline-block" type="number" name="quantity" th:value="${item.quantity}" th:data-cart="${item.product.id}" th:id="${item.product.id}" min="1">
+                    </td>
                     <td th:text="${(item.product.promotionPrice)}"></td>
                     <td th:text="${(item.total_price)}"></td>
                     <td>
@@ -66,7 +72,7 @@
         <div class="col-lg-3">
             <!-- Calculate total all_price -->
             <h1 class="total-amount">TỔNG SỐ TIỀN</h1>
-            <p>Tổng số tiền: <span th:text="${(cartTotalPrice)}"></span></p>
+            <p>Tổng số tiền: <span id="totalAmount" th:text="${(cartTotalPrice)}"></span></p>
             <a th:href="@{/cart/pay}" class="btn btn-red d-block mb-2">Đi đến trang thanh toán</a>
             <a th:href="@{/cua-hang}" class="btn btn-outline-red d-block">Tiếp tục mua sắm</a>
         </div>

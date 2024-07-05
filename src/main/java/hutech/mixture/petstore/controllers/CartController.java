@@ -1,5 +1,7 @@
 package hutech.mixture.petstore.controllers;
 
+import hutech.mixture.petstore.models.CartItem;
+import hutech.mixture.petstore.models.CartItemResponse;
 import hutech.mixture.petstore.models.District;
 import hutech.mixture.petstore.repository.DistrictRepository;
 import hutech.mixture.petstore.repository.ProvinceRepository;
@@ -8,6 +10,7 @@ import hutech.mixture.petstore.services.DistrictService;
 import hutech.mixture.petstore.services.ProductService;
 import hutech.mixture.petstore.services.ProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -98,5 +101,21 @@ public class CartController {
         return districtService.getDistrictsByProvinceId(provinceId);
     }
 
+    @ResponseBody
+    @PostMapping("/api/update")
+    public List<CartItemResponse> updateQuantity(@RequestParam long productId, @RequestParam int quantity) {
+        System.out.println("ccc");
+        cartService.updateQuantity(productId, quantity);
+        List<CartItem> carts = cartService.getCartItems();
+        return carts.stream().map(CartItemResponse::new).toList();
+    }
+
+
+    @PostMapping("/total")
+    public ResponseEntity<Double> getCartTotal() {
+        System.out.println();
+        double total = cartService.calculateCartTotalPrice();
+        return ResponseEntity.ok(total);
+    }
 
 }

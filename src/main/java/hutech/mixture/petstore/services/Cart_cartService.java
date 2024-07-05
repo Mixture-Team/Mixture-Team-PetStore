@@ -76,6 +76,13 @@ public class Cart_cartService {
         return totalPrice;
     }
 
+    public void updateQuantity(Long productId, int quantity) {
+        cartItems.stream()
+                .filter(item -> item.getProduct().getId().equals(productId))
+                .findFirst()
+                .ifPresent(item -> item.setQuantity(quantity));
+    }
+
 
 
 }
