@@ -56,6 +56,8 @@ public class ProductController {
         model.addAttribute("products", products.getContent());
         model.addAttribute("currentPage", products.getNumber());
         model.addAttribute("totalPages", products.getTotalPages());
+        model.addAttribute("categoryId", categoryId); // Add this line to pass categoryId to the view
+        model.addAttribute("url", "/san-pham"); // Add this line to pass URL to the view
         return "/product/shop";
     }
 
@@ -97,6 +99,8 @@ public class ProductController {
         model.addAttribute("products", listProduct);
         model.addAttribute("currentPage", listProduct.getNumber());
         model.addAttribute("totalPages", listProduct.getTotalPages());
+        model.addAttribute("q", q); // Add this line to pass `q` to the view
+        model.addAttribute("url", "/san-pham/search"); // Add this line to pass URL to the view
 
         return "/product/shop";
     }
