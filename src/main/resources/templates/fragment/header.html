@@ -17,7 +17,7 @@
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
+            <!--bat dau-->
             <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
@@ -39,17 +39,23 @@
                     </ul>
                 </div>
                 <div class="navbar align-self-center d-flex">
+                    <!--search-->
+
                     <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ...">
+                            <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ..." autocomplete="off" >
                             <div class="input-group-text">
                                 <i class="fa fa-fw fa-search"></i>
                             </div>
                         </div>
+
                     </div>
                     <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
                         <i class="fa fa-fw fa-search text-light mr-2"></i>
+
                     </a>
+
+
                     <!-- Hiển thị khi đã đăng nhập -->
                     <a class="nav-icon position-relative text-decoration-none" href="#">
                         <i class="fa fa-fw fa-cart-arrow-down text-light mr-1">
@@ -91,6 +97,36 @@
                 }
             }
         }
+
+        $(document).ready(function() {
+            $('#search').on('input', function() {
+                let query = $(this).val();
+                if (query.length > 0) {
+                    $.ajax({
+                        url: '/san-pham/Suggestions',
+                        type: 'GET',
+                        data: { query: query },
+                        success: function(data) {
+                            $('#suggestions').empty();
+                            data.forEach(function(product) {
+                                $('#suggestions').append('<div class="suggestion-item">' + product.name + '</div>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#suggestions').empty();
+                }
+            });
+
+            // Handle suggestion click
+            $(document).on('click', '.suggestion-item', function() {
+                let selectedProduct = $(this).text();
+                $('#search').val(selectedProduct);
+                $('#suggestions').empty();
+                window.location.href = '/san-pham/search?q=' + encodeURIComponent(selectedProduct);
+            });
+        });
+
     </script>
 </th:fragment>
 </body>

@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import hutech.mixture.petstore.services.CategoryParentService;
 import hutech.mixture.petstore.services.CategoryService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -70,6 +72,41 @@ public class ProductController {
             products = productService.getProductByCategoryParentId(categoryParentId, pageable);
         }
         return ResponseEntity.ok(products);
+    }
+    ///////
+    @GetMapping("/search")
+    public String searchProduct(
+            @RequestParam(value = "q", required = false) String q,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "15") int size,
+            Model model) {
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<Product> listProduct;
+
+        String keyword = (q == null || q.isEmpty()) ? null : q;
+        listProduct  = productService.searchProduct(keyword, pageable);
+
+        List<CategoryParent> categoryParents = categoryParentService.getAllCategoryParents();
+        List<Category> categories = categoryService.getAllCategories();
+
+        model.addAttribute("categoryParents", categoryParents);
+        model.addAttribute("categories",categories);
+
+        model.addAttribute("products", listProduct);
+        model.addAttribute("currentPage", listProduct.getNumber());
+        model.addAttribute("totalPages", listProduct.getTotalPages());
+
+        return "/product/shop";
+    }
+
+
+    // search auto
+    @GetMapping("/Suggestions")
+    @ResponseBody
+    public List<Product> searchSuggestions(@RequestParam("query") String query) {
+        return productService.findProductsByName(query);
     }
 
     @GetMapping("/searchByPriceAndCatoParent")
