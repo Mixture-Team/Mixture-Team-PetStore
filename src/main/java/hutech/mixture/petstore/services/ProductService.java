@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -48,4 +49,15 @@ public class ProductService {
 
         return productRepository.searchByPriceAndCatoParent(categoryParentId, minPrice, maxPrice, pageable);
     }
+    ////
+
+    public Page<Product> searchProduct(String name, Pageable pageable) {
+        return productRepository.search(name, pageable);
+    }
+    ///// search auto
+    public List<String> findProductNamesByKeyword(String name) {
+        return productRepository.findProductNamesByKeyword(name);
+    }
+
+
 }

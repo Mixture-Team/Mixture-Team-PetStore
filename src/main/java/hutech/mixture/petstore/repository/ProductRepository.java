@@ -29,4 +29,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             @Param("minPrice") Double minPrice,
             @Param("maxPrice") Double maxPrice,
             Pageable pageable);
+    ///////
+    @Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))")
+
+    Page<Product> search(@Param("name") String name,Pageable pageable);
+
+    // search auto
+    @Query("SELECT p.name FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))")
+    List<String> findProductNamesByKeyword(@Param("name") String name);
+
 }
