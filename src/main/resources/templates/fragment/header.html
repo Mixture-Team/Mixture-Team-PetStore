@@ -43,7 +43,7 @@
 
                     <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ..." >
+                            <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ..." autocomplete="off" >
                             <div class="input-group-text">
                                 <i class="fa fa-fw fa-search"></i>
                             </div>
@@ -97,6 +97,35 @@
                 }
             }
         }
+
+        $(document).ready(function() {
+            $('#search').on('input', function() {
+                let query = $(this).val();
+                if (query.length > 0) {
+                    $.ajax({
+                        url: '/san-pham/Suggestions',
+                        type: 'GET',
+                        data: { query: query },
+                        success: function(data) {
+                            $('#suggestions').empty();
+                            data.forEach(function(product) {
+                                $('#suggestions').append('<div class="suggestion-item">' + product.name + '</div>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#suggestions').empty();
+                }
+            });
+
+            // Handle suggestion click
+            $(document).on('click', '.suggestion-item', function() {
+                let selectedProduct = $(this).text();
+                $('#search').val(selectedProduct);
+                $('#suggestions').empty();
+                window.location.href = '/san-pham/search?q=' + encodeURIComponent(selectedProduct);
+            });
+        });
 
     </script>
 </th:fragment>

@@ -103,11 +103,10 @@ public class ProductController {
 
 
     // search auto
-    @GetMapping("/autocomplete")
+    @GetMapping("/Suggestions")
     @ResponseBody
-    public ResponseEntity<List<String>> autocompleteProducts(@RequestParam("q") String q) {
-        List<String> productNames = productService.findProductNamesByKeyword(q);
-        return ResponseEntity.ok(productNames);
+    public List<Product> searchSuggestions(@RequestParam("query") String query) {
+        return productService.findProductsByName(query);
     }
 
     @GetMapping("/searchByPriceAndCatoParent")

@@ -163,3 +163,34 @@ Custom Css
 .percent{
     margin-left: -3px;
 }
+/*autocomplete*/
+/*chỉnh sửa cho autocomplete*/
+
+.autocomplete-suggestions {
+    position: absolute;
+    width: 100%;
+    top: calc(100% + 5px); /* Hiển thị ngay dưới thanh search và có khoảng cách 5px */
+    max-height: 438px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid white;
+    border-radius: 4px;
+    /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);*/
+    z-index: 1000;
+}
+
+.autocomplete-suggestions .list-group {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.autocomplete-suggestions .list-group-item {
+    cursor: pointer;
+    padding: 10px 15px;
+}
+
+.autocomplete-suggestions .list-group-item:hover,
+.autocomplete-suggestions .list-group-item.active {
+    background-color: #f5f5f5;
+}

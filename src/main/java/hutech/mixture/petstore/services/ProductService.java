@@ -55,8 +55,8 @@ public class ProductService {
         return productRepository.search(name, pageable);
     }
     ///// search auto
-    public List<String> findProductNamesByKeyword(String name) {
-        return productRepository.findProductNamesByKeyword(name);
+    public List<Product> findProductsByName(String name) {
+        return productRepository.findByNameContainingIgnoreCase(name);
     }
 
 
