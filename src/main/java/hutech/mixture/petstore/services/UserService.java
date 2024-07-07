@@ -1,4 +1,5 @@
 package hutech.mixture.petstore.services;
+
 import hutech.mixture.petstore.enums.AuthenticationType;
 import hutech.mixture.petstore.enums.Role;
 import hutech.mixture.petstore.models.User;
@@ -24,7 +25,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -163,4 +163,17 @@ public class UserService implements UserDetailsService {
         existingUser.setAuthenticationType(user.getAuthenticationType());
         userRepository.save(existingUser);
     }
+
+    // lay id nguoi dung
+    public Long getCurrentUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            User user = userRepository.findByUsername(userDetails.getUsername())
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+            return user.getId(); // Assuming `getId()` returns the ID of the user
+        }
+        throw new RuntimeException("User not authenticated");
+    }
+    //
 }

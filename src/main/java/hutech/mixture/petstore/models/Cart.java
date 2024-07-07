@@ -2,7 +2,11 @@ package hutech.mixture.petstore.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -22,10 +26,20 @@ public class Cart {
     private Long id;
 
     @NotBlank
+    @Column(name = "customer_name")
+    private String customerName;
+
+    @Column(name = "phone")
+    @Pattern(regexp = "^[0-9]{10}$", message = "Phone must be numeric and exactly 10 digits")
+    private String phone;
+    @Column(name = "notes")
+    private String notes;
+
+    @NotNull
     @Column(name = "date_begin")
     private LocalDateTime dateBegin;
 
-    @NotBlank
+    @NotNull
     @Column(name = "date_end")
     private LocalDateTime dateEnd;
 
@@ -37,15 +51,19 @@ public class Cart {
     @Column(name = "order_status")
     private String orderStatus;
 
-    @NotBlank
+    @NotNull
     @Column(name = "total_price")
-    private double totalPrice;
+    private Double totalPrice;
+
+    @NotNull
+    @Column(name = "total_shippingprice")
+    private Double totalshippingprice;
 
     @NotBlank
     @Column(name = "address")
     private String address;
 
-    @NotBlank
+
     @Column(name = "trading_code")
     private String tradingCode;
 
@@ -53,7 +71,14 @@ public class Cart {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "shipping_id")
+    private District district;
+
+
     @OneToMany(mappedBy = "cart")
     private List<Cart_Product> cartProducts;
+
+
 
 }

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>GIỎ HÀNG</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Include Thymeleaf fragment for additional resources -->
+    <th:block th:replace="~{fragment/lib.html :: lib}"></th:block>
+    <!-- Liên kết file JavaScript -->
+    <script src="/js/cart.js"></script> <!-- Cập nhật đường dẫn đúng đến file cart.js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script th:src="@{/js/updatequantitycart.js}"></script>
+    <script th:src="@{/js/CartTotalPrice.js}"></script>
+    <!-- Cập nhật đường dẫn đúng đến file cart.js -->
+    <style>
+        .content {
+            min-height: calc(110vh - var(--header-height) - var(--footer-height));
+        }
+
+        /* Giả định chiều cao của header và footer */
+        .header, .footer {
+            height: var(--header-height, 100px); /* Thay đổi giá trị nếu cần */
+            height: var(--footer-height, 100px); /* Thay đổi giá trị nếu cần */
+        }
+    </style>
+</head>
+
+<body>
+<!-- Header -->
+<div th:replace="~{fragment/header.html :: header}"></div>
+<div class="content container mt-4">
+    <h1>GIỎ HÀNG</h1>
+    <div class="row">
+        <div class="col-lg-9">
+            <div th:if="${cartItems.isEmpty()}" class="alert alert-info">Không có sản phẩm trong giỏ hàng !!!</div>
+            <table class="table table-bordered">
+                <thead class="table-light">
+                <tr>
+                    <th>SẢN PHẨM</th>
+                    <th>SỐ LƯỢNG</th>
+                    <th>GIÁ (ĐÃ GIẢM)</th>
+                    <th>TỔNG TIỀN</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="cart-tbody">
+                <tr th:each="item : ${cartItems}">
+                    <td>
+                        <div class="d-flex align-items-center">
+<!--                            <img th:src="@{'/img/' + ${item.product.img}}" class="img-thumbnail mr-2" style="max-width: 50px; max-height: 50px;" alt="Product Image">-->
+                            <span th:text="${item.product.name}"></span>
+                        </div>
+                    </td>
+                    <td>
+                        <input class="form-control d-inline-block" type="number" name="quantity" th:value="${item.quantity}" th:data-cart="${item.product.id}" th:id="${item.product.id}" min="1">
+                    </td>
+                    <td th:text="${(item.product.promotionPrice)}"></td>
+                    <td th:text="${(item.total_price)}"></td>
+                    <td>
+                        <a th:href="@{/cart/remove/{productId}(productId=${item.product.id})}" class="btn btn-danger btn-sm">X</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="row mt-3">
+                <div class="col-auto">
+                    <a th:href="@{/cart/clear}" class="btn btn-secondary">Xóa Giỏ Hàng</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <!-- Calculate total all_price -->
+            <h1 class="total-amount">TỔNG SỐ TIỀN</h1>
+            <p>Tổng số tiền: <span id="totalAmount" th:text="${(cartTotalPrice)}"></span></p>
+            <a th:href="@{/cart/pay}" class="btn btn-red d-block mb-2">Đi đến trang thanh toán</a>
+            <a th:href="@{/cua-hang}" class="btn btn-outline-red d-block">Tiếp tục mua sắm</a>
+        </div>
+    </div>
+</div>
+
+<!-- Start Footer -->
+<div th:replace="~{fragment/footer.html :: footer}"></div>
+<!-- End Footer -->
+
+</body>
+</html>

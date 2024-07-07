@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>THANH TOÁN</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Include Thymeleaf fragment for additional resources -->
+    <th:block th:replace="~{fragment/lib.html :: lib}"></th:block>
+</head>
+<body>
+<!-- Header -->
+<div th:replace="~{fragment/header.html :: header}"></div>
+
+<div class="container mt-4">
+    <form th:action="@{/payy/submit}" method="post">
+        <div class="row">
+            <h1>Đặt Hàng</h1>
+        </div>
+        <div class="row">
+            <!-- Form để điền thông tin đơn hàng -->
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label for="customerName" class="form-label">Họ và Tên:</label>
+                    <input type="text" id="customerName" name="customerName" class="form-control" required>
+                </div>
+                <!-- Dropdown menu cho tỉnh thành -->
+                <div class="mb-3">
+                    <label for="province" class="form-label">Tỉnh:</label>
+                    <select id="province" name="province" class="form-control" required>
+                        <option value="">Chọn tỉnh</option>
+                        <!-- Thymeleaf iteration để hiển thị danh sách tỉnh thành -->
+                        <option th:each="province : ${provinces}" th:value="${province.id}" th:text="${province.provinceName}"></option>
+                    </select>
+                </div>
+
+                <!-- Dropdown menu cho huyện -->
+                <div class="mb-3">
+                    <label for="district" class="form-label">Quận/Huyện:</label>
+                    <select id="district" name="districtId" class="form-control" required disabled>
+                        <option value="">Chọn quận/huyện</option>
+                        <!-- Thymeleaf iteration để hiển thị danh sách huyện -->
+                        <option th:each="district : ${districts}" th:value="${district.id}" th:text="${district.districtName}"></option>
+                    </select>
+                </div>
+
+
+                <div class="mb-3">
+                    <label for="shippingAddress" class="form-label">Địa Chỉ Giao Hàng:</label>
+                    <input type="text" id="shippingAddress" name="shippingAddress" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="phoneNumber" class="form-label">Số Điện Thoại:</label>
+                    <input type="text" id="phoneNumber" name="phoneNumber" class="form-control"
+                           pattern="^[0-9]{10}$" title="Số điện thoại phải có đúng 10 số" required>
+                    <div class="invalid-feedback">
+                        Vui lòng nhập số điện thoại hợp lệ (10 số).
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="notes" class="form-label">Ghi Chú:</label>
+                    <textarea id="notes" name="notes" class="form-control"></textarea>
+                </div>
+            </div>
+
+            <!-- Phần hiển thị mã vận chuyển, tổng số tiền và phương thức thanh toán -->
+            <div class="col-lg-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <!-- Thông tin sản phẩm -->
+                        <div th:if="${cartItems.isEmpty()}" class="alert alert-info">Giỏ của bạn đang trống !!!</div>
+                        <table class="table table-bordered">
+                            <thead class="table-light">
+                            <tr>
+                                <th>Sản phẩm</th>
+                                <th>SL</th>
+                                <th>Giá</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="item : ${cartItems}">
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img th:src="@{'/img/' + ${item.product.img}}" class="img-thumbnail mr-2" style="max-width: 50px; max-height: 50px;" alt="Product Image">
+                                        <span th:text="${item.product.name}"></span>
+                                    </div>
+                                </td>
+                                <td th:text="${item.quantity}"></td>
+                                <td th:text="${(item.total_price)}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Tổng số tiền sản phẩm -->
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="card-title mb-0">Tổng số tiền sản phẩm:</h5>
+                            <p class="card-text mb-0"><span id="cartTotalPrice" th:text="${(cartTotalPrice)}"></span></p>
+                        </div>
+
+                        <!-- Phí vận chuyển -->
+                        <div class="mb-3">
+                            <label for="shippingFee" class="form-label">Phí vận chuyển:</label>
+                            <input type="text" id="shippingFee" name="shippingFee" class="form-control" readonly>
+                        </div>
+
+                        <!-- Tổng số tiền -->
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="card-title mb-0">Tổng số tiền:</h5>
+                            <p class="card-text mb-0" id="totalShippingPrice"></p>
+                            <!-- Đặt id cho phần tổng số tiền -->
+                            <input type="hidden" id="totalPriceInput" name="totalShippingPrice">
+                        </div>
+
+                        <!-- Phương thức thanh toán -->
+                        <h5 class="card-title">Phương thức thanh toán:</h5>
+                        <div class="input-group mb-3">
+                            <select id="paymentMethod" name="paymentMethod" class="form-select" required>
+                                <option value="Thanh toán khi giao hàng">Thanh toán khi giao hàng</option>
+                                <option value="Thẻ tín dụng">Thẻ tín dụng</option>
+                                <option value="Chuyển khoản ngân hàng">Chuyển khoản ngân hàng</option>
+                            </select>
+                        </div>
+                        <!-- Nút thanh toán trong form -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary justify-content-center">Thanh Toán</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- Start Footer -->
+<div th:replace="~{fragment/footer.html :: footer}"></div>
+<!-- End Footer -->
+
+<script th:inline="javascript">
+    $(document).ready(function() {
+        var provinceSelect = $('#province');
+        var districtSelect = $('#district');
+        var shippingFeeInput = $('#shippingFee');
+        var cartTotalPriceSpan = $('#cartTotalPrice');
+        var totalPriceSpan = $('#totalShippingPrice');
+
+        // Sự kiện khi thay đổi tỉnh thành
+        provinceSelect.change(function() {
+            var selectedProvinceId = $(this).val();
+            if (selectedProvinceId === '') {
+                districtSelect.empty().attr('disabled', true); // Nếu chưa chọn tỉnh, disable dropdown huyện và xóa tất cả options
+                districtSelect.append('<option value="">Chọn quận/huyện</option>');
+            } else {
+                districtSelect.empty().attr('disabled', false); // Nếu đã chọn tỉnh, enable dropdown huyện
+                districtSelect.append('<option value="">Chọn quận/huyện</option>');
+                // Gửi yêu cầu GET để lấy danh sách huyện tương ứng với tỉnh được chọn
+                $.get('/cart/districts/' + selectedProvinceId, function(data) {
+                    $.each(data, function(index, district) {
+                        districtSelect.append('<option value="' + district.id + '">' + district.districtName + '</option>');
+                    });
+                });
+            }
+        });
+
+        // Sự kiện khi thay đổi quận/huyện
+        districtSelect.change(function() {
+            var selectedDistrictId = $(this).val();
+
+            // Gửi yêu cầu GET để lấy phí vận chuyển từ backend
+            $.get('/cart/getFee', { districtId: selectedDistrictId }, function(data) {
+                // Cập nhật giá trị phí vận chuyển lên giao diện
+                shippingFeeInput.val(data);
+
+                // Cập nhật tổng số tiền (tổng số tiền sản phẩm + phí vận chuyển)
+                var cartTotalPrice = parseFloat(cartTotalPriceSpan.text().replace(',', '.'));
+                var shippingFee = parseFloat(data);
+                var totalShippingPrice = cartTotalPrice + shippingFee;
+                totalPriceSpan.text(totalShippingPrice.toFixed(1));
+
+                // Cập nhật vào input hidden
+                $('#totalPriceInput').val(totalShippingPrice); // Đặt id cho phần tổng số tiền (input hidden)
+            });
+        });
+    });
+
+</script>
+
+</body>
+</html>
