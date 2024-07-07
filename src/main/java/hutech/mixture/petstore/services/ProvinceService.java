@@ -18,15 +18,4 @@ public class ProvinceService {
     public List<Province> getAllProvinces() {
         return provinceRepository.findAll();
     }
-
-    public Optional<Province> getProvinceById(Long id) {
-        return provinceRepository.findById(id);
-    }
-
-
-    public Optional<Province> findById(Long id) {
-        return provinceRepository.findById(id);
-    }
-
-
 }

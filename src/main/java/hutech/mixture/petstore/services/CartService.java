@@ -16,9 +16,6 @@ import java.util.Optional;
 
 @Service
 public class CartService {
-
-    @Autowired
-    private ProductRepository productRepository;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -71,13 +68,6 @@ public class CartService {
         }
 
         return order;
-    }
-    public List<Cart> getAllOrders() {
-        return cartRepository.findAll();
-    }
-
-    public Optional<Cart> getOrderById(Long id) {
-        return cartRepository.findById(id);
     }
 
     public Cart saveOrder(Cart order) {

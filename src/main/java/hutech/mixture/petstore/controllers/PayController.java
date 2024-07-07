@@ -65,27 +65,6 @@ public class PayController {
         return "cart/order-confirmation"; // Trả về view cho trang xác nhận đơn hàng
     }
 
-    @GetMapping("/orders")
-    public String showOrderList(Model model) {
-        List<Cart> orders = cartService.getAllOrders();
-        model.addAttribute("orders", orders);
-        return "order/order-list"; // Trả về view danh sách đơn hàng
-    }
-
-    @GetMapping("/orders/{id}")
-    public String showOrderDetails(@PathVariable Long id, Model model) {
-        Cart order = cartService.getOrderById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Id đơn hàng không hợp lệ:" + id));
-        model.addAttribute("order", order);
-        return "order/order-details"; // Trả về view chi tiết đơn hàng
-    }
-
-    @GetMapping("/orders/new")
-    public String showOrderForm(Model model) {
-        model.addAttribute("order", new Cart());
-        return "order/add-order"; // Trả về view để thêm mới đơn hàng
-    }
-
     @PostMapping("/orders/save")
     public String saveOrder(@ModelAttribute Cart order) {
         cartService.saveOrder(order);

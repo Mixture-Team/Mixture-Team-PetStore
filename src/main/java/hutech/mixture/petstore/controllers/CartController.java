@@ -26,13 +26,7 @@ public class CartController {
     @Autowired
     private Cart_cartService cartService;
     @Autowired
-    private ProvinceRepository provinceRepository;
-    @Autowired
-    private ProductService productService;
-    @Autowired
     private ProvinceService provinceService;
-    @Autowired
-    private DistrictRepository districtRepository;
     @Autowired
     private DistrictService districtService;
 

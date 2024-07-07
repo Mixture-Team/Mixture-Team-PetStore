@@ -50,5 +50,4 @@ public class CartItem {
         this.quantity = quantity;
         this.total_price = calculateTotalPrice();
     }
-
 }
