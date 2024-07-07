@@ -3,6 +3,8 @@ package hutech.mixture.petstore.models;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 import java.util.HashSet;
@@ -24,11 +26,11 @@ public class Category {
     @NotBlank(message = "Category name is required")
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "Link is required")
     @Column(name = "link")
     private String link;
 
-    @NotBlank
+    @NotNull
     @Column(name = "is_deleted")
     private boolean isDeleted = false;
 

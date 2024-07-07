@@ -63,23 +63,57 @@
                         <h6 class="m-0 font-weight-bold text-primary">New Product</h6>
                     </div>
                     <div class="card-body">
-                        <form action="#" method="post" th:action="@{/add-product}" th:object="${product}">
+<!--                        <div th:if="${errors}" class="alert alert-danger mt-2" role="alert">-->
+<!--                            <ul class="mb-0">-->
+<!--                                <li th:each="error : ${errors}" th:text="${error}" class="text-danger"></li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+                        <form action="#" method="post" th:action="@{/admin/add}" th:object="${product}" enctype="multipart/form-data">
                             <div class="form-group">
-                                <label for="name">Product Name</label>
+                                <label for="name">Name</label>
                                 <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="Enter product name">
+                                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></span>
+
+
+                            </div>
+                            <div class="form-group">
+                                <label for="num">Quantity</label>
+                                <input type="number" class="form-control" id="num" min="0" th:field="*{nums}">
+                                <span th:if="${#fields.hasErrors('nums')}" th:errors="*{nums}" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="image">Image</label>
+                                <input type="file" class="form-control" id="image" name="file">
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>
                                 <textarea class="form-control" id="description" th:field="*{description}" placeholder="Enter product description"></textarea>
+                                <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="link">Link</label>
+                                <input type="text" class="form-control" id="link" th:field="*{link}" placeholder="Enter product link">
+                                <span th:if="${#fields.hasErrors('link')}" th:errors="*{link}" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label for="price">Price</label>
-                                <input type="number" class="form-control" id="price" th:field="*{price}" placeholder="Enter product price">
+                                <input type="number" class="form-control" id="price" th:field="*{price}" min="0" placeholder="Enter product price">
+                                <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger"></span>
+
+
                             </div>
                             <div class="form-group">
-                                <label for="quantity">Quantity</label>
-                                <input type="number" class="form-control" id="quantity" th:field="*{quantity}" placeholder="Enter product quantity">
+                                <label for="discount">Discount</label>
+                                <input type="number" class="form-control" id="discount"  min="0" th:field="*{discount}" placeholder="Enter product discount">
                             </div>
+                            <div class="form-group">
+                                <label for="category" class="form-label">Category:</label>
+                                <select th:field="*{category}" class="form-control" id="category">
+                                    <option th:each="category : ${categories}"
+                                            th:value="${category.id}" th:text="${category.name}"></option>
+                                </select>
+                            </div>
+
                             <button type="submit" class="btn btn-primary">Add Product</button>
                         </form>
                     </div>
@@ -87,7 +121,6 @@
 
             </div>
             <!-- /.container-fluid -->
-
         </div>
         <!-- End of Main Content -->
 

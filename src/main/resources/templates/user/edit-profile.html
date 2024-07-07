@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragment/lib.html :: lib}"></head>
+<body>
+<div th:replace="~{fragment/header.html :: header}"></div>
+
+<div class="container-xl px-4 mt-4">
+    <div class="row mb-5">
+        <div class="col-xl-6 mx-auto">
+            <div class="card mb-4">
+                <div class="card-header">Chỉnh sửa thông tin người dùng</div>
+                <div class="card-body2">
+                    <form th:object="${user}" method="post" th:action="@{/user/profile/edit/{id}(id=${user.id})}">
+                        <input type="hidden" th:field="*{id}" />
+                        <div class="mb-3">
+                            <label class="small mb-1" for="inputUsername">Tên người dùng</label>
+                            <input class="form-control" id="inputUsername" type="text"
+                                   th:field="*{username}" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label class="small mb-1" for="inputLocation">Địa chỉ</label>
+                            <input class="form-control" id="inputLocation" type="text"
+                                   th:field="*{address}">
+                        </div>
+                        <div class="mb-3">
+                            <label class="small mb-1" for="inputEmailAddress">Email</label>
+                            <input class="form-control" id="inputEmailAddress" type="email"
+                                   th:field="*{email}">
+                        </div>
+                        <div class="mb-3">
+                            <label class="small mb-1" for="inputPhone">Số điện thoại</label>
+                            <input class="form-control" id="inputPhone" type="tel"
+                                   th:field="*{phone}">
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="password" th:field="*{password}">
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="roleid" th:field="*{role}">
+                        </div>
+
+                        <div th:if="${errors}" class="alert alert-danger mt-2" role="alert">
+                            <ul class="mb-0">
+                                <li th:each="error : ${errors}" th:text="${error}" class="text-danger"></li>
+                            </ul>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Lưu thay đổi</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragment/footer.html :: footer}"></div>
+</body>
+
+</html>

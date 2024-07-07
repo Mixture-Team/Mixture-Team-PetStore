@@ -2,7 +2,6 @@ package hutech.mixture.petstore.controllers;
 
 import hutech.mixture.petstore.models.User;
 import hutech.mixture.petstore.repositories.IUserRepository;
-import hutech.mixture.petstore.repositories.UserRepository;
 import hutech.mixture.petstore.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
