@@ -1,6 +1,7 @@
 package hutech.mixture.petstore.models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,6 +30,7 @@ public class Cart_Product {
 
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "cart_id")
     private Cart cart;
 

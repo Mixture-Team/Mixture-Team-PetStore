@@ -22,6 +22,7 @@ import hutech.mixture.petstore.services.CategoryService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 @Controller
@@ -125,5 +126,12 @@ public class ProductController {
         List<PriceRange> ranges = objectMapper.readValue(priceRanges, new TypeReference<List<PriceRange>>(){});
         Page<Product> products = productService.searchByPriceAndCatoParent(categoryParentId, ranges, pageable);
         return ResponseEntity.ok(products);
+    }
+
+    @GetMapping("/thong-tin-san-pham/{productId}")
+    public String shopSingle(@PathVariable Long productId, Model model) {
+        Product product = productService.getProductById(productId);
+        model.addAttribute("product", product);
+        return "product/shop-single";
     }
 }

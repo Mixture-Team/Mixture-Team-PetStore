@@ -1,5 +1,6 @@
 package hutech.mixture.petstore.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -75,7 +76,7 @@ public class Cart {
     @JoinColumn(name = "shipping_id")
     private District district;
 
-
+    @JsonManagedReference
     @OneToMany(mappedBy = "cart")
     private List<Cart_Product> cartProducts;
 
