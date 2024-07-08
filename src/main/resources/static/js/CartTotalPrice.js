@@ -41,12 +41,11 @@ $(document).ready(function() {
                                 cartHtml += `<tr>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                           
                                             <span>${item.productName}</span>
                                         </div>
                                     </td>
                                     <td>
-                                        <input class="form-control d-inline-block" type="number" name="quantity" value="${item.quantity}" data-cart="${item.productId}" id="${item.productId}">
+                                        <input class="form-control d-inline-block" type="number" name="quantity" value="${item.quantity}" data-cart="${item.productId}" id="${item.productId}" min="1">
                                     </td>
                                     <td>${item.price}</td>
                                     <td>${item.quantity * item.price}</td>

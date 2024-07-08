@@ -10,7 +10,6 @@
     <!-- Liên kết file JavaScript -->
     <script src="/js/cart.js"></script> <!-- Cập nhật đường dẫn đúng đến file cart.js -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script th:src="@{/js/updatequantitycart.js}"></script>
     <script th:src="@{/js/CartTotalPrice.js}"></script>
     <!-- Cập nhật đường dẫn đúng đến file cart.js -->
     <style>
@@ -48,12 +47,12 @@
                 <tr th:each="item : ${cartItems}">
                     <td>
                         <div class="d-flex align-items-center">
-<!--                            <img th:src="@{'/img/' + ${item.product.img}}" class="img-thumbnail mr-2" style="max-width: 50px; max-height: 50px;" alt="Product Image">-->
                             <span th:text="${item.product.name}"></span>
                         </div>
                     </td>
                     <td>
-                        <input class="form-control d-inline-block" type="number" name="quantity" th:value="${item.quantity}" th:data-cart="${item.product.id}" th:id="${item.product.id}" min="1">
+                        <input class="form-control d-inline-block quantity-input" type="number" name="quantity" th:value="${item.quantity}" th:data-cart="${item.product.id}" th:id="${item.product.id}" min="1">
+                        <span class="product-nums" th:text="${item.product.nums}" style="display: none;"></span>
                     </td>
                     <td th:text="${(item.product.promotionPrice)}"></td>
                     <td th:text="${(item.total_price)}"></td>
@@ -73,7 +72,7 @@
             <!-- Calculate total all_price -->
             <h1 class="total-amount">TỔNG SỐ TIỀN</h1>
             <p>Tổng số tiền: <span id="totalAmount" th:text="${(cartTotalPrice)}"></span></p>
-            <a th:href="@{/cart/pay}" class="btn btn-red d-block mb-2">Đi đến trang thanh toán</a>
+            <a th:href="@{/cart/pay}" class="btn btn-red d-block mb-2 pay-button">Đi đến trang thanh toán</a>
             <a th:href="@{/san-pham}" class="btn btn-outline-red d-block">Tiếp tục mua sắm</a>
         </div>
     </div>
@@ -82,6 +81,56 @@
 <!-- Start Footer -->
 <div th:replace="~{fragment/footer.html :: footer}"></div>
 <!-- End Footer -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var quantityInputs = document.querySelectorAll('.quantity-input');
+        var payButton = document.querySelector('.pay-button');
+
+        function updateButtonState() {
+            var disableButtons = false;
+            quantityInputs.forEach(function(quantityInput) {
+                var quantity = parseInt(quantityInput.value);
+                var productNums = parseInt(quantityInput.nextElementSibling.innerText);
+
+                if (quantity > productNums || quantity < 1) {
+                    disableButtons = true;
+                }
+            });
+            payButton.disabled = disableButtons;
+        }
+
+        quantityInputs.forEach(function(quantityInput) {
+            var productNums = parseInt(quantityInput.nextElementSibling.innerText);
+
+            quantityInput.addEventListener('input', function() {
+                var quantity = parseInt(quantityInput.value);
+
+                if (productNums === 0) {
+                    alert('Sản phẩm đã hết hàng.');
+                    quantityInput.value = 1;  // Đặt lại giá trị hợp lệ
+                } else if (quantity > productNums) {
+                    alert('Số lượng không được vượt quá số lượng sản phẩm có sẵn.');
+                    quantityInput.value = productNums;
+                } else if (quantity < 1) {
+                    alert('Số lượng không hợp lệ.');
+                    quantityInput.value = 1;  // Đặt lại giá trị hợp lệ
+                }
+
+                updateButtonState();
+            });
+
+            // Kiểm tra khi load trang
+            var initialQuantity = parseInt(quantityInput.value);
+            if (initialQuantity > productNums || initialQuantity < 1) {
+                quantityInput.value = 1;  // Đặt lại giá trị hợp lệ nếu ban đầu không hợp lệ
+                updateButtonState();
+            }
+        });
+
+        updateButtonState();
+    });
+</script>
 
 </body>
 </html>

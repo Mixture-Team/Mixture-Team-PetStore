@@ -21,7 +21,7 @@ public class Cart_cartService {
     private ProductRepository productRepository;
 
     // Phương thức để thêm sản phẩm vào giỏ hàng
-    public void addToCart(Long productId, int quantity) {
+    public boolean addToCart(Long productId, int quantity) {
         // Tìm sản phẩm trong cơ sở dữ liệu
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy sản phẩm: " + productId));
@@ -36,17 +36,18 @@ public class Cart_cartService {
             CartItem item = existingItem.get();
             int newQuantity = item.getQuantity() + quantity;
             if (newQuantity > product.getNums()) {
-                throw new IllegalArgumentException("Không đủ số lượng sản phẩm: " + product.getNums());
+                return false; // Không đủ số lượng sản phẩm
             }
             item.setQuantity(newQuantity);
             item.setTotalPrice(product.getPromotionPrice() * newQuantity); // Cập nhật lại tổng giá
         } else {
             // Nếu chưa có, thêm một mục mới vào giỏ hàng
             if (quantity > product.getNums()) {
-                throw new IllegalArgumentException("Không đủ số lượng sản phẩm: " + product.getNums());
+                return false; // Không đủ số lượng sản phẩm
             }
             cartItems.add(new CartItem(product, quantity));
         }
+        return true; // Thêm sản phẩm vào giỏ hàng thành công
     }
 
     // Phương thức để lấy danh sách các mặt hàng trong giỏ hàng

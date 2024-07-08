@@ -44,7 +44,7 @@ public class CartController {
         if ("buy".equals(submit)) {
             return "redirect:/cart"; // Điều hướng đến trang giỏ hàng
         } else if ("addToCart".equals(submit)) {
-            return "redirect:/cua-hang"; // Điều hướng đến trang cửa hàng
+            return "redirect:/san-pham"; // Điều hướng đến trang cửa hàng
         }
         return "redirect:/"; // Điều hướng mặc định
     }
