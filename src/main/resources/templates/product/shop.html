@@ -110,9 +110,17 @@
                                     </span>
                                 <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                     <ul class="list-unstyled">
-                                        <li><a class="btn btn-success text-white" href="/thong-tin-san-pham"><i class="far fa-heart"></i></a></li>
-                                        <li><a class="btn btn-success text-white mt-2" href="/thong-tin-san-pham"><i class="far fa-eye"></i></a></li>
-                                        <li><a class="btn btn-success text-white mt-2" href="/thong-tin-san-pham"><i class="fas fa-cart-plus"></i></a></li>
+                                        <li><a class="btn btn-success text-white mt-2" th:href="@{'san-pham/thong-tin-san-pham/' + ${product.id}}"><i class="far fa-eye"></i></a></li>
+                                        <li th:if="${product.nums > 0}">
+                                            <a class="btn btn-success text-white mt-2 d-flex justify-content-center align-items-center" th:href="@{/cart/add(productId=${product.id}, quantity=1, submit='buy')}">
+                                                <i class="fas fa-cart-plus"></i>
+                                            </a>
+                                        </li>
+                                        <li th:unless="${product.nums > 0}">
+                                            <div class="btn btn-danger text-white mt-2 d-flex justify-content-center align-items-center">
+                                                <span>Hết hàng</span>
+                                            </div>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -353,9 +361,17 @@
                                 </span>
                                 <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                     <ul class="list-unstyled">
-                                        <li><a class="btn btn-success text-white" href="/thong-tin-san-pham"><i class="far fa-heart"></i></a></li>
-                                        <li><a class="btn btn-success text-white mt-2" href="/thong-tin-san-pham"><i class="far fa-eye"></i></a></li>
-                                        <li><a class="btn btn-success text-white mt-2" href="/thong-tin-san-pham"><i class="fas fa-cart-plus"></i></a></li>
+                                        <li><a class="btn btn-success text-white mt-2" href="san-pham/thong-tin-san-pham/${product.id}"><i class="far fa-eye"></i></a></li>
+                                        <li ${product.nums > 0 ? '' : 'style="display:none;"'}>
+                                            <a class="btn btn-success text-white mt-2 d-flex justify-content-center align-items-center" href="/cart/add?productId=${product.id}&quantity=1&submit=buy">
+                                                <i class="fas fa-cart-plus"></i>
+                                            </a>
+                                        </li>
+                                        <li ${product.nums > 0 ? 'style="display:none;"' : ''}>
+                                            <div class="btn btn-danger text-white mt-2 d-flex justify-content-center align-items-center">
+                                                <span>Hết hàng</span>
+                                            </div>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>

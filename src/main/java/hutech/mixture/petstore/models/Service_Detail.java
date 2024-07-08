@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -39,4 +41,8 @@ public class Service_Detail {
     @ManyToOne
     @JoinColumn(name ="service_id")
     private Service service;
+
+
+    @OneToMany(mappedBy = "serviceDetail")
+    private List<Cart_Product> cart_products;
 }

@@ -1,6 +1,7 @@
 package hutech.mixture.petstore.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -63,6 +64,7 @@ public class Product {
     private Category category;
 
     @OneToMany(mappedBy = "product")
+    @JsonIgnore
     private List<Cart_Product> cart_products;
 //    @ManyToMany(mappedBy = "products")
 //    private Set<Cart> carts = new HashSet<>();

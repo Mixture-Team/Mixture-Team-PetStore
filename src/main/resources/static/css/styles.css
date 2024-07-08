@@ -254,3 +254,79 @@ Custom Css
     margin-left: 1rem;
     margin-right: 1rem;
 }
+
+
+/* Đặt chiều cao cố định cho tiêu đề sản phẩm */
+.product-name {
+    height: 2.5em; /* Điều chỉnh chiều cao theo nhu cầu */
+    overflow: hidden; /* Ẩn phần nội dung thừa */
+    text-overflow: ellipsis; /* Hiển thị dấu ... nếu nội dung quá dài */
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Giới hạn số dòng hiển thị */
+    -webkit-box-orient: vertical;
+}
+
+/* Đặt chiều cao cố định cho phần giá sản phẩm */
+.product-price {
+    height: 1.5em; /* Điều chỉnh chiều cao theo nhu cầu */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*trang giỏ hàng*/
+.container {
+    padding: 20px;
+}
+.cart-item {
+    border-bottom: 1px solid #dee2e6;
+    padding: 10px 0;
+}
+.cart-item img {
+    max-width: 100px;
+    height: auto;
+}
+.product-name {
+    font-weight: bold;
+}
+
+/*tônng tiền
+ */
+.total-amount {
+    font-weight: bold;
+    font-size: 1.5em;
+    text-decoration: underline;
+}
+.btn-red {
+    background-color: red;
+    color: white;
+}
+.btn-outline-red {
+    border: 2px solid red;
+    background-color: white;
+    color: red;
+}
+
+/* Đặt trong thẻ <style> hoặc file CSS riêng */
+:root {
+    --header-height: 100px; /* Đặt chiều cao của header, có thể thay đổi giá trị này */
+    --footer-height: 100px; /* Đặt chiều cao của footer, có thể thay đổi giá trị này */
+}
+
+.content {
+    min-height: calc(100vh - var(--header-height) - var(--footer-height));
+}
+
+.header, .footer {
+    height: var(--header-height); /* Sử dụng chiều cao đã định nghĩa */
+    height: var(--footer-height); /* Sử dụng chiều cao đã định nghĩa */
+}
+.content {
+    min-height: calc(110vh - var(--header-height) - var(--footer-height));
+}
+
+/* Giả định chiều cao của header và footer */
+.header, .footer {
+    height: var(--header-height, 100px); /* Thay đổi giá trị nếu cần */
+    height: var(--footer-height, 100px); /* Thay đổi giá trị nếu cần */
+}
