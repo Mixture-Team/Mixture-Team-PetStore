@@ -66,7 +66,8 @@ public class CartService {
             detail.setServiceDetail(item.getServiceDetail());
             cartProductRepository.save(detail);
         }
-
+        List<Cart_Product> cartProducts = cartProductRepository.findByCartId(order.getId());
+        order.setCartProducts(cartProducts);
         return order;
     }
 
