@@ -37,9 +37,9 @@ body {
 :root {
   --pet-secondary: #24292D;
   --pet-primary: #017280;
-  --pet-danger: #05a31a;
+  --pet-danger: #02530e;
   --pet-dangerdark: #078715;
-  --pet-light: #FFECEA;
+  --pet-light: #0cff3d;
   --snigletfont: "Sniglet", system-ui;
   --pet-primarylight: #E8F5F7;
   --font60: 60px;
@@ -1743,13 +1743,13 @@ header .submenu-drop .have-questions img {
   }
 }
 .loved-customers .head-title {
-  max-width: 760px;
+
   text-align: center;
   margin: 0 auto;
   position: relative;
 }
 .loved-customers .head-title::before {
-  background: url(../images/svg/loved-vector.svg) center top no-repeat;
+  background: url(../img/loved-vector.svg) center top no-repeat;
   content: "";
   width: 118px;
   height: 114px;
@@ -2406,7 +2406,7 @@ header .submenu-drop .have-questions img {
   }
 }
 .customer-exp::before {
-  background: url(../images/svg/red-zigzac.svg) center top no-repeat;
+  background: url(../img/zigzac-vector.svg) center top no-repeat;
   content: "";
   display: block;
   height: 24px;
