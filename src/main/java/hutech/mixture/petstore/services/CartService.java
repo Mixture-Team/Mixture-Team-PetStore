@@ -74,4 +74,15 @@ public class CartService {
     public Cart saveOrder(Cart order) {
         return cartRepository.save(order);
     }
+
+    public List<Cart> getOrdersForLoggedInUser() {
+        Long currentUserId = userService.getCurrentUserId();
+        User currentUser = userRepository.findById(currentUserId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return cartRepository.findByUser(currentUser);
+    }
+    public Optional<Cart> getOrderById(Long orderId) {
+        return cartRepository.findById(orderId);
+    }
 }

@@ -1,14 +1,12 @@
 package hutech.mixture.petstore.controllers;
 
+import hutech.mixture.petstore.models.Cart;
 import hutech.mixture.petstore.models.CartItem;
 import hutech.mixture.petstore.models.CartItemResponse;
 import hutech.mixture.petstore.models.District;
 import hutech.mixture.petstore.repository.DistrictRepository;
 import hutech.mixture.petstore.repository.ProvinceRepository;
-import hutech.mixture.petstore.services.Cart_cartService;
-import hutech.mixture.petstore.services.DistrictService;
-import hutech.mixture.petstore.services.ProductService;
-import hutech.mixture.petstore.services.ProvinceService;
+import hutech.mixture.petstore.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,6 +28,8 @@ public class CartController {
     @Autowired
     private DistrictService districtService;
 
+    @Autowired
+    private CartService cartService2;
     @GetMapping
     public String showCart(Model model) {
         model.addAttribute("cartItems", cartService.getCartItems());
@@ -112,4 +112,21 @@ public class CartController {
         return ResponseEntity.ok(total);
     }
 
+    @GetMapping("/allcart")
+    public String showOrderHistory(Model model) {
+        List<Cart> orders = cartService2.getOrdersForLoggedInUser();
+        model.addAttribute("orders", orders);
+        return "cart/all-cart"; // Tạo view để hiển thị danh sách đơn hàng
+    }
+    @GetMapping("/details/{orderId}")
+    public String viewOrderDetails(@PathVariable Long orderId, Model model) {
+        Optional<Cart> order = cartService2.getOrderById(orderId);
+        if (order.isPresent()) {
+            model.addAttribute("order", order.get());
+            model.addAttribute("cartProducts", order.get().getCartProducts());
+            return "cart/order-details"; // This is the view for order details
+        } else {
+            return "redirect:/cart/allcart"; // Redirect back to order history if order not found
+        }
+    }
 }
