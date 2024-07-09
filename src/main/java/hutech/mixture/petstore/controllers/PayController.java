@@ -65,9 +65,9 @@ public class PayController {
         return "cart/order-confirmation"; // Trả về view cho trang xác nhận đơn hàng
     }
 
-    @PostMapping("/orders/save")
-    public String saveOrder(@ModelAttribute Cart order) {
-        cartService.saveOrder(order);
-        return "redirect:/payy/orders"; // Chuyển hướng đến danh sách đơn hàng sau khi lưu thành công
-    }
+//    @PostMapping("/orders/save")
+//    public String saveOrder(@ModelAttribute Cart order) {
+//        cartService.saveOrder(order);
+//        return "redirect:/payy/orders"; // Chuyển hướng đến danh sách đơn hàng sau khi lưu thành công
+//    }
 }
