@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -67,6 +68,9 @@ public class UserService implements UserDetailsService {
             UsernameNotFoundException {
         var user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        if (user.isDeleted()) {
+            throw new DisabledException("User account is deleted");
+        }
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getUsername())
                 .password(user.getPassword())
@@ -167,8 +171,7 @@ public class UserService implements UserDetailsService {
     // lay id nguoi dung
     public Long getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails userDetails) {
             User user = userRepository.findByUsername(userDetails.getUsername())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
             return user.getId(); // Assuming `getId()` returns the ID of the user

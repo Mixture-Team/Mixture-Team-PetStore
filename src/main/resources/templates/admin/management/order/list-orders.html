@@ -14,63 +14,127 @@
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
         <th:replace th:replace="~{admin/index.html :: navbar}" ></th:replace>
-
         <!-- Main Content -->
         <div id="content">
             <!-- Begin Page Content -->
             <div class="container-fluid">
-
-                <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-                <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
-                    For more information about DataTables, please visit the <a target="_blank"
-                                                                               href="https://datatables.net">official DataTables documentation</a>.</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- Page Heading -->
+                        <h1 class="h3 mb-2 text-gray-800">Order Management</h1>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex justify-content-end mb-3">
+                            <form th:action="@{/admin/orders}" method="get" class="form-inline" id="searchForm">
+                                <div class="input-group">
+                                    <input type="text" class="form-control bg-gray-400 border-0 small" placeholder="Search by phone..."
+                                           aria-label="Search" aria-describedby="basic-addon2" name="phone" id="phone" th:value="${phone}">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="button" onclick="validateAndSubmit()">
+                                            <i class="fas fa-search fa-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="d-flex justify-content-end" id="error-message" style="color: red; display: none;"></div>
+                    </div>
+                </div>
 
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
-                    </div>
+<!--                    <div class="card-header py-3">-->
+<!--                        <a href="/admin/add" class="btn btn-primary">Add Product</a>-->
+<!--                    </div>-->
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Date Begin</th>
-                                    <th>Date End</th>
-                                    <th>Payment Methods</th>
-                                    <th>Order Status</th>
-                                    <th>Total Price</th>
-                                    <th>Address</th>
-                                    <th>Trading Code</th>
-                                    <th>Actions</th>
-                                </tr>
+                                <thead class="text-center">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Customer Name</th>
+                                        <th>Phone</th>
+                                        <th>Note</th>
+                                        <th>Date Begin</th>
+                                        <th>Date End</th>
+                                        <th>Payment Methods</th>
+                                        <th>Order Status</th>
+                                        <th>Product Price</th>
+                                        <th>Delivery charges</th>
+                                        <th>Total Price</th>
+                                        <th>Address</th>
+                                        <th>Trading Code</th>
+                                        <th>ID User</th>
+                                        <th>Actions</th>
+                                    </tr>
                                 </thead>
-                                <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Date Begin</th>
-                                    <th>Date End</th>
-                                    <th>Payment Methods</th>
-                                    <th>Order Status</th>
-                                    <th>Total Price</th>
-                                    <th>Address</th>
-                                    <th>Trading Code</th>
-                                    <th>Actions</th>
-                                </tr>
+                                <tfoot class="text-center">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Customer Name</th>
+                                        <th>Phone</th>
+                                        <th>Note</th>
+                                        <th>Date Begin</th>
+                                        <th>Date End</th>
+                                        <th>Payment Methods</th>
+                                        <th>Order Status</th>
+                                        <th>Product Price</th>
+                                        <th>Delivery charges</th>
+                                        <th>Total Price</th>
+                                        <th>Address</th>
+                                        <th>Trading Code</th>
+                                        <th>ID User</th>
+                                        <th>Actions</th>
+                                    </tr>
                                 </tfoot>
                                 <tbody>
-                                <tr>
+                                <tr th:each="cart : ${carts}">
+                                    <td th:text="${cart.id}"></td>
+                                    <td th:text="${cart.customerName}"></td>
+                                    <td th:text="${cart.phone}"></td>
+                                    <td th:text="${cart.notes}"></td>
+                                    <td th:text="${cart.dateBegin}"></td>
+                                    <td th:text="${cart.dateEnd}"></td>
+                                    <td th:text="${cart.paymentMethods}"></td>
+                                    <td th:text="${cart.orderStatus}"></td>
+                                    <td th:text="${cart.totalPrice}"></td>
+                                    <td th:text="${cart.district.fee}"></td>
+                                    <td th:text="${cart.totalshippingprice}"></td>
+                                    <td th:text="${cart.address + ', ' + cart.district.districtName + ', ' + cart.district.province.provinceName}"></td>
+                                    <td th:text="${cart.tradingCode}"></td>
+                                    <td th:text="${cart.user.id}"></td>
                                     <td>
-                                        <div class="button-group">
-                                            <a href="#" class="btn btn-success btn-sm btn-equal">Edit</a>
+                                        <div class="text-center">
+                                            <a th:href="@{/admin/orders/edit/{id}(id=${cart.id})}" class="btn btn-success btn-sm mb-2" style="width: 59px !important;">Edit</a>
                                         </div>
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
+                            <div th:if="${carts.totalElements == 0}">No orders found.</div>
                         </div>
+                        <!-- Pagination -->
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <span th:text="'Page ' + ${carts.number + 1} + ' of ' + ${carts.totalPages}"></span>
+                            </div>
+                            <div>
+                                <ul class="pagination">
+                                    <li class="page-item" th:classappend="${carts.first} ? 'disabled'">
+                                        <a class="page-link" th:href="@{/admin/carts(page=${carts.number - 1}, size=${carts.size})}">Previous</a>
+                                    </li>
+                                    <li class="page-item" th:each="page : ${#numbers.sequence(0, carts.totalPages - 1)}"
+                                        th:classappend="${page == carts.number} ? 'active'">
+                                        <a class="page-link" th:href="@{/admin/carts(page=${page}, size=${carts.size})}"
+                                           th:text="${page + 1}"></a>
+                                    </li>
+                                    <li class="page-item" th:classappend="${carts.last} ? 'disabled'">
+                                        <a class="page-link" th:href="@{/admin/carts(page=${carts.number + 1}, size=${carts.size})}">Next</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- End of Pagination -->
                     </div>
                 </div>
 
@@ -120,6 +184,37 @@
 
 <!-- Page level custom scripts -->
 <script th:src="@{/admin/js/demo/datatables-demo.js}"></script>
+
+<!-- Validation script -->
+<script>
+    function validateAndSubmit(event) {
+        var phoneInput = document.getElementById("phone").value;
+        var errorMessageDiv = document.getElementById("error-message");
+
+        // Reset error message
+        errorMessageDiv.style.display = "none";
+        errorMessageDiv.innerText = "";
+
+        if (phoneInput.length !== 10 || isNaN(phoneInput)) {
+            errorMessageDiv.innerText = "Please enter a valid 10-digit phone number.";
+            errorMessageDiv.style.display = "block";
+            if (event) {
+                event.preventDefault();
+            }
+            return false;
+        } else {
+            if (event) {
+                event.preventDefault();
+            }
+            document.getElementById("searchForm").submit();
+        }
+    }
+
+    // Attach event listener to the form for Enter key
+    document.getElementById("searchForm").addEventListener("submit", validateAndSubmit);
+</script>
+
+
 
 </body>
 </html>

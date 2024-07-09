@@ -1,6 +1,8 @@
 package hutech.mixture.petstore.admin.controllers;
 
 import com.nimbusds.oauth2.sdk.util.StringUtils;
+import hutech.mixture.petstore.models.Category;
+import hutech.mixture.petstore.models.CategoryParent;
 import hutech.mixture.petstore.models.Product;
 import hutech.mixture.petstore.services.CategoryService;
 import hutech.mixture.petstore.services.ProductService;
@@ -18,6 +20,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/admin")
 @RequiredArgsConstructor
@@ -33,6 +37,7 @@ public class ProductAdminController {
         Page<Product> products;
         products = productService.getAllProductForAdmin(pageable);
         model.addAttribute("products",products);
+        model.addAttribute("isSearchResult", false);
         return "/admin/management/product/list-products";
     }
 
@@ -88,5 +93,27 @@ public class ProductAdminController {
         }
         productService.updateProduct(product,file);
         return "redirect:/admin/products";
+    }
+
+    @GetMapping("/products/search")
+    public String searchProduct(
+            @RequestParam(value = "q", required = false) String q,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "15") int size,
+            Model model) {
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<Product> listProduct;
+        String keyword = (q == null || q.isEmpty()) ? null : q;
+        listProduct  = productService.searchProductForAdmin(keyword, pageable);
+
+        model.addAttribute("products", listProduct);
+        model.addAttribute("currentPage", listProduct.getNumber());
+        model.addAttribute("totalPages", listProduct.getTotalPages());
+        model.addAttribute("q", q); // Add this line to pass `q` to the view
+        model.addAttribute("isSearchResult", true);
+
+        return "/admin/management/product/list-products";
     }
 }

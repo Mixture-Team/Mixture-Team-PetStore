@@ -1629,7 +1629,7 @@ header .submenu-drop .have-questions img {
 }
 
 .not-sure::before {
-  background: url(../images/svg/zigzac-vector.svg) center top no-repeat;
+  background: url(../img/zigzac-vector.svg) center top no-repeat;
   content: "";
   display: block;
   height: 24px;
@@ -1909,7 +1909,7 @@ header .submenu-drop .have-questions img {
   position: relative;
 }
 .faq-sec .head-title::after {
-  background: url(../images/svg/blue-arrowvector.svg) 0 0 no-repeat;
+  background: url(../img/blue-arrowvector.svg) 0 0 no-repeat;
   content: "";
   width: 124px;
   height: 45px;
@@ -1989,7 +1989,7 @@ header .submenu-drop .have-questions img {
   }
 }
 .claimup-part::after {
-  background: url(../images/svg/zigzac-vector.svg) center top no-repeat;
+  background: url(../img/zigzac-vector.svg) center top no-repeat;
   content: "";
   display: block;
   height: 24px;
@@ -2014,7 +2014,7 @@ header .submenu-drop .have-questions img {
   position: relative;
 }
 .claimup-part .head-title::after {
-  background: url(../images/svg/line-vector.svg) center center no-repeat;
+  background: url(../img/line-vector.svg) center center no-repeat;
   content: "";
   width: 18px;
   height: 100px;
@@ -2139,7 +2139,7 @@ header .submenu-drop .have-questions img {
   position: relative;
 }
 .custom-faqlist.blueshade .head-title.arrow::after {
-  background: url(../images/svg/blue-arrowvector.svg) 0 0 no-repeat;
+  background: url(../img/blue-arrowvector.svg) 0 0 no-repeat;
   content: "";
   width: 124px;
   height: 45px;
@@ -2231,6 +2231,20 @@ header .submenu-drop .have-questions img {
     padding-top: 4rem;
   }
 }
+.map-responsive {
+  overflow: hidden;
+  padding-bottom: 40%; /* Chỉnh lại phần này để thay đổi chiều cao */
+  position: relative;
+  height: 0;
+}
+
+.map-responsive iframe {
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
 .custom-faqlist.orangeshade {
   overflow: hidden;
 }
@@ -2269,7 +2283,7 @@ header .submenu-drop .have-questions img {
   position: relative;
 }
 .contact-sec .container::before {
-  background: url(../images/svg/blue-arrowvector.svg) center top no-repeat;
+  background: url(../img/blue-arrowvector.svg) center top no-repeat;
   content: "";
   width: 135px;
   height: 50px;
@@ -2313,7 +2327,7 @@ header .submenu-drop .have-questions img {
 }
 .contact-sec .col-line:not(:last-child)::after {
   content: "";
-  background: url(../images/svg/zigzac-verticle.svg) center center no-repeat;
+  background: url(../img/zigzac-verticle.svg) center center no-repeat;
   position: absolute;
   right: 0;
   width: 23.6px;
@@ -2325,7 +2339,7 @@ header .submenu-drop .have-questions img {
 }
 @media only screen and (max-width: 991px) {
   .contact-sec .col-line:not(:last-child)::after {
-    background: url(../images/svg/zigzac-vector.svg) center center no-repeat;
+    background: url(../img/zigzac-vector.svg) center center no-repeat;
     content: "";
     max-width: 156px;
     left: 0;
@@ -2473,7 +2487,7 @@ header .submenu-drop .have-questions img {
   }
 }
 .bottom-columns::before {
-  background: url(../images/svg/zigzac-vector.svg) center top no-repeat;
+  background: url(../img/zigzac-vector.svg) center top no-repeat;
   content: "";
   display: block;
   height: 24px;
@@ -2527,7 +2541,7 @@ header .submenu-drop .have-questions img {
   }
 }
 .pet-section::after {
-  background: url(../images/svg/zigzac-vector.svg) center top no-repeat;
+  background: url(../img/zigzac-vector.svg) center top no-repeat;
   content: "";
   display: block;
   height: 24px;
@@ -2592,7 +2606,7 @@ header .submenu-drop .have-questions img {
   }
 }
 .loadmore::before {
-  background: url(../images/svg/zigzac-vector.svg) center top no-repeat;
+  background: url(../img/zigzac-vector.svg) center top no-repeat;
   content: "";
   display: block;
   height: 24px;
@@ -2685,7 +2699,7 @@ header .submenu-drop .have-questions img {
   color: var(--pet-primary);
 }
 .blog-details .right-side::before {
-  background: url(../images/svg/zigzac-verticle.svg) center top repeat-y;
+  background: url(../img/zigzac-vector.svg) center top repeat-y;
   content: "";
   position: absolute;
   left: 0;
@@ -2695,7 +2709,7 @@ header .submenu-drop .have-questions img {
 }
 @media only screen and (max-width: 767px) {
   .blog-details .right-side::before {
-    background: url(../images/svg/zigzac-vector.svg) center center repeat-y;
+    background: url(../img/zigzac-vector.svg) center center repeat-y;
     max-width: 154px;
     height: 30px;
     width: 100%;
