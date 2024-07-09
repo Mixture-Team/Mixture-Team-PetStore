@@ -68,7 +68,8 @@ public class CartService {
             detail.setServiceDetail(item.getServiceDetail());
             cartProductRepository.save(detail);
         }
-
+        List<Cart_Product> cartProducts = cartProductRepository.findByCartId(order.getId());
+        order.setCartProducts(cartProducts);
         return order;
     }
 
@@ -76,6 +77,16 @@ public class CartService {
         return cartRepository.save(order);
     }
 
+    public List<Cart> getOrdersForLoggedInUser() {
+        Long currentUserId = userService.getCurrentUserId();
+        User currentUser = userRepository.findById(currentUserId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return cartRepository.findByUser(currentUser);
+    }
+    public Optional<Cart> getOrderById(Long orderId) {
+        return cartRepository.findById(orderId);
+      
     public Page<Cart> getAllCartForAdmin(Pageable pageable){
         return cartRepository.findAll(pageable);
     }

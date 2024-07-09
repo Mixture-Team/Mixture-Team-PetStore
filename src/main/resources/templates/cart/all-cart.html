@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Orders</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <th:block th:replace="~{fragment/lib.html :: lib}"></th:block>
+    <style>
+        .btn-xs {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+        }
+        .custom-btn {
+            font-size: 12px; /* Adjust the font size */
+            padding: 2px 5px; /* Adjust the padding */
+            border-radius: 3px; /* Adjust the border radius */
+            line-height: 1; /* Adjust the line height */
+        }
+
+    </style>
+</head>
+<body>
+<div th:replace="~{fragment/header.html :: header}"></div>
+<div class="page-content container">
+    <div class="page-header text-blue-d2">
+        <div class="container px-0">
+            <div class="row mt-4">
+                <div class="col-12 col-lg-12 d-flex justify-content-center">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="text-center text-150">
+
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-centered">
+                                        <thead>
+                                        <tr>
+                                            <th>Tên</th>
+                                            <th>Trạng thái</th>
+                                            <th>Phương thức thanh toán</th>
+                                            <th>Tổng tiền </th>
+                                            <th>Ngày đặt</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <!-- Loop through each order -->
+                                        <tr th:each="order : ${orders}">
+                                            <td th:text="${order.customerName}"></td>
+                                            <td th:text="${order.orderStatus}"></td>
+                                            <td th:text="${order.paymentMethods}"></td>
+                                            <td th:text="${order.totalPrice + order.totalshippingprice}"></td>
+                                            <td th:text="${#temporals.format(order.dateBegin, 'dd/MM/yyyy HH:mm')}"></td>
+                                            <td>
+                                                <div>
+                                                    <a class="btn btn-info btn-sm btn-xs text-sm-center" style="font-size: 12px; padding: 2px 5px; border-radius: 3px; line-height: 1;" th:href="@{/cart/details/{orderId}(orderId=${order.id})}">
+                                                        <i class="fas fa-eye fa-sm"></i>
+                                                    </a>
+                                                </div>
+
+
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragment/footer.html :: footer}"></div>
+</body>
+</html>

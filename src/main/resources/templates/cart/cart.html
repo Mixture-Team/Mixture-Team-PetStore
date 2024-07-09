@@ -22,6 +22,12 @@
             height: var(--header-height, 100px); /* Thay đổi giá trị nếu cần */
             height: var(--footer-height, 100px); /* Thay đổi giá trị nếu cần */
         }
+        .custom-btn {
+            margin-top: 10px;
+            border: 2px solid blue;
+            color: blue;
+        }
+
     </style>
 </head>
 
@@ -74,6 +80,8 @@
             <p>Tổng số tiền: <span id="totalAmount" th:text="${(cartTotalPrice)}"></span></p>
             <a th:href="@{/cart/pay}" class="btn btn-red d-block mb-2 pay-button">Đi đến trang thanh toán</a>
             <a th:href="@{/san-pham}" class="btn btn-outline-red d-block">Tiếp tục mua sắm</a>
+            <a th:href="@{/cart/allcart}" class="btn custom-btn btn-outline-red d-block">Xem đơn hàng đã mua</a>
+
         </div>
     </div>
 </div>
@@ -131,6 +139,6 @@
         updateButtonState();
     });
 </script>
-
+<div th:replace="~{fragment/footer.html :: footer}"></div>
 </body>
 </html>

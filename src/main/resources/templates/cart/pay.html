@@ -67,7 +67,7 @@
             <!-- Phần hiển thị mã vận chuyển, tổng số tiền và phương thức thanh toán -->
             <div class="col-lg-6">
                 <div class="card mb-3">
-                    <div class="card-body">
+                    <div class="card-body2">
                         <!-- Thông tin sản phẩm -->
                         <div th:if="${cartItems.isEmpty()}" class="alert alert-info">Giỏ của bạn đang trống !!!</div>
                         <table class="table table-bordered">
@@ -117,7 +117,7 @@
                         <div class="input-group mb-3">
                             <select id="paymentMethod" name="paymentMethod" class="form-select" required>
                                 <option value="Thanh toán khi nhận hàng">Thanh toán khi nhận hàng</option>
-                                <option value="Thanh toán momo">Thanh toán momo</option>
+                                <option value="Thanh toán momo">Thanh toán bằng VN-PAY</option>
                             </select>
                         </div>
                         <!-- Nút thanh toán trong form -->

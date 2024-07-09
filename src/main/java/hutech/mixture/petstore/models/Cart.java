@@ -80,6 +80,9 @@ public class Cart {
     @OneToMany(mappedBy = "cart")
     private List<Cart_Product> cartProducts;
 
+    public List<Cart_Product> getCartProducts() {
+        return cartProducts;
+    }
 
 
 }
