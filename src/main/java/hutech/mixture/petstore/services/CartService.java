@@ -7,6 +7,8 @@ import hutech.mixture.petstore.repository.Cart_ProductRepository;
 import hutech.mixture.petstore.repository.DistrictRepository;
 import hutech.mixture.petstore.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,7 +48,7 @@ public class CartService {
 
         order.setDateBegin(LocalDateTime.now());
         order.setDateEnd(LocalDateTime.now());
-        order.setOrderStatus("đang xử lý");
+        order.setOrderStatus("Đang xử lý");
         order.setTradingCode("0");
 
         District district = districtRepository.findById(districtId).orElseThrow(() -> new RuntimeException("District not found"));
@@ -72,5 +74,44 @@ public class CartService {
 
     public Cart saveOrder(Cart order) {
         return cartRepository.save(order);
+    }
+
+    public Page<Cart> getAllCartForAdmin(Pageable pageable){
+        return cartRepository.findAll(pageable);
+    }
+
+    public Cart getCartById(Long id){
+        return cartRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Không tìm thấy đơn hàng có id " + id)
+        );
+    }
+
+    @Transactional
+    public Cart updateCart(Cart cart){
+        Cart existingCart = cartRepository.findById(cart.getId()).orElseThrow(
+                () -> new RuntimeException("Không tìm thấy đơn hàng có id " + cart.getId())
+        );
+        existingCart.setCustomerName(cart.getCustomerName());
+        existingCart.setPhone(cart.getPhone());
+        existingCart.setNotes(cart.getNotes());
+        existingCart.setDateBegin(cart.getDateBegin());
+        existingCart.setAddress(cart.getAddress());
+        existingCart.setPaymentMethods(cart.getPaymentMethods());
+        existingCart.setTotalPrice(cart.getTotalPrice());
+        existingCart.setTotalshippingprice(cart.getTotalshippingprice());
+        existingCart.setTradingCode(cart.getTradingCode());
+        existingCart.setUser(cart.getUser());
+        existingCart.setDistrict(cart.getDistrict());
+
+        if(cart.getOrderStatus().equals("Giao hàng thành công") || cart.getOrderStatus().equals("Huỷ")){
+            existingCart.setDateEnd(LocalDateTime.now());
+        }
+
+        existingCart.setOrderStatus(cart.getOrderStatus());
+        return existingCart;
+    }
+
+    public Page<Cart> searchCartsByPhone(String phone, Pageable pageable){
+        return cartRepository.findByPhoneContaining(phone,pageable);
     }
 }

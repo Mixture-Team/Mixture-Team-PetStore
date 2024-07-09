@@ -21,7 +21,28 @@
       <div class="container-fluid">
 
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">Product Management</h1>
+        <div class="row">
+          <div class="col-md-6">
+            <!-- Page Heading -->
+            <h1 class="h3 mb-2 text-gray-800">Product Management</h1>
+          </div>
+          <div class="col-md-6">
+            <div class="d-flex justify-content-end mb-3">
+              <form th:action="@{/admin/products/search}" method="get" class="form-inline" id="searchForm">
+                <div class="input-group">
+                  <input type="text" class="form-control bg-gray-400 border-0 small" placeholder="Search by product name..."
+                         aria-label="Search" aria-describedby="basic-addon2" name="q" id="search" th:value="${param.q}">
+                  <div class="input-group-append">
+                    <button class="btn btn-primary" type="button" id="searchButton">
+                      <i class="fas fa-search fa-sm"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="d-flex justify-content-end" id="error-message" style="color: red; display: none;"></div>
+          </div>
+        </div>
 
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
@@ -37,7 +58,6 @@
                     <th>Name</th>
                     <th>Numbers</th>
                     <th>Image</th>
-                    <th>Description</th>
                     <th>Link</th>
                     <th>Price</th>
                     <th>Discount</th>
@@ -53,7 +73,6 @@
                     <th>Name</th>
                     <th>Numbers</th>
                     <th>Image</th>
-                    <th>Description</th>
                     <th>Link</th>
                     <th>Price</th>
                     <th>Discount</th>
@@ -69,7 +88,6 @@
                   <td th:text="${product.name}"></td>
                   <td th:text="${product.nums}"></td>
                   <td th:text="${product.img}"></td>
-                  <td th:text="${product.description}"></td>
                   <td th:text="${product.link}"></td>
                   <td th:text="${product.price}"></td>
                   <td th:text="${product.discount}"></td>
@@ -92,17 +110,35 @@
               </div>
               <div>
                 <ul class="pagination">
-                  <li class="page-item" th:classappend="${products.first} ? 'disabled'">
-                    <a class="page-link" th:href="@{/admin/products(page=${products.number - 1}, size=${products.size})}">Previous</a>
-                  </li>
-                  <li class="page-item" th:each="page : ${#numbers.sequence(0, products.totalPages - 1)}"
-                      th:classappend="${page == products.number} ? 'active'">
-                    <a class="page-link" th:href="@{/admin/products(page=${page}, size=${products.size})}"
-                       th:text="${page + 1}"></a>
-                  </li>
-                  <li class="page-item" th:classappend="${products.last} ? 'disabled'">
-                    <a class="page-link" th:href="@{/admin/products(page=${products.number + 1}, size=${products.size})}">Next</a>
-                  </li>
+                  <!-- Phân trang cho kết quả tìm kiếm -->
+                  <th:block th:if="${isSearchResult}">
+                    <li class="page-item" th:classappend="${products.first} ? 'disabled'">
+                      <a class="page-link" th:href="@{/admin/products/search(q=${q},page=${products.number - 1}, size=${products.size})}">Previous</a>
+                    </li>
+                    <li class="page-item" th:each="pageNum : ${#numbers.sequence(0, products.totalPages - 1)}"
+                        th:classappend="${pageNum == products.number} ? 'active'">
+                      <a class="page-link" th:href="@{/admin/products/search(q=${q},page=${pageNum}, size=${products.size})}"
+                         th:text="${pageNum + 1}"></a>
+                    </li>
+                    <li class="page-item" th:classappend="${products.last} ? 'disabled'">
+                      <a class="page-link" th:href="@{/admin/products/search(q=${q},page=${products.number + 1}, size=${products.size})}">Next</a>
+                    </li>
+                  </th:block>
+
+                  <!-- Phân trang cho danh sách tất cả sản phẩm -->
+                  <th:block th:unless="${isSearchResult}">
+                    <li class="page-item" th:classappend="${products.first} ? 'disabled'">
+                      <a class="page-link" th:href="@{/admin/products(page=${products.number - 1}, size=${products.size})}">Previous</a>
+                    </li>
+                    <li class="page-item" th:each="pageNum : ${#numbers.sequence(0, products.totalPages - 1)}"
+                        th:classappend="${pageNum == products.number} ? 'active'">
+                      <a class="page-link" th:href="@{/admin/products(page=${pageNum}, size=${products.size})}"
+                         th:text="${pageNum + 1}"></a>
+                    </li>
+                    <li class="page-item" th:classappend="${products.last} ? 'disabled'">
+                      <a class="page-link" th:href="@{/admin/products(page=${products.number + 1}, size=${products.size})}">Next</a>
+                    </li>
+                  </th:block>
                 </ul>
               </div>
             </div>
@@ -156,6 +192,33 @@
 
 <!-- Page level custom scripts -->
 <script th:src="@{/admin/js/demo/datatables-demo.js}"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchButton = document.getElementById('searchButton');
+    const searchForm = document.getElementById('searchForm');
+    const searchInput = document.getElementById('search');
+    const errorMessage = document.getElementById('error-message');
+
+    searchButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (searchInput.value.trim() === '') {
+        errorMessage.textContent = 'Please enter a product name.';
+        errorMessage.style.display = 'block';
+      } else {
+        errorMessage.style.display = 'none';
+        searchForm.submit();
+      }
+    });
+
+    searchInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        searchButton.click();
+      }
+    });
+  });
+</script>
 
 </body>
 </html>
