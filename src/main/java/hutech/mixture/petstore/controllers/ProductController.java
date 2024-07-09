@@ -19,7 +19,10 @@ import org.springframework.web.bind.annotation.*;
 import hutech.mixture.petstore.services.CategoryParentService;
 import hutech.mixture.petstore.services.CategoryService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 
 @Controller
@@ -54,6 +57,8 @@ public class ProductController {
         model.addAttribute("products", products.getContent());
         model.addAttribute("currentPage", products.getNumber());
         model.addAttribute("totalPages", products.getTotalPages());
+        model.addAttribute("categoryId", categoryId); // Add this line to pass categoryId to the view
+        model.addAttribute("url", "/san-pham"); // Add this line to pass URL to the view
         return "/product/shop";
     }
 
@@ -71,6 +76,43 @@ public class ProductController {
         }
         return ResponseEntity.ok(products);
     }
+    ///////
+    @GetMapping("/search")
+    public String searchProduct(
+            @RequestParam(value = "q", required = false) String q,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "15") int size,
+            Model model) {
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<Product> listProduct;
+
+        String keyword = (q == null || q.isEmpty()) ? null : q;
+        listProduct  = productService.searchProduct(keyword, pageable);
+
+        List<CategoryParent> categoryParents = categoryParentService.getAllCategoryParents();
+        List<Category> categories = categoryService.getAllCategories();
+
+        model.addAttribute("categoryParents", categoryParents);
+        model.addAttribute("categories",categories);
+
+        model.addAttribute("products", listProduct);
+        model.addAttribute("currentPage", listProduct.getNumber());
+        model.addAttribute("totalPages", listProduct.getTotalPages());
+        model.addAttribute("q", q); // Add this line to pass `q` to the view
+        model.addAttribute("url", "/san-pham/search"); // Add this line to pass URL to the view
+
+        return "/product/shop";
+    }
+
+
+    // search auto
+    @GetMapping("/Suggestions")
+    @ResponseBody
+    public List<Product> searchSuggestions(@RequestParam("query") String query) {
+        return productService.findProductsByName(query);
+    }
 
     @GetMapping("/searchByPriceAndCatoParent")
     @ResponseBody
@@ -84,5 +126,12 @@ public class ProductController {
         List<PriceRange> ranges = objectMapper.readValue(priceRanges, new TypeReference<List<PriceRange>>(){});
         Page<Product> products = productService.searchByPriceAndCatoParent(categoryParentId, ranges, pageable);
         return ResponseEntity.ok(products);
+    }
+
+    @GetMapping("/thong-tin-san-pham/{productId}")
+    public String shopSingle(@PathVariable Long productId, Model model) {
+        Product product = productService.getProductById(productId);
+        model.addAttribute("product", product);
+        return "product/shop-single";
     }
 }

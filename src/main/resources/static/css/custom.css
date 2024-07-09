@@ -37,9 +37,9 @@ body {
 :root {
   --pet-secondary: #24292D;
   --pet-primary: #017280;
-  --pet-danger: #05a31a;
+  --pet-danger: #02530e;
   --pet-dangerdark: #078715;
-  --pet-light: #FFECEA;
+  --pet-light: #0cff3d;
   --snigletfont: "Sniglet", system-ui;
   --pet-primarylight: #E8F5F7;
   --font60: 60px;
@@ -1743,7 +1743,7 @@ header .submenu-drop .have-questions img {
   }
 }
 .loved-customers .head-title {
-  max-width: 760px;
+
   text-align: center;
   margin: 0 auto;
   position: relative;

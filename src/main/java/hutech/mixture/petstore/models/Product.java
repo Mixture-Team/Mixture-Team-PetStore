@@ -1,8 +1,11 @@
 package hutech.mixture.petstore.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import lombok.*;
 
 import java.util.HashSet;
@@ -24,35 +27,34 @@ public class Product {
     @NotBlank(message = "Product name is required")
     private String name;
 
-    @NotBlank
+    @NotNull
     @Column(name = "nums")
     private int nums;
 
-    @NotBlank
+    @NotNull
     @Column(name = "price")
     private double price;
 
-    @NotBlank
+    @NotBlank(message = "Description is required")
     @Column(name = "description")
     private String description;
 
-    @NotBlank
     @Column(name = "img")
     private String img;
 
-    @NotBlank
+    @NotBlank(message = "Link is required")
     @Column(name = "link")
     private String link;
 
-    @NotBlank
+    @NotNull
     @Column(name = "is_deleted")
     private boolean isDeleted = false;
 
-    @NotBlank
+    @NotNull
     @Column(name = "discount")
     private double discount;
 
-    @NotBlank
+    @NotNull
     @Column(name = "promotion_price")
     private double promotionPrice;
 
@@ -62,6 +64,7 @@ public class Product {
     private Category category;
 
     @OneToMany(mappedBy = "product")
+    @JsonIgnore
     private List<Cart_Product> cart_products;
 //    @ManyToMany(mappedBy = "products")
 //    private Set<Cart> carts = new HashSet<>();

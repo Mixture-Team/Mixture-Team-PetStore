@@ -163,3 +163,170 @@ Custom Css
 .percent{
     margin-left: -3px;
 }
+/*autocomplete*/
+/*chỉnh sửa cho autocomplete*/
+
+.autocomplete-suggestions {
+    position: absolute;
+    width: 100%;
+    top: calc(100% + 5px); /* Hiển thị ngay dưới thanh search và có khoảng cách 5px */
+    max-height: 438px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid white;
+    border-radius: 4px;
+    /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);*/
+    z-index: 1000;
+}
+
+.autocomplete-suggestions .list-group {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.autocomplete-suggestions .list-group-item {
+    cursor: pointer;
+    padding: 10px 15px;
+}
+
+.autocomplete-suggestions .list-group-item:hover,
+.autocomplete-suggestions .list-group-item.active {
+    background-color: #f5f5f5;
+}
+.card-body2 {
+    flex: 1 1 auto;
+    padding: 1rem 2rem; /* Thay đổi padding theo ý muốn */
+}
+
+.img-account-profile {
+    height: 10rem;
+}
+.rounded-circle {
+    border-radius: 50% !important;
+}
+.card {
+    box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+}
+.card .card-header {
+    font-weight: 500;
+}
+.card-header:first-child {
+    border-radius: 0.35rem 0.35rem 0 0;
+}
+.card-header {
+    padding: 1rem 1.35rem;
+    margin-bottom: 0;
+    background-color: rgba(33, 40, 50, 0.03);
+    border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+}
+.form-control, .dataTable-input {
+    display: block;
+    width: 100%;
+    padding: 0.875rem 1.125rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1;
+    color: #69707a;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #c5ccd6;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.35rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.nav-borders .nav-link.active {
+    color: #0061f2;
+    border-bottom-color: #0061f2;
+}
+.nav-borders .nav-link {
+    color: #69707a;
+    border-bottom-width: 0.125rem;
+    border-bottom-style: solid;
+    border-bottom-color: transparent;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+
+/* Đặt chiều cao cố định cho tiêu đề sản phẩm */
+.product-name {
+    height: 2.5em; /* Điều chỉnh chiều cao theo nhu cầu */
+    overflow: hidden; /* Ẩn phần nội dung thừa */
+    text-overflow: ellipsis; /* Hiển thị dấu ... nếu nội dung quá dài */
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Giới hạn số dòng hiển thị */
+    -webkit-box-orient: vertical;
+}
+
+/* Đặt chiều cao cố định cho phần giá sản phẩm */
+.product-price {
+    height: 1.5em; /* Điều chỉnh chiều cao theo nhu cầu */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*trang giỏ hàng*/
+.container {
+    padding: 20px;
+}
+.cart-item {
+    border-bottom: 1px solid #dee2e6;
+    padding: 10px 0;
+}
+.cart-item img {
+    max-width: 100px;
+    height: auto;
+}
+.product-name {
+    font-weight: bold;
+}
+
+/*tônng tiền
+ */
+.total-amount {
+    font-weight: bold;
+    font-size: 1.5em;
+    text-decoration: underline;
+}
+.btn-red {
+    background-color: red;
+    color: white;
+}
+.btn-outline-red {
+    border: 2px solid red;
+    background-color: white;
+    color: red;
+}
+
+/* Đặt trong thẻ <style> hoặc file CSS riêng */
+:root {
+    --header-height: 100px; /* Đặt chiều cao của header, có thể thay đổi giá trị này */
+    --footer-height: 100px; /* Đặt chiều cao của footer, có thể thay đổi giá trị này */
+}
+
+.content {
+    min-height: calc(100vh - var(--header-height) - var(--footer-height));
+}
+
+.header, .footer {
+    height: var(--header-height); /* Sử dụng chiều cao đã định nghĩa */
+    height: var(--footer-height); /* Sử dụng chiều cao đã định nghĩa */
+}
+.content {
+    min-height: calc(110vh - var(--header-height) - var(--footer-height));
+}
+
+/* Giả định chiều cao của header và footer */
+.header, .footer {
+    height: var(--header-height, 100px); /* Thay đổi giá trị nếu cần */
+    height: var(--footer-height, 100px); /* Thay đổi giá trị nếu cần */
+}

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head th:replace="~{admin/index.html :: lib}"></head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <th:replace th:replace="~{admin/index.html :: sidebar}" ></th:replace>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <th:replace th:replace="~{admin/index.html :: navbar}" ></th:replace>
+
+        <!-- Main Content -->
+        <div id="content">
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <h1 class="h3 mb-2 text-gray-800">User Management</h1>
+
+                <!-- DataTales Example -->
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead class="text-center">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Role</th>
+                                    <th>Is Deleted</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tfoot class="text-center">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Role</th>
+                                    <th>Is Deleted</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </tfoot>
+                                <tbody>
+                                <tr th:each="user : ${users}">
+                                    <td th:text="${user.id}"></td>
+                                    <td th:text="${user.username}"></td>
+                                    <td th:text="${user.email}"></td>
+                                    <td th:text="${user.phone}"></td>
+                                    <td th:text="${user.address}"></td>
+                                    <td th:text="${user.role.name}"></td>
+                                    <td th:text="${user.isDeleted()}"></td>
+                                    <td>
+                                        <div th:if="${user.role.name != 'ADMIN'}" class="text-center">
+                                            <a th:href="@{/admin/users/edit/{id}(id=${user.id})}" class="btn btn-success btn-sm btn-equal">Edit</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Pagination -->
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <span th:text="'Page ' + ${users.number + 1} + ' of ' + ${users.totalPages}"></span>
+                            </div>
+                            <div>
+                                <ul class="pagination">
+                                    <li class="page-item" th:classappend="${users.first} ? 'disabled'">
+                                        <a class="page-link" th:href="@{/admin/users(page=${users.number - 1}, size=${users.size})}">Previous</a>
+                                    </li>
+                                    <li class="page-item" th:each="page : ${#numbers.sequence(0, users.totalPages - 1)}"
+                                        th:classappend="${page == users.number} ? 'active'">
+                                        <a class="page-link" th:href="@{/admin/users(page=${page}, size=${users.size})}"
+                                           th:text="${page + 1}"></a>
+                                    </li>
+                                    <li class="page-item" th:classappend="${users.last} ? 'disabled'">
+                                        <a class="page-link" th:href="@{/admin/users(page=${users.number + 1}, size=${users.size})}">Next</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- End of Pagination -->
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; Your Website 2020</span>
+                </div>
+            </div>
+        </footer>
+        <!-- End of Footer -->
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<th:replace th:replace="~{admin/index.html :: logout}" ></th:replace>
+
+<!-- Bootstrap core JavaScript-->
+<script th:src="@{/admin/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/admin/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<!-- Core plugin JavaScript-->
+<script th:src="@{/admin/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+<!-- Custom scripts for all pages-->
+<script th:src="@{/admin/js/sb-admin-2.min.js}"></script>
+
+<!-- Page level plugins -->
+<script th:src="@{/admin/vendor/chart.js/Chart.min.js}"></script>
+
+<!-- Page level custom scripts -->
+<script th:src="@{/admin/js/demo/chart-area-demo.js}"></script>
+<script  th:src="@{/admin/js/demo/chart-pie-demo.js}"></script>
+
+<!-- Page level custom scripts -->
+<script th:src="@{/admin/js/demo/datatables-demo.js}"></script>
+
+</body>
+</html>

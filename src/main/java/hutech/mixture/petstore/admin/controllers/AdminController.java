@@ -13,28 +13,28 @@ public class AdminController {
         return "/admin/index";
     }
 
-    @GetMapping("/accounts")
-    public String accounts(){
-        return "/admin/management/account/list-accounts";
-    }
-
-    @GetMapping("/categories")
-    public String categories(){
-        return "/admin/management/category/list-categories";
-    }
-
-    @GetMapping("/orders")
-    public String orders(){
-        return "/admin/management/order/list-orders";
-    }
-
-    @GetMapping("/products")
-    public String products(){
-        return "/admin/management/product/list-products";
-    }
-
-    @GetMapping("/add-products")
-    public String addProducts(){
-        return "/admin/management/product/add-product";
-    }
+//    @GetMapping("/accounts")
+//    public String accounts(){
+//        return "/admin/management/account/list-accounts";
+//    }
+//
+//    @GetMapping("/categories")
+//    public String categories(){
+//        return "/admin/management/category/list-categories";
+//    }
+//
+//    @GetMapping("/orders")
+//    public String orders(){
+//        return "/admin/management/order/list-orders";
+//    }
+//
+//    @GetMapping("/products")
+//    public String products(){
+//        return "/admin/management/product/list-products";
+//    }
+//
+//    @GetMapping("/add-products")
+//    public String addProducts(){
+//        return "/admin/management/product/add-product";
+//    }
 }

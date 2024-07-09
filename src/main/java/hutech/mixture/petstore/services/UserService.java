@@ -5,13 +5,17 @@ import hutech.mixture.petstore.enums.Role;
 import hutech.mixture.petstore.models.User;
 import hutech.mixture.petstore.repositories.IRoleRepository;
 import hutech.mixture.petstore.repositories.IUserRepository;
+import hutech.mixture.petstore.repositories.UserRepository;
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -64,6 +68,9 @@ public class UserService implements UserDetailsService {
             UsernameNotFoundException {
         var user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        if (user.isDeleted()) {
+            throw new DisabledException("User account is deleted");
+        }
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getUsername())
                 .password(user.getPassword())
@@ -126,4 +133,50 @@ public class UserService implements UserDetailsService {
         AuthenticationType authenticationType = AuthenticationType.valueOf(oauth2ClientName.toUpperCase());
         userRepository.updateAuthenticationType(username,authenticationType);
     }
+
+    public Page<User> getAllUsersForAdmin(Pageable pageable){
+        return userRepository.findAll(pageable);
+    }
+
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Không tìm thấy user có id " + id)
+        );
+    }
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+    public User findById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+    public void updateUser(User user) {
+        User existingUser = userRepository.findById(user.getId()).orElseThrow(
+                () -> new RuntimeException("Không tìm thấy user có id " + user.getId())
+        );
+        existingUser.setUsername(user.getUsername());
+        existingUser.setEmail(user.getEmail());
+        existingUser.setPassword(user.getPassword());
+        existingUser.setPhone(user.getPhone());
+        existingUser.setAddress(user.getAddress());
+        existingUser.setResetPasswordToken(user.getResetPasswordToken());
+        existingUser.setDeleted(user.isDeleted());
+        existingUser.setRole(user.getRole());
+        existingUser.setAuthenticationType(user.getAuthenticationType());
+        userRepository.save(existingUser);
+    }
+
+    // lay id nguoi dung
+    public Long getCurrentUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails userDetails) {
+            User user = userRepository.findByUsername(userDetails.getUsername())
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+            return user.getId(); // Assuming `getId()` returns the ID of the user
+        }
+        throw new RuntimeException("User not authenticated");
+    }
+    //
 }

@@ -1,10 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<head th:replace="~{admin/index.html :: lib}"></head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <th:replace th:replace="~{admin/index.html :: sidebar}"></th:replace>
+
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                <!-- Sidebar Toggle (Topbar) -->
+                <form class="form-inline">
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                </form>
+
+                <!-- Topbar Search -->
+                <form
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    <div class="input-group">
+                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                               aria-label="Search" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button">
+                                <i class="fas fa-search fa-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Topbar Navbar -->
+                <ul class="navbar-nav ml-auto">
+                    <!-- (Existing navbar items) -->
+                </ul>
+
+            </nav>
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <h1 class="h3 mb-2 text-gray-800">Update Product</h1>
+                <p class="mb-4">Use the form below to update a product.</p>
+
+                <!-- Add Product Form -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Update Product</h6>
+                    </div>
+                    <div class="card-body">
+                        <form action="#" method="post" th:action="@{/admin/update/{id}(id=${product.id})}" th:object="${product}"
+                              enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="Enter product name">
+                            </div>
+                            <div class="form-group">
+                                <label for="num">Quantity</label>
+                                <input type="number" class="form-control" id="num" th:field="*{nums}">
+                            </div>
+                            <div class="form-group">
+                                <label for="image">Image</label>
+                                <input type="file" class="form-control" id="image" name="file">
+                                <!-- Hidden field for current image -->
+                                <input type="hidden" th:field="*{img}" name="currentImage">
+                                <img th:src="@{${product.img}}" alt="Current Image" class="img-thumbnail">
+                                <!-- Display current image -->
+
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea class="form-control" id="description" th:field="*{description}" placeholder="Enter product description"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="link">Link</label>
+                                <input type="text" class="form-control" id="link" th:field="*{link}" placeholder="Enter product link">
+                            </div>
+                            <div class="form-group">
+                                <label for="price">Price</label>
+                                <input type="number" class="form-control" id="price" th:field="*{price}" placeholder="Enter product price">
+                            </div>
+                            <div class="form-group">
+                                <label for="discount">Discount</label>
+                                <input type="number" class="form-control" id="discount" th:field="*{discount}" placeholder="Enter product discount">
+                            </div>
+                            <div class="form-group">
+                                <label for="category" class="form-label">Category:</label>
+                                <select th:field="*{category}" class="form-control" id="category">
+                                    <option th:each="category : ${categories}"
+                                            th:value="${category.id}" th:text="${category.name}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="isDeleted">IsDeleted:</label>
+                                <input type="checkbox" class="form-control d-inline me-3" style="width: 20px; height: 20px; vertical-align: middle" id="isDeleted" th:field="*{deleted}">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                            <a th:href="@{/admin/products}" class="btn btn-link">Cancel</a>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; Your Website 2020</span>
+                </div>
+            </div>
+        </footer>
+        <!-- End of Footer -->
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<th:replace th:replace="~{admin/index.html :: logout}"></th:replace>
+
+<!-- Bootstrap core JavaScript-->
+<script th:src="@{/admin/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/admin/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<!-- Core plugin JavaScript-->
+<script th:src="@{/admin/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+<!-- Custom scripts for all pages-->
+<script th:src="@{/admin/js/sb-admin-2.min.js}"></script>
 
 </body>
 </html>
