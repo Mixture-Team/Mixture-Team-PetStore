@@ -64,6 +64,10 @@ public class ProductService {
     public Page<Product> searchProduct(String name, Pageable pageable) {
         return productRepository.search(name, pageable);
     }
+
+    public Page<Product> searchProductForAdmin(String name, Pageable pageable) {
+        return productRepository.searchForAdmin(name, pageable);
+    }
     ///// search auto
     public List<Product> findProductsByName(String name) {
         return productRepository.findByNameContainingIgnoreCase(name);

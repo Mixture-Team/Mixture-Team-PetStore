@@ -65,19 +65,23 @@
                     <div class="card-body">
                         <form action="#" method="post" th:action="@{/admin/users/update/{id}(id=${user.id})}" th:object="${user}">
                             <div class="form-group">
-                                <input type="hidden" class="form-control" id="name" th:field="*{username}">
+                                <label for="username" class="form-label">Username:</label>
+                                <input type="text" class="form-control" id="username" th:field="*{username}" readonly>
                             </div>
                             <div class="form-group">
-                                <input type="hidden" class="form-control" id="email" th:field="*{email}">
+                                <label for="email" class="form-label">Email:</label>
+                                <input type="text" class="form-control" id="email" th:field="*{email}" readonly>
                             </div>
                             <div class="form-group">
-                                <input type="hidden" class="form-control" id="phone" th:field="*{phone}">
+                                <label for="phone" class="form-label">Phone:</label>
+                                <input type="text" class="form-control" id="phone" th:field="*{phone}" readonly>
                             </div>
                             <div class="form-group">
                                 <input type="hidden" class="form-control" id="password" th:field="*{password}">
                             </div>
                             <div class="form-group">
-                                <input type="hidden" class="form-control" id="address" th:field="*{address}">
+                                <label for="address" class="form-label">Address:</label>
+                                <input type="text" class="form-control" id="address" th:field="*{address}" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="role" class="form-label">Role:</label>
@@ -88,8 +92,8 @@
                                 </select>
                             </div>
                             <div class="form-group">
-<!--                                <label for="isDeleted">IsDeleted:</label>-->
-                                <input type="hidden" class="form-control d-inline me-3" style="width: 20px; height: 20px; vertical-align: middle" id="isDeleted" th:field="*{deleted}">
+                                <label for="isDeleted">IsDeleted:</label>
+                                <input type="checkbox" class="form-control d-inline me-3" style="width: 20px; height: 20px; vertical-align: middle" id="isDeleted" th:field="*{deleted}">
                             </div>
                             <button type="submit" class="btn btn-primary">Save changes</button>
                             <a th:href="@{/admin/users}" class="btn btn-link">Cancel</a>
