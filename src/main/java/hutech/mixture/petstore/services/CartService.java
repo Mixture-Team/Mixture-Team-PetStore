@@ -104,6 +104,11 @@ public class CartService {
         Cart existingCart = cartRepository.findById(cart.getId()).orElseThrow(
                 () -> new RuntimeException("Không tìm thấy đơn hàng có id " + cart.getId())
         );
+
+        District district = districtRepository.findById(cart.getDistrict().getId()).orElseThrow(
+                () -> new RuntimeException("Không tìm thấy huyện có id " + cart.getDistrict().getId())
+        );
+
         existingCart.setCustomerName(cart.getCustomerName());
         existingCart.setPhone(cart.getPhone());
         existingCart.setNotes(cart.getNotes());
@@ -114,13 +119,14 @@ public class CartService {
         existingCart.setTotalshippingprice(cart.getTotalshippingprice());
         existingCart.setTradingCode(cart.getTradingCode());
         existingCart.setUser(cart.getUser());
-        existingCart.setDistrict(cart.getDistrict());
+        existingCart.setDistrict(district);
 
         if(cart.getOrderStatus().equals("Giao hàng thành công") || cart.getOrderStatus().equals("Huỷ")){
             existingCart.setDateEnd(LocalDateTime.now());
         }
 
         existingCart.setOrderStatus(cart.getOrderStatus());
+        cartRepository.save(existingCart);
         return existingCart;
     }
 
