@@ -109,17 +109,18 @@
                 <hr class="row brc-default-l1 mx-n1 mb-4" />
 
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 text-grey-m2">
+                        <div class="mt-1 mb-2 text-secondary-m1 text-600 text-125">
+                            Thông tin cá nhân
+                        </div>
                         <div>
-                            <span class="text-sm text-grey-m2 align-middle">Tên:</span>
+                            <span class="text-sm text-600 text-90 align-middle">Tên: </span>
                             <span class="text-600 text-110 text-blue align-middle" th:text="${order.customerName}"></span>
                         </div>
                         <div class="text-grey-m2">
                             <div class="my-1">
-                                <span  th:text="${order.address + ', ' + order.district.districtName}"></span>
-                            </div>
-                            <div class="my-1">
-                                <span th:text="${order.district.province.provinceName}"></span>
+                                <span class="text-sm text-600 text-90 align-middle">Địa chỉ: </span>
+                                <span th:text="${order.address + ', ' + order.district.districtName + ', ' + order.district.province.provinceName}"></span>
                             </div>
                             <div class="my-1"><i class="fa fa-phone fa-flip-horizontal text-secondary"></i> <b class="text-600" th:text="${order.phone}"></b></div>
 
@@ -133,9 +134,10 @@
                             <div class="mt-1 mb-2 text-secondary-m1 text-600 text-125">
                                 Đơn hàng
                             </div>
-                            <div class="my-2" style="margin-bottom: 5px;"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Ngày đặt : </span><span th:text="${order.dateBegin}"></span></div>
-                            <div class="my-2" style="margin-bottom: 5px;"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Ghi chú : </span><span th:text="${order.notes}"></span></div>
-                            <div class="my-2" style="margin-bottom: 5px;"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Phương thức thanh toán : </span><span th:text="${order.paymentMethods}"></span></div>
+                            <div class="my-2" style="margin-bottom: 5px;"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Ngày đặt: </span><span th:text="${order.dateBegin}"></span></div>
+                            <div class="my-2" style="margin-bottom: 5px;"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Ghi chú: </span><span th:text="${order.notes}"></span></div>
+                            <div class="my-2" style="margin-bottom: 5px;"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Phương thức thanh toán: </span><span th:text="${order.paymentMethods}"></span></div>
+                            <div class="my-2" style="margin-bottom: 5px;"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Trạng thái đơn hàng: </span><span th:text="${order.orderStatus}"></span></div>
                         </div>
                     </div>
 
@@ -154,43 +156,29 @@
                         <div class="row mb-2 mb-sm-0 py-25">
                             <div class="col-9 col-sm-5" th:text="${cartProduct.product.name}"></div>
                             <div class="d-none d-sm-block col-2" th:text="${cartProduct.quantity}"></div>
-                            <div class="d-none d-sm-block col-2 text-95" th:text="${cartProduct.product.price}"></div>
+                            <div class="d-none d-sm-block col-2 text-95" th:text="${cartProduct.product.promotionPrice}"></div>
                             <div class="col-2 text-secondary-d2" th:text="${cartProduct.total_price}"></div>
                         </div>
                     </div>
-
-                    <div class="row border-b-2 brc-default-l2"></div>
+                    <hr>
                     <div class="row mt-3">
-                        <div class="col-12 col-sm-5 text-grey text-90 order-first order-sm-last">
-                            <div class="row my-2 align-items-center bgc-primary-l3 p-2">
-                                <div class="row my-2">
-                                    <div class="col-7 text-right">
-                                       Tổng
-                                    </div>
-                                    <div class="col-5">
-                                        <span class="text-120 text-secondary-d1"  th:text="${order.totalPrice}"></span>
-                                    </div>
-                                </div>
-
-                                <div class="row my-2">
-                                    <div class="col-7 text-right">
-                                        Phí giao hàng
-                                    </div>
-                                    <div class="col-5">
-                                        <span class="text-110 text-secondary-d1" th:text="${order.totalshippingprice}"></span>
-                                    </div>
-                                </div>
-
-                                <div class="col-7 text-right">
-                                    Tổng tiền
-                                </div>
-                                <div class="col-5">
-                                    <span class="text-150 text-success-d3 opacity-2"  th:text="${order.totalPrice + order.totalshippingprice}"></span>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="col-9 col-sm-5 text-right"></div>
+                        <div class="d-none d-sm-block col-2"></div>
+                        <div class="d-none d-sm-block col-2">Tổng:</div>
+                        <div class="col-2 text-secondary-d2" th:text="${order.totalPrice}"></div>
                     </div>
-                    <hr />
+                    <div class="row mt-3">
+                        <div class="col-9 col-sm-5 text-right"></div>
+                        <div class="d-none d-sm-block col-2"></div>
+                        <div class="d-none d-sm-block col-2">Phí giao hàng : </div>
+                        <div class="col-2 text-secondary-d2" th:text="${order.totalshippingprice}"></div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-9 col-sm-5 text-right"></div>
+                        <div class="d-none d-sm-block col-2"></div>
+                        <div class="d-none d-sm-block col-2 fw-bold">Tổng tiền : </div>
+                        <div class="col-2 text-secondary-d2 fw-bold" th:text="${order.totalPrice + order.totalshippingprice}"></div>
+                    </div>
                     <div>
                         <a th:href="@{/san-pham}" class="btn btn-info btn-bold px-3 px-sm-4 float-right mt-3 mt-lg-0 btn-sm">Tiếp tục mua sắm</a>
                     </div>

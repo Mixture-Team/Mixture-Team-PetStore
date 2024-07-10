@@ -109,31 +109,31 @@ public class VNPaycontroller {
         return ResponseEntity.status(HttpStatus.OK).body(paymentUrl);
     }
 
-    @GetMapping("/submit")
-    public String paymentCompleted(HttpServletRequest request, Model model) {
-
-        Map<String, String> fields = new HashMap<>();
-        for (Enumeration<String> params = request.getParameterNames(); params.hasMoreElements();) {
-            String fieldName = params.nextElement();
-            String fieldValue = request.getParameter(fieldName);
-            if ((fieldValue != null) && (fieldValue.length() > 0)) {
-                fields.put(fieldName, fieldValue);
-            }
-        }
-
-        String vnp_SecureHash = request.getParameter("vnp_SecureHash");
-        fields.remove("vnp_SecureHashType");
-        fields.remove("vnp_SecureHash");
-
-        String signValue = Config.hashAllFields(fields);
-        if (signValue.equals(vnp_SecureHash)) {
-            if ("00".equals(request.getParameter("vnp_TransactionStatus"))) {
-                return "redirect:/cart"; //1
-            } else {
-                return "redirect:/cart"; //0
-            }
-        } else {
-            return "redirect:/cart"; //-1
-        }
-    }
+//    @GetMapping("/submit")
+//    public String paymentCompleted(HttpServletRequest request, Model model) {
+//
+//        Map<String, String> fields = new HashMap<>();
+//        for (Enumeration<String> params = request.getParameterNames(); params.hasMoreElements();) {
+//            String fieldName = params.nextElement();
+//            String fieldValue = request.getParameter(fieldName);
+//            if ((fieldValue != null) && (fieldValue.length() > 0)) {
+//                fields.put(fieldName, fieldValue);
+//            }
+//        }
+//
+//        String vnp_SecureHash = request.getParameter("vnp_SecureHash");
+//        fields.remove("vnp_SecureHashType");
+//        fields.remove("vnp_SecureHash");
+//
+//        String signValue = Config.hashAllFields(fields);
+//        if (signValue.equals(vnp_SecureHash)) {
+//            if ("00".equals(request.getParameter("vnp_TransactionStatus"))) {
+//                return "redirect:/cart"; //1
+//            } else {
+//                return "redirect:/cart"; //0
+//            }
+//        } else {
+//            return "redirect:/cart"; //-1
+//        }
+//    }
 }

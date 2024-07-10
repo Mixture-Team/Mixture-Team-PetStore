@@ -70,7 +70,8 @@ public class CartService {
             detail.setServiceDetail(item.getServiceDetail());
             cartProductRepository.save(detail);
         }
-
+        List<Cart_Product> cartProducts = cartProductRepository.findByCartId(order.getId());
+        order.setCartProducts(cartProducts);
         return order;
     }
 
@@ -146,7 +147,7 @@ public class CartService {
 
         order.setDateBegin(LocalDateTime.now());
         order.setDateEnd(LocalDateTime.now());
-        order.setOrderStatus("đang xử lý");
+        order.setOrderStatus("Đang xử lý");
         order.setTradingCode(tradingCode);
 
         District district = districtRepository.findById(districtId).orElseThrow(() -> new RuntimeException("District not found"));
@@ -170,6 +171,9 @@ public class CartService {
         return order;
     }
 
+    public Cart findByTradingCode(String tradingCode){
+        return cartRepository.findByTradingCode(tradingCode);
+    }
 
 
 }
