@@ -12,7 +12,11 @@
 <div th:replace="~{fragment/header.html :: header}"></div>
 
 <div class="container mt-4">
-    <form th:action="@{/payy/submit}" method="post">
+    <!-- Thẻ div thông báo giỏ hàng trống -->
+    <div id="emptyCartAlert" class="alert alert-info" style="display: none;">
+        Không có sản phẩm để thanh toán !!!
+    </div>
+    <form id="orderForm" th:action="@{/payy/submit}" method="post">
         <div class="row">
             <h1>Đặt Hàng</h1>
         </div>
@@ -69,8 +73,8 @@
                 <div class="card mb-3">
                     <div class="card-body2">
                         <!-- Thông tin sản phẩm -->
-                        <div th:if="${cartItems.isEmpty()}" class="alert alert-info">Giỏ của bạn đang trống !!!</div>
-                        <table class="table table-bordered">
+                        <div th:if="${cartItems.isEmpty()}" ></div>
+                        <table class="table table-bordered" >
                             <thead class="table-light">
                             <tr>
                                 <th>Sản phẩm</th>
@@ -117,7 +121,7 @@
                         <div class="input-group mb-3">
                             <select id="paymentMethod" name="paymentMethod" class="form-select" required>
                                 <option value="Thanh toán khi nhận hàng">Thanh toán khi nhận hàng</option>
-                                <option value="Thanh toán momo">Thanh toán bằng VN-PAY</option>
+                                <option value="Thanh toán VN-Pay">Thanh toán VN-Pay</option>
                             </select>
                         </div>
                         <!-- Nút thanh toán trong form -->
@@ -179,6 +183,27 @@
                 $('#totalPriceInput').val(totalShippingPrice); // Đặt id cho phần tổng số tiền (input hidden)
             });
         });
+
+        // Sự kiện submit form
+        $('#orderForm').submit(function(event) {
+            var paymentMethod = $('#paymentMethod').val();
+            if (paymentMethod === 'Thanh toán VN-Pay') {
+              event.preventDefault(); // Ngăn chặn submit mặc định của form
+
+                var formData = $(this).serialize(); // Lấy dữ liệu từ form
+
+                $.post('/api/payment/create_payment', formData, function(data) {
+                    // Chuyển hướng trình duyệt đến URL trả về từ controller
+                    window.location.href = data;
+                }).fail(function() {
+                    // Xử lý khi lỗi
+                    alert('Đã xảy ra lỗi khi tạo thanh toán VNPay.');
+                });
+            }
+        });
+
+
+
     });
 
 </script>

@@ -56,7 +56,7 @@ public class PayController {
         Cart order = cartService.createOrder(customerName, shippingAddress, phoneNumber, notes, paymentMethod, cartItems, totalPrice, districtId,totalShippingPrice);
 
         // Xóa giỏ hàng sau khi đặt hàng thành công
-        cart_cartService.clearCart();
+        //cart_cartService.clearCart();
 
         // Chuyển hướng đến trang xác nhận đơn hàng
          model.addAttribute("order", order);
@@ -67,6 +67,7 @@ public class PayController {
 
     @GetMapping("/confirmation")
     public String orderConfirmation(@ModelAttribute("order") Cart order, Model model) {
+        cart_cartService.clearCart();
         model.addAttribute("message", "Đơn hàng của bạn đã được đặt thành công.");
         if (order != null) {
             List<Cart_Product> cartProducts = order.getCartProducts();

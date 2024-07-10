@@ -112,7 +112,7 @@
                                     <ul class="list-unstyled">
                                         <li><a class="btn btn-success text-white mt-2" th:href="@{'san-pham/thong-tin-san-pham/' + ${product.id}}"><i class="far fa-eye"></i></a></li>
                                         <li th:if="${product.nums > 0}">
-                                            <a class="btn btn-success text-white mt-2 d-flex justify-content-center align-items-center" th:href="@{/cart/add(productId=${product.id}, quantity=1, submit='buy')}">
+                                            <a class="btn btn-success text-white mt-2 d-flex justify-content-center align-items-center" th:href="@{/cart/add(productId=${product.id}, quantity=1, submit='addToCart')}">
                                                 <i class="fas fa-cart-plus"></i>
                                             </a>
                                         </li>
