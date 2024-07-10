@@ -12,6 +12,10 @@
 <div th:replace="~{fragment/header.html :: header}"></div>
 
 <div class="container mt-4">
+    <!-- Thẻ div thông báo giỏ hàng trống -->
+    <div id="emptyCartAlert" class="alert alert-info" style="display: none;">
+        Không có sản phẩm để thanh toán !!!
+    </div>
     <form id="orderForm" th:action="@{/payy/submit}" method="post">
         <div class="row">
             <h1>Đặt Hàng</h1>
@@ -69,7 +73,7 @@
                 <div class="card mb-3">
                     <div class="card-body2">
                         <!-- Thông tin sản phẩm -->
-                        <div th:if="${cartItems.isEmpty()}" class="alert alert-info">Giỏ của bạn đang trống !!!</div>
+                        <div th:if="${cartItems.isEmpty()}" ></div>
                         <table class="table table-bordered" >
                             <thead class="table-light">
                             <tr>
@@ -185,7 +189,7 @@
         $('#orderForm').submit(function(event) {
             var paymentMethod = $('#paymentMethod').val();
             if (paymentMethod === 'Thanh toán VN-Pay') {
-                // event.preventDefault(); // Ngăn chặn submit mặc định của form
+              event.preventDefault(); // Ngăn chặn submit mặc định của form
 
                 var formData = $(this).serialize(); // Lấy dữ liệu từ form
 

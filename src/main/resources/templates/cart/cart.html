@@ -72,7 +72,7 @@
             <!-- Calculate total all_price -->
             <h1 class="total-amount">TỔNG SỐ TIỀN</h1>
             <p>Tổng số tiền: <span id="totalAmount" th:text="${(cartTotalPrice)}"></span></p>
-            <a th:href="@{/cart/pay}" class="btn btn-red d-block mb-2 pay-button">Đi đến trang thanh toán</a>
+            <a th:href="@{/cart/pay}" class="btn btn-red d-block mb-2 pay-button" th:if="${not cartItems.isEmpty()}">Đi đến trang thanh toán</a>
             <a th:href="@{/san-pham}" class="btn btn-outline-red d-block">Tiếp tục mua sắm</a>
         </div>
     </div>

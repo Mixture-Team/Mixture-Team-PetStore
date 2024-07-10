@@ -39,7 +39,8 @@ public class PayController {
                               @RequestParam String paymentMethod,
                               @RequestParam Long districtId, // Nhận districtId từ form
                               @RequestParam Double totalShippingPrice, // Nhận giá trị totalPriceSpan từ form
-                              Model model) {
+                              Model model
+                              ) {
         List<CartItem> cartItems = cart_cartService.getCartItems();
         if (cartItems.isEmpty()) {
             return "redirect:/cart"; // Chuyển hướng nếu giỏ hàng trống
@@ -52,7 +53,7 @@ public class PayController {
         Cart order = cartService.createOrder(customerName, shippingAddress, phoneNumber, notes, paymentMethod, cartItems, totalPrice, districtId,totalShippingPrice);
 
         // Xóa giỏ hàng sau khi đặt hàng thành công
-        cart_cartService.clearCart();
+        //cart_cartService.clearCart();
 
         // Chuyển hướng đến trang xác nhận đơn hàng
         model.addAttribute("order", order);
@@ -61,13 +62,9 @@ public class PayController {
 
     @GetMapping("/confirmation")
     public String orderConfirmation(Model model) {
+        cart_cartService.clearCart();
         model.addAttribute("message", "Đơn hàng của bạn đã được đặt thành công.");
         return "cart/order-confirmation"; // Trả về view cho trang xác nhận đơn hàng
     }
 
-//    @PostMapping("/orders/save")
-//    public String saveOrder(@ModelAttribute Cart order) {
-//        cartService.saveOrder(order);
-//        return "redirect:/payy/orders"; // Chuyển hướng đến danh sách đơn hàng sau khi lưu thành công
-//    }
 }
