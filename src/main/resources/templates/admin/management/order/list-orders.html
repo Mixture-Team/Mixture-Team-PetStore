@@ -121,15 +121,15 @@
                             <div>
                                 <ul class="pagination">
                                     <li class="page-item" th:classappend="${carts.first} ? 'disabled'">
-                                        <a class="page-link" th:href="@{/admin/carts(page=${carts.number - 1}, size=${carts.size})}">Previous</a>
+                                        <a class="page-link" th:href="@{/admin/orders(page=${carts.number - 1}, size=${carts.size})}">Previous</a>
                                     </li>
                                     <li class="page-item" th:each="page : ${#numbers.sequence(0, carts.totalPages - 1)}"
                                         th:classappend="${page == carts.number} ? 'active'">
-                                        <a class="page-link" th:href="@{/admin/carts(page=${page}, size=${carts.size})}"
+                                        <a class="page-link" th:href="@{/admin/orders(page=${page}, size=${carts.size})}"
                                            th:text="${page + 1}"></a>
                                     </li>
                                     <li class="page-item" th:classappend="${carts.last} ? 'disabled'">
-                                        <a class="page-link" th:href="@{/admin/carts(page=${carts.number + 1}, size=${carts.size})}">Next</a>
+                                        <a class="page-link" th:href="@{/admin/orders(page=${carts.number + 1}, size=${carts.size})}">Next</a>
                                     </li>
                                 </ul>
                             </div>
