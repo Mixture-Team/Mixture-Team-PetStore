@@ -3,6 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+<!--    <style>-->
+<!--        .navbar-brand img.logo {-->
+<!--            height: 40px; /* Điều chỉnh chiều cao phù hợp */-->
+<!--            width: auto; /* Giữ tỷ lệ khung hình */-->
+<!--            object-fit: contain; /* Đảm bảo logo vừa khít trong khu vực được chỉ định */-->
+<!--            margin-right: 10px; /* Tạo khoảng cách giữa logo và các phần tử khác */-->
+<!--        }-->
+<!--        .navbar-brand:hover img.logo {-->
+<!--            opacity: 0.8; /* Làm mờ logo khi di chuột qua */-->
+<!--            transition: opacity 0.3s ease; /* Tạo hiệu ứng mượt mà */-->
+<!--        }-->
+<!--        .navbar-brand img.logo {-->
+<!--            filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.3));-->
+<!--        }-->
+<!--        .navbar {-->
+<!--            background-color: #ffffff; /* hoặc màu khác phù hợp với thiết kế của bạn */-->
+<!--        }-->
+<!--    </style>-->
 </head>
 <body>
 <th:fragment th:fragment="header">
@@ -10,8 +28,9 @@
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
 
-            <a class="navbar-brand text-primary logo h1 align-self-center" href="index.html">
-                Mixture
+            <!-- Thay đổi từ chữ sang hình ảnh -->
+            <a class="navbar-brand align-self-center" href="/trang-chu">
+                <img src="/img/Logo.png" alt="Logo" class="logo"  style="transform: scale(3.5); height: 50px">
             </a>
 
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,9 +43,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/trang-chu">Trang chủ</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/gioi-thieu">Giới thiệu</a>
-                        </li>
+<!--                        <li class="nav-item">-->
+<!--                            <a class="nav-link" href="/gioi-thieu">Giới thiệu</a>-->
+<!--                        </li>-->
                         <li class="nav-item">
                             <a class="nav-link" href="/san-pham">Cửa hàng</a>
                         </li>

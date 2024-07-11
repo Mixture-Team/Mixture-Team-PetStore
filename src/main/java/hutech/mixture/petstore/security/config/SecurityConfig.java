@@ -55,7 +55,7 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/resources/**","/js/**", "/img/**", "/css/**", "/vendor/**", "/webfonts/**", "/fonts/**", "/trang-chu", "/san-pham/**", "/san-pham/thong-tin-san-pham/**", "/gioi-thieu", "/lien-he","/dich-vu/**", "/oauth/**",
+                        .requestMatchers("/static/**","/public/**","/resources/**","/js/**", "/img/**", "/css/**", "/vendor/**", "/webfonts/**", "/fonts/**", "/trang-chu", "/san-pham/**", "/san-pham/thong-tin-san-pham/**", "/gioi-thieu", "/lien-he","/dich-vu/**", "/oauth/**",
                                 "/auth/register", "/auth/error", "/auth/forgot-password","/auth/verify-token", "/auth/reset-password", "/by-category-parent","/search", "/Suggestions", "/searchByPriceAndCatoParent")
                         .permitAll()
                         .requestMatchers("/admin/categories/**","/admin/users/**")
@@ -104,7 +104,7 @@ public class SecurityConfig {
                         .maximumSessions(1)
                         .expiredUrl("/auth/login")
                 )
-                .httpBasic(httpBasic -> httpBasic.realmName("mixture"))
+//                .httpBasic(httpBasic -> httpBasic.realmName("mixture"))
                 .build();
     }
 

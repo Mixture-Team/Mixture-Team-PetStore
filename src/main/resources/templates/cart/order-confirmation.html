@@ -171,13 +171,13 @@
                         <div class="col-9 col-sm-5 text-right"></div>
                         <div class="d-none d-sm-block col-2"></div>
                         <div class="d-none d-sm-block col-2">Phí giao hàng : </div>
-                        <div class="col-2 text-secondary-d2" th:text="${order.totalshippingprice}"></div>
+                        <div class="col-2 text-secondary-d2" th:text="${order.district.fee}"></div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-9 col-sm-5 text-right"></div>
                         <div class="d-none d-sm-block col-2"></div>
                         <div class="d-none d-sm-block col-2 fw-bold">Tổng tiền : </div>
-                        <div class="col-2 text-secondary-d2 fw-bold" th:text="${order.totalPrice + order.totalshippingprice}"></div>
+                        <div class="col-2 text-secondary-d2 fw-bold" th:text="${order.totalPrice + order.district.fee}"></div>
                     </div>
                     <div>
                         <a th:href="@{/san-pham}" class="btn btn-info btn-bold px-3 px-sm-4 float-right mt-3 mt-lg-0 btn-sm">Tiếp tục mua sắm</a>
