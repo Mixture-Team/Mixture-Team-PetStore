@@ -25,7 +25,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p WHERE p.isDeleted = false")
     Page<Product> findAllByDeletedFalse(Pageable pageable);
 
-    @Query("SELECT p FROM Product p WHERE p.category.parent.id = :categoryParentId and p.isDeleted = false")
+    @Query("SELECT p FROM Product p WHERE p.category.parent.id = :categoryParentId and p.isDeleted = false and p.category.isDeleted = false ")
     Page<Product> findByCategoryParentId(@Param("categoryParentId") Long categoryParentId, Pageable pageable);
 
     @Query("SELECT p FROM Product p WHERE " +
@@ -38,14 +38,14 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             @Param("maxPrice") Double maxPrice,
             Pageable pageable);
     ///////
-    @Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%')) AND p.isDeleted = false ")
+    @Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%')) AND p.isDeleted = false AND p.category.isDeleted = false ")
     Page<Product> search(@Param("name") String name, Pageable pageable);
 
     @Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%')) ")
     Page<Product> searchForAdmin(@Param("name") String name, Pageable pageable);
 
     // search auto
-    @Query("SELECT p FROM Product p WHERE p.name LIKE %:name% AND p.isDeleted = false")
+    @Query("SELECT p FROM Product p WHERE p.name LIKE %:name% AND p.isDeleted = false AND p.category.isDeleted = false ")
     List<Product> findByNameContainingIgnoreCase(String name);
     List<Product> findByCategoryId(Long categoryId);
 }

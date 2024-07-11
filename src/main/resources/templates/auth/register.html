@@ -45,6 +45,9 @@
                             <i class="bx bx-lock-alt"></i>
                         </span>
                         <input type="password" class="form-control form-control-lg fs-6" name="password" id="password" placeholder="Mật khẩu">
+                        <span class="input-group-text" onclick="togglePassword()">
+                            <i class="bx bx-show" id="togglePassword"></i>
+                        </span>
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text">
@@ -80,6 +83,21 @@
     </div>
 </div>
 <!-- /Right side -->
+<script>
+    function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        const toggleIcon = document.getElementById('togglePassword');
 
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.classList.remove('bx-show');
+            toggleIcon.classList.add('bx-hide');
+        } else {
+            passwordInput.type = 'password';
+            toggleIcon.classList.remove('bx-hide');
+            toggleIcon.classList.add('bx-show');
+        }
+    }
+</script>
 </body>
 </html>

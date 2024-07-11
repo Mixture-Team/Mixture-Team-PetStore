@@ -55,11 +55,15 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/resources/**","/js/**", "/img/**", "/css/**", "/vendor/**", "/webfonts/**", "/fonts/**", "/trang-chu", "/cua-hang", "/thong-tin-san-pham", "/gioi-thieu", "/lien-he", "/oauth/**",
-                                "/auth/register", "/auth/error", "/auth/forgot-password","/auth/verify-token", "/auth/reset-password")
+                        .requestMatchers("/static/**","/public/**","/resources/**","/js/**", "/img/**", "/css/**", "/vendor/**", "/webfonts/**", "/fonts/**", "/trang-chu", "/san-pham/**", "/san-pham/thong-tin-san-pham/**", "/gioi-thieu", "/lien-he","/dich-vu/**", "/oauth/**",
+                                "/auth/register", "/auth/error", "/auth/forgot-password","/auth/verify-token", "/auth/reset-password", "/by-category-parent","/search", "/Suggestions", "/searchByPriceAndCatoParent")
                         .permitAll()
-                        .requestMatchers("/admin/**","/products/edit/**", "/products/add", "/products/delete/**", "/categories/add", "/categories/delete/**", "/categories/edit/**")
+                        .requestMatchers("/admin/categories/**","/admin/users/**")
                         .hasAnyAuthority("ADMIN")
+                        .requestMatchers("/admin","/admin/orders/**","/admin/products/**")
+                        .hasAnyAuthority("EMPLOYEE","ADMIN")
+                        .requestMatchers("/cart/**")
+                        .hasAnyAuthority("USER")
                         .requestMatchers("/api/**")
                         .permitAll()
                         .anyRequest().authenticated()
@@ -100,7 +104,7 @@ public class SecurityConfig {
                         .maximumSessions(1)
                         .expiredUrl("/auth/login")
                 )
-                .httpBasic(httpBasic -> httpBasic.realmName("mixture"))
+//                .httpBasic(httpBasic -> httpBasic.realmName("mixture"))
                 .build();
     }
 

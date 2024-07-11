@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/payy")
@@ -56,7 +57,7 @@ public class PayController {
         Cart order = cartService.createOrder(customerName, shippingAddress, phoneNumber, notes, paymentMethod, cartItems, totalPrice, districtId,totalShippingPrice);
 
         // Xóa giỏ hàng sau khi đặt hàng thành công
-        cart_cartService.clearCart();
+        //cart_cartService.clearCart();
 
         // Chuyển hướng đến trang xác nhận đơn hàng
          model.addAttribute("order", order);
@@ -67,6 +68,7 @@ public class PayController {
 
     @GetMapping("/confirmation")
     public String orderConfirmation(@ModelAttribute("order") Cart order, Model model) {
+        cart_cartService.clearCart();
         model.addAttribute("message", "Đơn hàng của bạn đã được đặt thành công.");
         if (order != null) {
             List<Cart_Product> cartProducts = order.getCartProducts();
@@ -79,5 +81,27 @@ public class PayController {
     public String saveOrder(@ModelAttribute Cart order) {
         cartService.saveOrder(order);
         return "redirect:/payy/orders"; // Chuyển hướng đến danh sách đơn hàng sau khi lưu thành công
+    }
+
+    @GetMapping("/vnpay-return")
+    public String vnpayReturn(@RequestParam("vnp_ResponseCode") String responseCode,
+                              @RequestParam("vnp_TxnRef") String tradingCode,
+                              Model model) {
+        if ("00".equals(responseCode)) {
+            // Thanh toán thành công
+            Cart order = cartService.findByTradingCode(tradingCode);
+            if (order != null) {
+                List<Cart_Product> cartProducts = order.getCartProducts();
+                model.addAttribute("order", order);
+                model.addAttribute("cartProducts", cartProducts);
+                model.addAttribute("message", "Đơn hàng của bạn đã được đặt và thanh toán thành công.");
+                cart_cartService.clearCart();
+                return "cart/order-confirmation";
+            }
+        }
+
+        // Thanh toán thất bại hoặc không tìm thấy đơn hàng
+        model.addAttribute("message", "Có lỗi xảy ra trong quá trình thanh toán. Vui lòng thử lại.");
+        return "redirect:/cart";
     }
 }

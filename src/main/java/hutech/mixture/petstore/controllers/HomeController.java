@@ -9,13 +9,13 @@ public class HomeController {
 
     @GetMapping("/trang-chu")
     public String index() {
-        return "/home/index";
-    }
-
-    @GetMapping("/gioi-thieu")
-    public String about() {
         return "/home/about";
     }
+
+//    @GetMapping("/gioi-thieu")
+//    public String about() {
+//        return "/home/about";
+//    }
 
     @GetMapping("/lien-he")
     public String contact() {

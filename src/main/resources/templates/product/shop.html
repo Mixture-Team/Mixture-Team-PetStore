@@ -112,7 +112,7 @@
                                     <ul class="list-unstyled">
                                         <li><a class="btn btn-success text-white mt-2" th:href="@{'san-pham/thong-tin-san-pham/' + ${product.id}}"><i class="far fa-eye"></i></a></li>
                                         <li th:if="${product.nums > 0}">
-                                            <a class="btn btn-success text-white mt-2 d-flex justify-content-center align-items-center" th:href="@{/cart/add(productId=${product.id}, quantity=1, submit='buy')}">
+                                            <a class="btn btn-success text-white mt-2 d-flex justify-content-center align-items-center" th:href="@{/cart/add(productId=${product.id}, quantity=1, submit='addToCart')}">
                                                 <i class="fas fa-cart-plus"></i>
                                             </a>
                                         </li>
@@ -181,107 +181,107 @@
     <!-- End Content -->
 
     <!-- Start Brands -->
-    <section class="bg-light py-5">
-        <div class="container my-4">
-            <div class="row text-center py-3">
-                <div class="col-lg-6 m-auto">
-                    <h1 class="h1">Our Brands</h1>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        Lorem ipsum dolor sit amet.
-                    </p>
-                </div>
-                <div class="col-lg-9 m-auto tempaltemo-carousel">
-                    <div class="row d-flex flex-row">
-                        <!--Controls-->
-                        <div class="col-1 align-self-center">
-                            <a class="h1" href="#multi-item-example" role="button" data-bs-slide="prev">
-                                <i class="text-light fas fa-chevron-left"></i>
-                            </a>
-                        </div>
-                        <!--End Controls-->
+<!--    <section class="bg-light py-5">-->
+<!--        <div class="container my-4">-->
+<!--            <div class="row text-center py-3">-->
+<!--                <div class="col-lg-6 m-auto">-->
+<!--                    <h1 class="h1">Our Brands</h1>-->
+<!--                    <p>-->
+<!--                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod-->
+<!--                        Lorem ipsum dolor sit amet.-->
+<!--                    </p>-->
+<!--                </div>-->
+<!--                <div class="col-lg-9 m-auto tempaltemo-carousel">-->
+<!--                    <div class="row d-flex flex-row">-->
+<!--                        &lt;!&ndash;Controls&ndash;&gt;-->
+<!--                        <div class="col-1 align-self-center">-->
+<!--                            <a class="h1" href="#multi-item-example" role="button" data-bs-slide="prev">-->
+<!--                                <i class="text-light fas fa-chevron-left"></i>-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash;End Controls&ndash;&gt;-->
 
-                        <!--Carousel Wrapper-->
-                        <div class="col">
-                            <div class="carousel slide carousel-multi-item pt-2 pt-md-0" id="templatemo-slide-brand" data-bs-ride="carousel">
-                                <!--Slides-->
-                                <div class="carousel-inner product-links-wap" role="listbox">
+<!--                        &lt;!&ndash;Carousel Wrapper&ndash;&gt;-->
+<!--                        <div class="col">-->
+<!--                            <div class="carousel slide carousel-multi-item pt-2 pt-md-0" id="templatemo-slide-brand" data-bs-ride="carousel">-->
+<!--                                &lt;!&ndash;Slides&ndash;&gt;-->
+<!--                                <div class="carousel-inner product-links-wap" role="listbox">-->
 
-                                    <!--First slide-->
-                                    <div class="carousel-item active">
-                                        <div class="row">
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_01.png}" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_02.png}" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_03.png}" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_04.png}" alt="Brand Logo"></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End First slide-->
+<!--                                    &lt;!&ndash;First slide&ndash;&gt;-->
+<!--                                    <div class="carousel-item active">-->
+<!--                                        <div class="row">-->
+<!--                                            <div class="col-3 p-md-5">-->
+<!--                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_01.png}" alt="Brand Logo"></a>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-3 p-md-5">-->
+<!--                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_02.png}" alt="Brand Logo"></a>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-3 p-md-5">-->
+<!--                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_03.png}" alt="Brand Logo"></a>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-3 p-md-5">-->
+<!--                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_04.png}" alt="Brand Logo"></a>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    &lt;!&ndash;End First slide&ndash;&gt;-->
 
-                                    <!--Second slide-->
-                                    <div class="carousel-item">
-                                        <div class="row">
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_01.png}" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_02.png}" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_03.png}" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_04.png}" alt="Brand Logo"></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End Second slide-->
+<!--                                    &lt;!&ndash;Second slide&ndash;&gt;-->
+<!--                                    <div class="carousel-item">-->
+<!--                                        <div class="row">-->
+<!--                                            <div class="col-3 p-md-5">-->
+<!--                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_01.png}" alt="Brand Logo"></a>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-3 p-md-5">-->
+<!--                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_02.png}" alt="Brand Logo"></a>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-3 p-md-5">-->
+<!--                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_03.png}" alt="Brand Logo"></a>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-3 p-md-5">-->
+<!--                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_04.png}" alt="Brand Logo"></a>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    &lt;!&ndash;End Second slide&ndash;&gt;-->
 
-                                    <!--Third slide-->
-                                    <div class="carousel-item">
-                                        <div class="row">
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_01.png}" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_02.png}" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_03.png}" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_04.png}" alt="Brand Logo"></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End Third slide-->
+<!--                                    &lt;!&ndash;Third slide&ndash;&gt;-->
+<!--                                    <div class="carousel-item">-->
+<!--                                        <div class="row">-->
+<!--                                            <div class="col-3 p-md-5">-->
+<!--                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_01.png}" alt="Brand Logo"></a>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-3 p-md-5">-->
+<!--                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_02.png}" alt="Brand Logo"></a>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-3 p-md-5">-->
+<!--                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_03.png}" alt="Brand Logo"></a>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-3 p-md-5">-->
+<!--                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/img/brand_04.png}" alt="Brand Logo"></a>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    &lt;!&ndash;End Third slide&ndash;&gt;-->
 
-                                </div>
-                                <!--End Slides-->
-                            </div>
-                        </div>
-                        <!--End Carousel Wrapper-->
+<!--                                </div>-->
+<!--                                &lt;!&ndash;End Slides&ndash;&gt;-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash;End Carousel Wrapper&ndash;&gt;-->
 
-                        <!--Controls-->
-                        <div class="col-1 align-self-center">
-                            <a class="h1" href="#multi-item-example" role="button" data-bs-slide="next">
-                                <i class="text-light fas fa-chevron-right"></i>
-                            </a>
-                        </div>
-                        <!--End Controls-->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<!--                        &lt;!&ndash;Controls&ndash;&gt;-->
+<!--                        <div class="col-1 align-self-center">-->
+<!--                            <a class="h1" href="#multi-item-example" role="button" data-bs-slide="next">-->
+<!--                                <i class="text-light fas fa-chevron-right"></i>-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash;End Controls&ndash;&gt;-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
     <!--End Brands-->
 
 

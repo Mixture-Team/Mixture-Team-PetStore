@@ -55,9 +55,9 @@ public class OrderAdminController {
             cart.setId(id);
             return "/admin/management/order/update-order";
         }
+        Cart existingCart = cartService.getCartById(id);
+        cart.setDistrict(existingCart.getDistrict());
         cartService.updateCart(cart);
-        System.out.println(cart.getOrderStatus());
-        System.out.println(cart.getDateEnd());
         return "redirect:/admin/orders";
     }
 
