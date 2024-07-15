@@ -4,8 +4,6 @@ import hutech.mixture.petstore.models.Cart;
 import hutech.mixture.petstore.models.CartItem;
 import hutech.mixture.petstore.models.CartItemResponse;
 import hutech.mixture.petstore.models.District;
-import hutech.mixture.petstore.repository.DistrictRepository;
-import hutech.mixture.petstore.repository.ProvinceRepository;
 import hutech.mixture.petstore.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

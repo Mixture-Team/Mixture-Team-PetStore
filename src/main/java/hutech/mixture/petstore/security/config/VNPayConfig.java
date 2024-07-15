@@ -1,4 +1,4 @@
-package hutech.mixture.petstore.VNPay;
+package hutech.mixture.petstore.security.config;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -10,7 +10,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
-public class Config {
+public class VNPayConfig {
 
 
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";

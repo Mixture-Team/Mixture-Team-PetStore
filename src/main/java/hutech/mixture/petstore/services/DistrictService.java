@@ -2,7 +2,7 @@ package hutech.mixture.petstore.services;
 
 import hutech.mixture.petstore.models.District;
 
-import hutech.mixture.petstore.repository.DistrictRepository;
+import hutech.mixture.petstore.repositories.DistrictRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

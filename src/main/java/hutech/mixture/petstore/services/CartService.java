@@ -2,10 +2,9 @@ package hutech.mixture.petstore.services;
 
 import hutech.mixture.petstore.models.*;
 import hutech.mixture.petstore.repositories.UserRepository;
-import hutech.mixture.petstore.repository.CartRepository;
-import hutech.mixture.petstore.repository.Cart_ProductRepository;
-import hutech.mixture.petstore.repository.DistrictRepository;
-import hutech.mixture.petstore.repository.ProductRepository;
+import hutech.mixture.petstore.repositories.CartRepository;
+import hutech.mixture.petstore.repositories.Cart_ProductRepository;
+import hutech.mixture.petstore.repositories.DistrictRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,8 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
-import static hutech.mixture.petstore.VNPay.Config.getRandomNumber;
 
 @Service
 public class CartService {

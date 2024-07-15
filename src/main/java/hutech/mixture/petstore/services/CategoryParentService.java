@@ -1,7 +1,7 @@
 package hutech.mixture.petstore.services;
 
 import hutech.mixture.petstore.models.CategoryParent;
-import hutech.mixture.petstore.repository.CategoryParentRepository;
+import hutech.mixture.petstore.repositories.CategoryParentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
