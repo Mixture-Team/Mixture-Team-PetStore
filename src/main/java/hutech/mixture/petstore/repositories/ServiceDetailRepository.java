@@ -1,4 +1,4 @@
-package hutech.mixture.petstore.Repository;
+package hutech.mixture.petstore.repositories;
 
 import hutech.mixture.petstore.models.ServiceDetail;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,4 +1,4 @@
-package hutech.mixture.petstore.repository;
+package hutech.mixture.petstore.repositories;
 
 import hutech.mixture.petstore.models.CategoryParent;
 import org.springframework.data.jpa.repository.JpaRepository;

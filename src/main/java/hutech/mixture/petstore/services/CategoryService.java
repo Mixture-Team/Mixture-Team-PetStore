@@ -1,9 +1,7 @@
 package hutech.mixture.petstore.services;
 
 import hutech.mixture.petstore.models.Category;
-import hutech.mixture.petstore.models.CategoryParent;
-import hutech.mixture.petstore.repository.CategoryParentRepository;
-import hutech.mixture.petstore.repository.CategoryRepository;
+import hutech.mixture.petstore.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

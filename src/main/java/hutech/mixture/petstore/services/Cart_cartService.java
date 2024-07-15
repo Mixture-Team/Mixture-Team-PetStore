@@ -2,7 +2,7 @@ package hutech.mixture.petstore.services;
 
 import hutech.mixture.petstore.models.CartItem;
 import hutech.mixture.petstore.models.Product;
-import hutech.mixture.petstore.repository.ProductRepository;
+import hutech.mixture.petstore.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

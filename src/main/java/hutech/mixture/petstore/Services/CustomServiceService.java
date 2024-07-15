@@ -1,6 +1,6 @@
 package hutech.mixture.petstore.services;
 
-import hutech.mixture.petstore.Repository.CustomServiceRepository;
+import hutech.mixture.petstore.repositories.CustomServiceRepository;
 import lombok.RequiredArgsConstructor;
 import hutech.mixture.petstore.models.CustomService;
 import org.springframework.beans.factory.annotation.Autowired;
