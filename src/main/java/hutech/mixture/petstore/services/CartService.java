@@ -6,6 +6,7 @@ import hutech.mixture.petstore.repositories.CartRepository;
 import hutech.mixture.petstore.repositories.Cart_ProductRepository;
 import hutech.mixture.petstore.repositories.DistrictRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.Optional;
 public class CartService {
     @Autowired
     private UserRepository userRepository;
+    @Lazy
     @Autowired
     private UserService userService;
     @Autowired

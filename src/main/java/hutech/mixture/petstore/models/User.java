@@ -38,13 +38,13 @@ public class User implements UserDetails {
     @NotBlank(message = "Mật khẩu là bắt buộc")
     private String password;
 
-    @Column(name = "phone", length = 10, unique = true, nullable = false)
+    @Column(name = "phone", length = 10, unique = true)
     @Length(min = 10, max = 10, message = "Số điện thoại phải có 10 số")
     @Pattern(regexp = "^[0-9]*$", message = "Số điện thoại phải là số")
     private String phone;
 
     @Column(name = "address", length = 250)
-    @NotBlank(message = "Địa chỉ là bắt buộc")
+//    @NotBlank(message = "Địa chỉ là bắt buộc")
     private String address;
 
     @Column(name = "reset_password_token", length = 64)
@@ -58,7 +58,7 @@ public class User implements UserDetails {
     private Role role;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "auth_type")
+    @Column(name = "auth_type", length = 10)
     private AuthenticationType authenticationType;
 
     public Collection<? extends GrantedAuthority> getAuthorities() {

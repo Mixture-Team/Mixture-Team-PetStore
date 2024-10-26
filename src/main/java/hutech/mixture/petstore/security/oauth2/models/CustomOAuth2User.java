@@ -1,18 +1,22 @@
-package hutech.mixture.petstore.security.oauth2;
+package hutech.mixture.petstore.security.oauth2.models;
 
+import hutech.mixture.petstore.models.User;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 @Getter
 @RequiredArgsConstructor
 public class CustomOAuth2User implements OAuth2User {
     private final OAuth2User oAuth2User;
-    private final String oauth2ClientName;
+    private final User user;
     @Override
     public Map<String, Object> getAttributes() {
         return oAuth2User.getAttributes();
@@ -20,7 +24,9 @@ public class CustomOAuth2User implements OAuth2User {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return oAuth2User.getAuthorities();
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
+        return authorities;
     }
 
     @Override
@@ -31,5 +37,4 @@ public class CustomOAuth2User implements OAuth2User {
     public String getEmail(){
         return oAuth2User.<String>getAttribute("email");
     }
-
 }

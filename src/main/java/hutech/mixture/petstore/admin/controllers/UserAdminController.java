@@ -7,6 +7,8 @@ import hutech.mixture.petstore.services.RoleService;
 import hutech.mixture.petstore.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.validator.internal.util.stereotypes.Lazy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +23,9 @@ import java.util.List;
 @RequestMapping("/admin")
 @RequiredArgsConstructor
 public class UserAdminController {
-    private final UserService userService;
+    @Lazy
+    @Autowired
+    private UserService userService;
     private final RoleService roleService;
 
     @GetMapping("/users")

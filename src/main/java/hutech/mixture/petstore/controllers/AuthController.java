@@ -5,6 +5,7 @@ import hutech.mixture.petstore.repositories.IUserRepository;
 import hutech.mixture.petstore.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +34,28 @@ public class AuthController {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final RememberMeServices rememberMeServices;
+
     @GetMapping("/login")
-    public String login() {
+    public String login(Model model,
+                        @RequestParam(required = false) String error,
+                        @RequestParam(required = false) String message,
+                        HttpSession session) {
+
+        if (error != null) {
+            if (message != null) {
+                model.addAttribute("error", true);
+                model.addAttribute("errorMessage", message);
+            }
+
+            // Kiểm tra và xử lý lỗi OAuth2 từ session
+            Object oauth2Error = session.getAttribute("oauth2Error");
+            if (oauth2Error != null) {
+                model.addAttribute("errorMessage", oauth2Error.toString());
+                // Xóa thông báo lỗi sau khi đã hiển thị
+                session.removeAttribute("oauth2Error");
+            }
+        }
+
         return "auth/login";
     }
     @GetMapping("/register")

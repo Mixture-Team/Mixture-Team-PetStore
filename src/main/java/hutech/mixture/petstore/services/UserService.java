@@ -12,6 +12,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -40,10 +41,12 @@ public class UserService implements UserDetailsService {
     @Autowired
     private EmailSenderService emailSenderService;
 
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     // Lưu người dùng mới vào cơ sở dữ liệu sau khi mã hóa mật khẩu.
     public void save(@NotNull User user) {
+        user.setAuthenticationType(AuthenticationType.LOCAL);
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userRepository.save(user);
     }
@@ -164,7 +167,7 @@ public class UserService implements UserDetailsService {
         existingUser.setResetPasswordToken(user.getResetPasswordToken());
         existingUser.setDeleted(user.isDeleted());
         existingUser.setRole(user.getRole());
-        existingUser.setAuthenticationType(user.getAuthenticationType());
+//        existingUser.setAuthenticationType(user.getAuthenticationType());
         userRepository.save(existingUser);
     }
 

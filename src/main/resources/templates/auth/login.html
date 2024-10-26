@@ -83,13 +83,32 @@
                     </small>
                 </div>
 
-                <!-- Error message -->
-                <div th:if="${param.error}" class="alert alert-danger mt-2" role="alert">
-                    Tên đăng nhập hoặc mật khẩu không đúng!
-                </div>
-                <!-- Logout -->
-                <div th:if="${param.logout}" class="alert alert-success mt-2" role="alert">
-                    Bạn đã được đăng xuất!
+                <!-- Error message section -->
+                <!-- Error message section -->
+                <div class="mt-2">
+                    <!-- Error cho local login -->
+                    <div th:if="${param.error != null and param.message == null}"
+                         class="alert alert-danger" role="alert">
+                        Tên đăng nhập hoặc mật khẩu không đúng!
+                    </div>
+
+                    <!-- Error cho OAuth2 -->
+                    <div th:if="${param.error != null and param.message != null}"
+                         class="alert alert-warning" role="alert">
+                        <span th:text="${#strings.unescapeJava(param.message)}"></span>
+                    </div>
+
+                    <!-- Hiển thị lỗi từ session nếu có -->
+                    <div th:if="${session.oauth2Error != null}" th:with="error=${session.oauth2Error}"
+                         class="alert alert-warning" role="alert">
+                        <span th:text="${error}"></span>
+                    </div>
+
+                    <!-- Logout message -->
+                    <div th:if="${param.logout}"
+                         class="alert alert-success" role="alert">
+                        Bạn đã được đăng xuất!
+                    </div>
                 </div>
             </div>
         </div>

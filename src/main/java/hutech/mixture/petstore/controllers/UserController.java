@@ -43,9 +43,9 @@ public class UserController {
         if (!currentUser.getEmail().equals(user.getEmail()) && userService.emailExists(user.getEmail())) {
             bindingResult.rejectValue("email", "error.user", "Email đã tồn tại");
         }
-        if (!currentUser.getPhone().equals(user.getPhone()) && userService.phoneExists(user.getPhone())) {
-            bindingResult.rejectValue("phone", "error.user", "Số điện thoại đã tồn tại");
-        }
+//        if (!currentUser.getPhone().equals(user.getPhone()) && userService.phoneExists(user.getPhone())) {
+//            bindingResult.rejectValue("phone", "error.user", "Số điện thoại đã tồn tại");
+//        }
         // Nếu có lỗi, trả về trang chỉnh sửa với thông báo lỗi
         if (bindingResult.hasErrors()) {
             var errors = bindingResult.getAllErrors()
