@@ -1,7 +1,8 @@
 package hutech.mixture.petstore.security.config;
 
-import hutech.mixture.petstore.security.oauth2.CustomOAuth2UserService;
-import hutech.mixture.petstore.security.oauth2.OAuthLoginSuccessHandler;
+import hutech.mixture.petstore.security.oauth2.handler.OAuthLoginFailureHandler;
+import hutech.mixture.petstore.security.oauth2.handler.OAuthLoginSuccessHandler;
+import hutech.mixture.petstore.security.oauth2.services.CustomOAuth2UserService;
 import hutech.mixture.petstore.services.UserService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -33,25 +34,30 @@ import javax.sql.DataSource;
 public class SecurityConfig {
     @Autowired
     private DataSource dataSource;
+
     private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuthLoginSuccessHandler oauthLoginSuccessHandler;
+    private final OAuthLoginFailureHandler oauthLoginFailureHandler;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Bean // Đánh dấu phương thức trả về một bean được quản lý bởi Spring Context.
-    public UserDetailsService userDetailsService() {
-        return new UserService(passwordEncoder()); // Cung cấp dịch vụ xử lý chi tiết người dùng.
+    public UserDetailsService userDetailsService(UserService userService) {
+        return userService; // Cung cấp dịch vụ xử lý chi tiết người dùng.
     }
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder(); // Bean mã hóa mật khẩu sử dụng BCrypt.
+//    }
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // Bean mã hóa mật khẩu sử dụng BCrypt.
-    }
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
+    public DaoAuthenticationProvider authenticationProvider(UserDetailsService userDetailsService) {
         var auth = new DaoAuthenticationProvider(); // Tạo nhà cung cấp xác thực.
-        auth.setUserDetailsService(userDetailsService()); // Thiết lập dịch vụ chi tiết người dùng.
-        auth.setPasswordEncoder(passwordEncoder()); // Thiết lập cơ chế mã hóa mật khẩu.
+        auth.setUserDetailsService(userDetailsService); // Thiết lập dịch vụ chi tiết người dùng.
+        auth.setPasswordEncoder(passwordEncoder); // Thiết lập cơ chế mã hóa mật khẩu.
         return auth; // Trả về nhà cung cấp xác thực.
     }
     @Bean
-    public SecurityFilterChain securityFilterChain(@NotNull HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(@NotNull HttpSecurity http, UserDetailsService userDetailsService) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
@@ -80,6 +86,7 @@ public class SecurityConfig {
                         .userInfoEndpoint(userInfo ->
                                 userInfo.userService(customOAuth2UserService))
                         .successHandler(oauthLoginSuccessHandler)
+                        .failureHandler(oauthLoginFailureHandler)
                 )
                 .logout(logout -> logout
                         .logoutUrl("/auth/logout")
@@ -93,7 +100,7 @@ public class SecurityConfig {
                         .key("mixture-pet-store")
                         .rememberMeCookieName("mixture-pet-store")
                         .tokenValiditySeconds(24 * 60 * 60) // Thời gian nhớ đăng nhập.
-                        .userDetailsService(userDetailsService())
+                        .userDetailsService(userDetailsService)
                 )
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .accessDeniedPage("/403") // Trang báo lỗi khi truy cập không được phép.
@@ -115,10 +122,10 @@ public class SecurityConfig {
         return tokenRepo;
     }
     @Bean
-    public PersistentTokenBasedRememberMeServices rememberMeServices() {
+    public PersistentTokenBasedRememberMeServices rememberMeServices(UserDetailsService userDetailsService) {
         PersistentTokenBasedRememberMeServices services = new PersistentTokenBasedRememberMeServices(
                 "uniqueAndSecret",
-                userDetailsService(),
+                userDetailsService,
                 persistentTokenRepository()
         );
         services.setAlwaysRemember(false); // chỉ nhớ người dùng khi họ chọn checkbox

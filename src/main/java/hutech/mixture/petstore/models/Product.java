@@ -42,9 +42,9 @@ public class Product {
     @Column(name = "img")
     private String img;
 
-    @NotBlank(message = "Link is required")
-    @Column(name = "link")
-    private String link;
+        @NotBlank(message = "Link is required")
+        @Column(name = "link")
+        private String link;
 
     @NotNull
     @Column(name = "is_deleted")
